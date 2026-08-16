@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anything But Fish · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="anything-but-fish" data-root="">
+
+<script type="text/markdown" id="page-md">
+# Anything But Fish (就是不钓鱼)
+
+**钓鱼竿充满了力量，你现在能钓上任何东西！**
+
+Anything But Fish (ABF) 是一款彻底重构 Minecraft 钓鱼机制的 Fabric 模组。它打破了原版只能钓到鱼、垃圾和宝藏的限制，让钓鱼竿成为随机生存中最令人期待的“盲盒”工具。
+
+[📥 获取模组与相关链接](#modal:abf-links)
+
+## 核心特色
+
+### 万物皆可钓
+除了常规的鱼，你现在可以钓上：
+- **其它物品**：矿物、装备、甚至其他模组添加的稀有物品。
+- **生物**：你可能会把一只苦力怕或者末影人直接钓到脸上。
+- **实体与经验**：直接获取经验球或特定的游戏实体。
+
+### 高度可配置
+模组拥有极高的自定义自由度。你可以精确控制每种战利品的权重、概率以及触发条件，打造最适合你整合包的钓鱼体验。
+
+### 客户端 GUI 支持
+模组**仅需在服务端安装**即可生效，但如果你同时安装在客户端，就可以使用 **GUI 配置界面**，更加轻松的实时调整参数。
+
+## 运行环境与依赖
+
+| 属性 | 说明 |
+| --- | --- |
+| **加载器** | Fabric & Forge |
+| **安装位置** | 服务端必装，客户端可选 |
+| **客户端 GUI 依赖** | [Fabric API](https://modrinth.com/mod/fabric-api)（仅 Fabric）, [Mod Menu](https://modrinth.com/mod/modmenu)（仅 Fabric）, [YACL](https://modrinth.com/mod/yacl)（1.20+） / [Cloth Config API](https://modrinth.com/mod/cloth-config)（1.20-） |
+| **未来计划** | 移植至 NeoForge |
+
+## 极广的版本支持
+
+ABF 的兼容性较高，几乎覆盖了 Fabric 发展史上的所有主流版本，且支持部分 Forge 版本：
+
+| 版本分支 | 支持的具体版本 | 备注 |
+| --- | --- | --- |
+| **26.x** | 26.1 ~ 26.1.2 | 部分源码由 ZenanMiao 贡献 |
+| **1.21.x** | 1.21 ~ 1.21.11 | 暂不支持 1.21.4 |
+| **1.20.x** | 1.20.1 ~ 1.20.6 | 暂不支持 1.20 |
+| **1.18~1.19** | 1.18 ~ 1.19.4 |  |
+| **1.17.x** | 1.17 ~ 1.17.1 | 1.17.x 需要 Java 17 |
+| **1.15~1.16** | 1.15 ~ 1.16.5 | 1.17.x 需 Java 17；1.15.x 无 GUI |
+
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+
+<script>
+/* ★ 箭头 SVG */
+var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+
+/* ★ 平台专属 SVG 图标 */
+var modrinthSvg = '<svg viewBox="0 0 24 24" fill="#1bd96a"><path d="M12.252.004a11.78 11.768 0 0 0-8.92 3.73 11 10.999 0 0 0-2.17 3.11 11.37 11.359 0 0 0-1.16 5.169c0 1.42.17 2.5.6 3.77.24.759.77 1.899 1.17 2.529a12.3 12.298 0 0 0 8.85 5.639c.44.05 2.54.07 2.76.02.2-.04.22.1-.26-1.7l-.36-1.37-1.01-.06a8.5 8.489 0 0 1-5.18-1.8 5.34 5.34 0 0 1-1.3-1.26c0-.05.34-.28.74-.5a37.572 37.545 0 0 1 2.88-1.629c.03 0 .5.45 1.06.98l1 .97 2.07-.43 2.06-.43 1.47-1.47c.8-.8 1.48-1.5 1.48-1.52 0-.09-.42-1.63-.46-1.7-.04-.06-.2-.03-1.02.18-.53.13-1.2.3-1.45.4l-.48.15-.53.53-.53.53-.93.1-.93.07-.52-.5a2.7 2.7 0 0 1-.96-1.7l-.13-.6.43-.57c.68-.9.68-.9 1.46-1.1.4-.1.65-.2.83-.33.13-.099.65-.579 1.14-1.069l.9-.9-.7-.7-.7-.7-1.95.54c-1.07.3-1.96.53-1.97.53-.03 0-2.23 2.48-2.63 2.97l-.29.35.28 1.03c.16.56.3 1.16.31 1.34l.03.3-.34.23c-.37.23-2.22 1.3-2.84 1.63-.36.2-.37.2-.44.1-.08-.1-.23-.6-.32-1.03-.18-.86-.17-2.75.02-3.73a8.84 8.839 0 0 1 7.9-6.93c.43-.03.77-.08.78-.1.06-.17.5-2.999.47-3.039-.01-.02-.1-.02-.2-.03Zm3.68.67c-.2 0-.3.1-.37.38-.06.23-.46 2.42-.46 2.52 0 .04.1.11.22.16a8.51 8.499 0 0 1 2.99 2 8.38 8.379 0 0 1 2.16 3.449 6.9 6.9 0 0 1 .4 2.8c0 1.07 0 1.27-.1 1.73a9.37 9.369 0 0 1-1.76 3.769c-.32.4-.98 1.06-1.37 1.38-.38.32-1.54 1.1-1.7 1.14-.1.03-.1.06-.07.26.03.18.64 2.56.7 2.78l.06.06a12.07 12.058 0 0 0 7.27-9.4c.13-.77.13-2.58 0-3.4a11.96 11.948 0 0 0-5.73-8.578c-.7-.42-2.05-1.06-2.25-1.06Z"/></svg>';
+
+var mcmodSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
+
+/* ★ 按照你的要求，Curseforge 复用蓝奏云的云朵图标 */
+var lanzouSvg = '<svg viewBox="0 0 24 24" fill="#ff6452"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>';
+
+var githubSvg = '<svg viewBox="0 0 24 24" fill="#8b949e"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
+
+/* 弹窗字典 */
+window.ModalDict = {
+  'abf-links': {
+    kicker: 'LINKS · 下载与导航',
+    title: '获取 Anything But Fish',
+    body: (function(){
+      var A = '<span class="arr">' + ARROW + '</span>';
+      function card(name, href, desc, svg) {
+        return '<a class="m-link" href="' + href + '" target="_blank" rel="noopener">' +
+          '<span class="m-ico">' + svg + '</span>' +
+          '<span class="m-body"><span class="m-t">' + name + '</span>' +
+          '<span class="m-s">' + desc + '</span></span>' + A + '</a>';
+      }
+      return '<div class="modal-actions">' +
+        card('MC 百科', 'https://www.mcmod.cn/class/25024.html', 'MC 百科资源发布页', mcmodSvg) +
+        card('Modrinth', 'https://modrinth.com/mod/anything-but-fish', '资源下载', modrinthSvg) +
+        card('Curseforge', 'https://www.curseforge.com/minecraft/mc-mods/anything-but-fish', '资源下载', lanzouSvg) +
+        card('GitHub', 'https://github.com/Lithum-12/Anything-but-Fish', '问题反馈', githubSvg) +
+      '</div>';
+    })()
+  }
+};
+</script>
+</body>
+</html>

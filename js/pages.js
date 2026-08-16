@@ -40,8 +40,19 @@ window.PAGES = [
     desc:'惊变100天：硬核僵尸生存与城市废墟',
     children: [
       { key:'hope-and-despair-tech', file:'pages/hope-and-despair-tech.html', title:'安装与环境配置', desc:'核心模组、环境部署与魔改说明' },
-      { key:'hope-and-despair-server', file:'pages/hope-and-despair-server.html', title:'服务端部署指南', desc:'19.4.159 版本 Windows/Linux 自动化部署教程' }
+      { key:'hope-and-despair-server', file:'pages/hope-and-despair-server.html', title:'服务端部署指南', desc:'19.4.159 版本 Windows/Linux 自动化部署教程' },
+      { key:'hope-and-despair-changelog', file:'pages/hope-and-despair-changelog.html', title:'更新日志', desc:'历史版本更新记录与注意事项' },
     ]
+  },
+  {
+    key:'anything-but-fish',
+    file:'pages/anything-but-fish.html',
+    title:'Anything But Fish',
+    tag:'模组',
+    tagColor:'orange',  /* ★ 橙色主题：代表随机与盲盒惊喜 */
+    palette:'orange',
+    date:'2026-08-17',
+    desc:'重构钓鱼战利品：除了鱼，你能钓上整个世界，一切由你'
   },
   { key:'about', file:'pages/about.html', title:'关于本站', tag:'说明', tagColor:'gray', date:'2025-06-14', desc:'解析器能力、快捷键与项目结构' }
 ];
