@@ -14,6 +14,8 @@
   --acc-teal-t:#5b9a9a;     --acc-teal-t-rgb:91,154,154;
   --acc-orange:#ff8035;     --acc-orange-rgb:255,128,53;
   --acc-orange-t:#ff9552;   --acc-orange-t-rgb:255,149,82;
+  --acc-purple:#663399;       --acc-purple-rgb:102,51,153;
+  --acc-purple-t:#9b66cc;     --acc-purple-t-rgb:155,102,204;
   --c-white:#ffffff;        --c-white-rgb:255,255,255;
   --c-white-soft:#fefefe;   --c-white-soft-rgb:254,254,254;
   --c-black:#000000;
@@ -23,6 +25,7 @@
   --red-tint:rgba(var(--acc-red-rgb),.09);       --red-line:rgba(var(--acc-red-rgb),.5);
   --teal-tint:rgba(var(--acc-teal-rgb),.12);     --teal-line:rgba(var(--acc-teal-rgb),.35);
   --orange-tint:rgba(var(--acc-orange-rgb),.10); --orange-line:rgba(var(--acc-orange-rgb),.45);
+  --purple-tint:rgba(var(--acc-purple-rgb),.10); --purple-line:rgba(var(--acc-purple-rgb),.45);
 
   /* ── L2 · 语义别名层 ── */
   --brand:var(--acc-red);       --brand-rgb:var(--acc-red-rgb);
@@ -72,6 +75,8 @@
   --acc-red-t:#a84e46;       --acc-red-t-rgb:168,78,70;
   --acc-teal-t:#3c7a77;      --acc-teal-t-rgb:60,122,119;
   --acc-orange-t:#d15a10;    --acc-orange-t-rgb:209,90,16;
+  --acc-purple-t:#552b80;     --acc-purple-t-rgb:85,43,128;
+  --purple-line:rgba(var(--acc-purple-rgb),.5);
   --bg:#efeade; --panel:#faf7ef; --panel-2:#e9e4d5; --panel-deep:#f0ebdc;
   --title:#211f1a; --ink:#211f1a; --ink-2:#4f4a3d; --gray:#8a8272;
   --mut:rgba(68,62,50,.55);
@@ -511,10 +516,11 @@ body.modal-open{overflow:hidden}
 .m-link:hover{transform:translateY(-3px);border-color:var(--card-acc);
   box-shadow:0 10px 26px var(--card-shadow);color:var(--ink)}
 /* 四个一组循环站点主色，和首页卡片色序一致 */
-.modal-actions .m-link:nth-child(4n+1){--card-acc:var(--acc-red)}
-.modal-actions .m-link:nth-child(4n+2){--card-acc:var(--acc-teal)}
-.modal-actions .m-link:nth-child(4n+3){--card-acc:var(--acc-orange)}
-.modal-actions .m-link:nth-child(4n+4){--card-acc:var(--gray)}
+.modal-actions .m-link:nth-child(5n+1){--card-acc:var(--acc-red)}
+.modal-actions .m-link:nth-child(5n+2){--card-acc:var(--acc-teal)}
+.modal-actions .m-link:nth-child(5n+3){--card-acc:var(--acc-orange)}
+.modal-actions .m-link:nth-child(5n+4){--card-acc:var(--acc-purple)}
+.modal-actions .m-link:nth-child(5n+5){--card-acc:var(--gray)}
 /* 图标格子悬停染边 */
 .m-link .m-ico{transition:.2s}
 .m-link:hover .m-ico{border-color:var(--card-acc)}
@@ -539,3 +545,9 @@ body.modal-open{overflow:hidden}
 .md-btn:hover{background:var(--brand-tint);color:var(--brand-t);border-color:var(--brand);transform:translateY(-1px)}
 
 .md svg.pack{width:100%;height:auto;display:block;border-radius:var(--r-sm);border:1px solid var(--line)}
+
+/* 紫色标签与圆点 */
+.tag-purple{color:var(--acc-purple-t);border-color:var(--acc-purple);background:var(--purple-tint)}
+.dot-purple{background:var(--acc-purple)}
+/* 首页项目卡片紫色强调 */
+.proj-card.acc-purple{--card-acc:var(--acc-purple)}
