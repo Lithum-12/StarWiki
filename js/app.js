@@ -378,11 +378,43 @@ function copyCode(btn){
 /* ── 事件 ── */
 contentEl.addEventListener('click',e=>{
   const cp=e.target.closest('.copy-btn'); if(cp){copyCode(cp);return;}
+
+  // ★ 新增：拦截文章内的魔法弹窗按钮
+  const mb=e.target.closest('.md-modal');
+  if(mb){
+    const id = mb.dataset.modal;
+    if(window.WikiModal && window.ModalDict && window.ModalDict[id]){
+      WikiModal.open(window.ModalDict[id]);
+    } else {
+      toast('弹窗内容未定义: ' + id);
+    }
+    return;
+  }
+
   const a=e.target.closest('a');
-  if(a){ const href=a.getAttribute('href')||'';
-    if(href.startsWith('#')&&!href.startsWith('#a-')){ e.preventDefault();
+  // ... 下面保持原有的 a 标签逻辑不动 ...
+  if(a){ 
+    const href=a.getAttribute('href')||'';
+    
+    // ★ 新增：拦截 #modal: 开头的魔法链接
+    if(href.startsWith('#modal:')){
+      e.preventDefault();
+      const id = href.slice(7); // 提取 modal:id 中的 id
+      if(window.WikiModal && window.ModalDict && window.ModalDict[id]){
+        WikiModal.open(window.ModalDict[id]);
+      } else {
+        toast('弹窗内容未定义');
+      }
+      return;
+    }
+
+    // 原有的锚点平滑跳转逻辑
+    if(href.startsWith('#')&&!href.startsWith('#a-')){ 
+      e.preventDefault();
       const t=document.getElementById(href.slice(1));
-      if(t)t.scrollIntoView({behavior:'smooth',block:'start'}); }}
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'}); 
+    }
+  }
 });
 tocList.addEventListener('click',e=>{
   const a=e.target.closest('a'); if(!a)return; e.preventDefault();

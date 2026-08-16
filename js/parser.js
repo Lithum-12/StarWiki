@@ -51,8 +51,13 @@ function inline(text){
     return href?`<a class="wikilink" href="${href}">${label}</a>`
                :`<span class="wikilink missing" title="未收录的条目">${label}</span>`;
   });
-  s=s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^)]*&quot;)?\)/g,(m,t,href)=>
-    /^https?:/i.test(href)?`<a href="${href}" target="_blank" rel="noopener">${t}</a>`:`<a href="${href}">${t}</a>`);
+  s=s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^)]*&quot;)?\)/g, (m, t, href) => {
+    if (/^https?:/i.test(href)) return `<a href="${href}" target="_blank" rel="noopener">${t}</a>`;
+    // ★ 核心魔改：如果是 #modal: 开头，渲染为按钮
+    if (href.startsWith('#modal:')) return `<button type="button" class="md-btn md-modal" data-modal="${href.slice(7)}">${t}</button>`;
+    return `<a href="${href}">${t}</a>`;
+  });
+
   s=s.replace(/\[\^([^\]\s]+)\]/g,(m,id)=>{
     if(S.fn[id]!==undefined){
       if(!S.fnUsed.includes(id))S.fnUsed.push(id);
