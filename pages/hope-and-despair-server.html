@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAD 服务端部署指南 · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="hope-and-despair-server" data-root="">
+
+<script type="text/markdown" id="page-md">
+## 前言
+
+> ⚠️ 本教程仅适用于 19.4.159 版本部署，不要将版本混淆。
+
+整合包从 19.3.104/141 版本开始提供官方服务端支持。
+
+服务端基于 **Forge 1.20.1-47.4.13**，附带与客户端同步的 Mod 列表与配置文件，无需手动挑选 Mod 或调整配置，开箱即用。本教程提供了自动部署脚本（Windows / Linux），脚本会依次完成 Forge 安装、整合包下载与部署、客户端专用 Mod 清理、客户端专用配置文件清理、材质包与光影包清理等全部步骤，通常只需双击运行，等待完成即可。
+
+如果你的网络环境无法访问 Github 或 Forge 官网，脚本支持跳过已存在的文件，你可以提前手动下载后放入服务端文件夹，脚本不会重复下载。
+
+### 对应版本
+
+| Modpack | Forge | Script |
+| :--: | :--: | :--: |
+| 19.3.104/141 | 47.4.13 | 1.1,1.3 |
+| 19.3.142-Canary | 47.4.13 | 2.1,2.8,2.11 |
+| 19.4.159 | 47.4.13 | 3.4,3.5,3.6 |
+
+## 准备工作
+
+### 配置要求
+
+### 配置要求
+
+部署服务端需要一定的硬件基础，低于最低配置会导致整合包稳定性大打折扣。
+
+[🖥️ 查看服务器配置要求](#modal:server-specs)
+### 安装 Java
+
+服务端需要 **Java 17 或更高版本**。脚本会自行检测当前环境变量 `%JAVA_PATH%` 中的 Java 版本。
+
+若控制台输出 `Failed: Java 1.8.0_xxx detected, Java 17 or later is required.`
+请前往 [Adoptium](https://adoptium.net/) 下载安装 Java 17，安装时勾选"Add to PATH"。
+
+若控制台输出 `Java 17.0.x detected, OK.` 则正常，无需重复安装。
+
+### 新建服务端文件夹
+
+新建一个文件夹作为服务端目录，命名需遵守以下规则：
+
+- ✅ 只使用英文字母、数字、下划线，例如 `HopeAndDespair_Server`
+- ❌ 不能包含中文
+- ❌ 不能包含空格或除下划线以外的特殊符号
+
+> **不要放在 C 盘根目录**，建议放在 D 盘或其他盘，避免 UAC 与目录权限限制。
+
+---
+
+## Windows 部署
+
+### 1. 下载文件
+
+从下方链接下载部署所需文件：
+
+**必须下载：**
+- [AutoRun.bat v3.6](https://github.com/Lithum-12/My-Modpack-Server-installer/raw/main/HopeAndDespair_Server/19.4.159/AutoRun3.6.bat)
+
+**网络不佳时提前手动下载（可选，脚本会自动跳过已存在的文件）：**
+- [mrpack-install v0.16.10](https://github.com/nothub/mrpack-install/releases/download/v0.16.10/mrpack-install-windows.exe)
+- [Forge 1.20.1-47.4.13 安装器](https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.13/forge-1.20.1-47.4.13-installer.jar)
+
+### 2. 整理文件
+
+将下载好的文件放入服务端文件夹，结构如下：
+
+```text
+HopeAndDespair_Server\
+    AutoRun3.6.bat
+    Hope and despair 19.4.159.mrpack   ← 可选，网络不佳时手动放入
+    mrpack-install-windows.exe         ← 可选，网络不佳时手动放入
+    forge-1.20.1-47.4.13-installer.jar ← 可选，网络不佳时手动放入
+```
+
+### 3. 运行脚本
+
+双击运行 `AutoRun.bat`。
+
+> 若文件夹位于 C 盘，请右键选择 **以管理员身份运行**。
+> 若任意步骤失败，脚本将自动停止并输出 `Failed` 提示。
+
+检查脚本版本与整合包版本是否匹配，输入 Y 开始部署。脚本会依次执行：
+1. 检测 Java 版本
+2. 下载 mrpack-install（已存在则跳过）
+3. 下载 Forge 安装器（已存在则跳过）
+4. 安装 Forge 服务端
+5. 下载 Modrinth 整合包（已存在则跳过）并部署 Mod 与配置
+6. 删除客户端专用 Mod
+7. 删除客户端专用配置文件
+8. 删除材质包与光影包
+
+出现以下提示即表示部署完成：
+```text
+Done. Run run.bat to start the server.
+```
+
+出现任意 `Failed` 或以下提示则需要重新运行脚本：
+```text
+Warn: One or more files failed to download, server may be missing some mods or configs.
+```
+
+### 4. 同意 EULA
+
+打开服务端目录下的 `eula.txt`，将 `eula=false` 改为 `eula=true`，保存后关闭。
+
+### 5. 启动服务端
+
+双击运行 `run.bat`。出现以下提示即表示启动成功：
+```text
+[Server thread/INFO]: Done! For help, type "help"
+```
+
+服务端运行时可能会输出以下错误：
+```text
+[Date] [Quark Contributor Loading Thread/ERROR] [quark/]: Failed to load patreon information
+java.net.SocketTimeoutException: Connect timed out
+```
+此问题是由大陆地区玩家无法连接 Quark 赞助者列表导致，由于是异步，因此不会导致服务端线程卡死，可忽略。
+
+---
+
+## Linux 部署
+
+### 1. 下载文件
+
+在网络不好的情况下可以提前下载可选文件。
+
+**必须下载：**
+AutoRun.sh，版本：3.6
+```bash
+wget https://github.com/Lithum-12/My-Modpack-Server-installer/raw/main/HopeAndDespair_Server/19.4.159/AutoRun3.6.sh
+```
+
+**网络不佳时提前手动下载（可选，脚本会自动跳过已存在的文件）：**
+
+mrpack-install，版本：0.16.10
+```bash
+wget https://github.com/nothub/mrpack-install/releases/download/v0.16.10/mrpack-install-linux
+```
+
+Forge Installer，版本：1.20.1-47.4.13
+```bash
+wget https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.13/forge-1.20.1-47.4.13-installer.jar
+```
+
+Modpack 文件，版本：19.4.159
+```bash
+wget -O "Hope and despair 19.4.159.mrpack" "https://cdn.modrinth.com/data/UeU522Qh/versions/ypWQIdTH/Hope%20and%20despair%2019.4.159.mrpack?mr_download_reason=standalone"
+```
+
+### 2. 整理文件
+
+查询当前目录文件：
+```bash
+ls
+```
+预期结构：
+```text
+HopeAndDespair_Server/
+    AutoRun.sh
+    Hope and despair 19.4.159.mrpack   ← 可选
+    mrpack-install-linux               ← 可选
+    forge-1.20.1-47.4.13-installer.jar ← 可选
+```
+
+### 3. 运行脚本
+
+若服务器目录需要 root 权限，建议使用 `sudo` 运行：
+```bash
+chmod +x AutoRun.sh
+sudo ./AutoRun.sh
+```
+否则直接运行：
+```bash
+./AutoRun.sh
+```
+
+出现以下提示即表示部署完成：
+```text
+Done. Run run.sh to start the server.
+```
+
+### 4. 同意 EULA
+
+```bash
+echo "eula=true" > eula.txt
+```
+
+### 5. 启动服务端
+
+建议使用 screen 或 tmux 运行服务端，防止 SSH 断开后服务端停止。
+```bash
+chmod +x run.sh
+./run.sh
+```
+首次启动 Forge 较慢，请耐心等待。出现以下提示即表示启动成功：
+```text
+[Server thread/INFO]: Done! For help, type "help"
+```
+
+---
+
+## 连接服务器
+
+- **局域网：** 其他玩家使用 `本机IP:25565` 加入
+- **公网：** 需在路由器配置端口转发（转发 TCP 25565 端口），或使用 frp 等内网穿透工具
+
+---
+
+## 常见问题
+
+**Q：脚本报错 `Failed` 停止了？**
+检查网络连接，尝试更换网络环境后重新运行，脚本会跳过已下载的文件，不会重复下载。
+
+**Q：提示 `java` 不是内部或外部命令？**
+Java 未安装或未添加到 PATH，请安装 Java 17 并在安装时勾选"Add to PATH"，安装完成后重新打开命令行运行脚本。
+
+**Q：启动后玩家无法连接？**
+检查防火墙是否放行了 25565 端口（TCP），公网访问还需配置路由器端口转发。
+
+**Q：服务端启动时崩溃？**
+查看服务端目录下 `logs/latest.log`，将其反馈在 [GitHub Issues](https://github.com/Lithum-12/My-Modpack-Server-installer/issues)。
+
+**Q：部署时提示 Warn: One or more files failed to download？**
+部分 Mod 因网络问题下载失败，服务端可能缺少文件。重新运行脚本即可，已下载的文件不会重复下载。
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+<script>
+/* 弹窗字典：服务端配置要求 */
+window.ModalDict = {
+  'server-specs': {
+    kicker: 'SERVER · REQUIREMENTS',
+    title: '服务端配置要求',
+    body: 
+      '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;">' +
+        // 最低配置卡片（橙色警告）
+        '<div style="flex:1;min-width:220px;padding:16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);border-top:3px solid var(--acc-orange);">' +
+          '<div style="font-family:var(--mono);font-size:11px;color:var(--acc-orange-t);letter-spacing:.14em;margin-bottom:10px;">MINIMUM · 最低配置</div>' +
+          '<div style="font-size:13px;color:var(--ink-2);line-height:1.9;">' +
+            '<div style="color:var(--mut);font-size:12px;margin-bottom:6px;">⚠️ 仅保证 2 人正常游玩</div>' +
+            '<div>• <strong>CPU:</strong> 双核 2.8 Ghz+</div>' +
+            '<div>• <strong>RAM:</strong> 4 GB (分配 2.5G)</div>' +
+            '<div>• <strong>Disk:</strong> 5 GB (推荐 SSD)</div>' +
+            '<div>• <strong>OS:</strong> Win8 / Server2012+</div>' +
+            '<div>• <strong>Linux:</strong> Ubuntu 16.04+</div>' +
+          '</div>' +
+        '</div>' +
+        // 推荐配置卡片（青色推荐）
+        '<div style="flex:1;min-width:220px;padding:16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);border-top:3px solid var(--acc-teal);">' +
+          '<div style="font-family:var(--mono);font-size:11px;color:var(--acc-teal-t);letter-spacing:.14em;margin-bottom:10px;">RECOMMENDED · 推荐配置</div>' +
+          '<div style="font-size:13px;color:var(--ink-2);line-height:1.9;">' +
+            '<div style="color:var(--mut);font-size:12px;margin-bottom:6px;">✅ 保证 10 人正常游玩</div>' +
+            '<div>• <strong>CPU:</strong> R5-5600 6核 4.2G</div>' +
+            '<div>• <strong>RAM:</strong> 16GB DDR4 3200</div>' +
+            '<div>• <strong>Disk:</strong> 250GB SSD</div>' +
+            '<div>• <strong>OS:</strong> Win Server 2022</div>' +
+            '<div>• <strong>Linux:</strong> Ubuntu 22.04 LTS</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="font-size:12px;color:var(--mut);margin-top:14px;padding-top:10px;border-top:1px dashed var(--line-soft);">* 部分旧版 Linux 发行未预装 Java17 环境，需自行处理。</div>'
+  }
+};
+</script>
+</body>
+</html>

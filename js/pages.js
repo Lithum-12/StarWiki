@@ -30,38 +30,18 @@ window.iconOf = function(p, base) {
 /* ══ 条目注册表（包含 children 子项目） ══ */
 window.PAGES = [
   { 
-    key:'mc-modpacks', 
-    title:'Minecraft 整合包', 
-    tag:'MC', 
+    key:'hope-and-despair', 
+    file:'pages/hope-and-despair.html',   /* ★ 主条目自带 file，点标题直接进介绍页 */
+    title:'Hope and Despair', 
+    tag:'整合包', 
     tagColor:'red', 
     palette:'red', 
-    desc:'硬核与魔改整合包游玩记录与档案',
+    date:'2026-08-16', 
+    desc:'惊变100天：硬核僵尸生存与城市废墟',
     children: [
-      { key:'hope-and-despair', file:'pages/hope-and-despair.html', title:'Hope and Despair', desc:'惊变100天：硬核僵尸生存与城市废墟' },
-      { key:'hope-and-despair-tech', file:'pages/hope-and-despair-tech.html', title:'HAD 技术文档', desc:'核心模组、环境部署与魔改说明' }
+      { key:'hope-and-despair-tech', file:'pages/hope-and-despair-tech.html', title:'安装与环境配置', desc:'核心模组、环境部署与魔改说明' },
+      { key:'hope-and-despair-server', file:'pages/hope-and-despair-server.html', title:'服务端部署指南', desc:'19.4.159 版本 Windows/Linux 自动化部署教程' }
     ]
   },
-  { 
-    key:'syntax', file:'pages/syntax.html', title:'语法手册', tag:'手册', tagColor:'red', palette:'red', date:'2025-06-14', desc:'本站支持的全部 Markdown 语法演示',
-    children: [
-      { key:'syntax-inline', file:'pages/syntax-inline.html', title:'行内样式', desc:'粗体、斜体、高亮与链接' },
-      { key:'syntax-block', file:'pages/syntax-block.html', title:'块级元素', desc:'列表、表格、代码与引用' }
-    ]
-  },
-  { 
-    key:'catalog', file:'pages/catalog.html', title:'深空天体目录', tag:'目录', tagColor:'orange', palette:'orange', date:'2025-06-02', desc:'适合入门者的梅西耶天体速查表',
-    children: [
-      { key:'catalog-messier', file:'pages/catalog-messier.html', title:'梅西耶天体', desc:'110 个经典深空目标' },
-      { key:'catalog-caldwell', file:'pages/catalog-caldwell.html', title:'科德韦尔天体', desc:'进阶观测的 109 个目标' }
-    ]
-  },
-  { 
-    key:'field', file:'pages/field.html', title:'观测者手册', tag:'手册', tagColor:'teal', palette:'teal', date:'2025-05-21', desc:'出发前的完整检查清单与日志模板',
-    children: [
-      { key:'field-gear', file:'pages/field-gear.html', title:'装备检查', desc:'三脚架、目镜与红光照明' },
-      { key:'field-log', file:'pages/field-log.html', title:'观测日志', desc:'现场手记与后期誊录模板' }
-    ]
-  },
-  { key:'glossary', file:'pages/glossary.html', title:'术语表', tag:'词条', tagColor:'gray', date:'2025-04-30', desc:'按频率排列的高频观星词条' },
   { key:'about', file:'pages/about.html', title:'关于本站', tag:'说明', tagColor:'gray', date:'2025-06-14', desc:'解析器能力、快捷键与项目结构' }
 ];
