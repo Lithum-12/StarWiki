@@ -36,41 +36,68 @@ function splitRow(l){
  * @returns {string} 解析后的 HTML
  */
 function inline(text){
-  const codes=[]; let s=escapeHtml(text);
+  const codes=[];
+  const links=[]; // ★ 新增：保护链接、图片、按钮的数组
+  let s=escapeHtml(text);
+  
+  // 1. 保护行内代码
   s=s.replace(/`([^`\n]+)`/g,(m,c)=>{codes.push(c);return '\u0001'+(codes.length-1)+'\u0001';});
-  s=s.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;[^)]*&quot;)?\)/g,(m,alt,src)=>
-    alt?`<figure><img src="${src}" alt="${alt}" loading="lazy"><figcaption>${alt}</figcaption></figure>`
-       :`<img src="${src}" alt="" loading="lazy">`);
-  /* [[维基链接]] / [[条目|别名]] / [[条目#锚点]] —— 由外部 resolver 给出 href */
+  
+  // 2. 保护图片
+  s=s.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;[^)]*&quot;)?\)/g,(m,alt,src)=>{
+    const html = alt?`<figure><img src="${src}" alt="${alt}" loading="lazy"><figcaption>${alt}</figcaption></figure>`
+                    :`<img src="${src}" alt="" loading="lazy">`;
+    links.push(html);
+    return '\u0003'+(links.length-1)+'\u0003';
+  });
+  
+  // 3. 保护维基链接
   s=s.replace(/\[\[([^\]]+)\]\]/g,(m,inner)=>{
     let target=inner,label=inner; const bar=inner.indexOf('|');
     if(bar>-1){target=inner.slice(0,bar);label=inner.slice(bar+1);}
     let anchor=''; const hash=target.indexOf('#');
     if(hash>-1){anchor=target.slice(hash+1);target=target.slice(0,hash);}
     const href=opts.wiki?opts.wiki(target.trim(),anchor):null;
-    return href?`<a class="wikilink" href="${href}">${label}</a>`
-               :`<span class="wikilink missing" title="未收录的条目">${label}</span>`;
+    const html = href?`<a class="wikilink" href="${href}">${label}</a>`
+                     :`<span class="wikilink missing" title="未收录的条目">${label}</span>`;
+    links.push(html);
+    return '\u0003'+(links.length-1)+'\u0003';
   });
+  
+  // 4. 保护普通链接与魔法按钮
   s=s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^)]*&quot;)?\)/g, (m, t, href) => {
-    if (/^https?:/i.test(href)) return `<a href="${href}" target="_blank" rel="noopener">${t}</a>`;
-    // ★ 核心魔改：如果是 #modal: 开头，渲染为按钮
-    if (href.startsWith('#modal:')) return `<button type="button" class="md-btn md-modal" data-modal="${href.slice(7)}">${t}</button>`;
-    return `<a href="${href}">${t}</a>`;
+    let html;
+    if (/^https?:/i.test(href)) html = `<a href="${href}" target="_blank" rel="noopener">${t}</a>`;
+    else if (href.startsWith('#modal:')) html = `<button type="button" class="md-btn md-modal" data-modal="${href.slice(7)}">${t}</button>`;
+    else html = `<a href="${href}">${t}</a>`;
+    links.push(html);
+    return '\u0003'+(links.length-1)+'\u0003';
   });
-
+  
+  // 5. 保护脚注
   s=s.replace(/\[\^([^\]\s]+)\]/g,(m,id)=>{
     if(S.fn[id]!==undefined){
       if(!S.fnUsed.includes(id))S.fnUsed.push(id);
-      return `<sup class="fnref"><a href="#fn-${id}" id="fnref-${id}">[${S.fnUsed.indexOf(id)+1}]</a></sup>`;
-    } return m;
+      const html = `<sup class="fnref"><a href="#fn-${id}" id="fnref-${id}">[${S.fnUsed.indexOf(id)+1}]</a></sup>`;
+      links.push(html);
+      return '\u0003'+(links.length-1)+'\u0003';
+    } 
+    return m;
   });
+
+  // 6. 处理粗体、斜体、删除线、高亮 (此时 URL 已被 \u0003 占位符保护，绝对不会被误杀)
   s=s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<strong>$1</strong>');
   s=s.replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>').replace(/(^|[^_])_([^_\n]+)_/g,'$1<em>$2</em>');
   s=s.replace(/~~([^~]+)~~/g,'<del>$1</del>').replace(/==([^=\n]+)==/g,'<mark>$1</mark>');
+  
+  // 7. 还原行内代码
   s=s.replace(/\u0001(\d+)\u0001/g,(m,i)=>`<code>${codes[i]}</code>`);
+  
+  // 8. 还原所有被保护的链接、图片、按钮
+  s=s.replace(/\u0003(\d+)\u0003/g,(m,i)=>links[i]);
+  
   return s;
 }
-
 /**
  * 生成代码块 HTML
  * @param {string} lang - 代码语言
