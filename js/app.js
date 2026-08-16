@@ -213,6 +213,8 @@ function renderNav(filter){
 
     let childMatch = false;
     let childHtml = '';
+    
+    // 1. 先生成子项 HTML 和匹配状态
     if (hasChildren) {
       p.children.forEach(c => {
         const cMatch = !q || c.title.toLowerCase().includes(q) || (c.desc||'').toLowerCase().includes(q);
@@ -230,17 +232,23 @@ function renderNav(filter){
     const containsCurrent = p.key === currentKey() || (hasChildren && p.children.some(c => c.key === currentKey()));
     const isOpen = hasChildren && (containsCurrent || (!!q && childMatch));
 
+    // 2. 根据是否有子项，生成父级 HTML
     if (hasChildren) {
+      // 判断是否为纯目录（没有 file 属性）
+      const isDir = !p.file;
+      const tag = isDir ? 'span' : 'a';
+      const href = isDir ? '' : ` href="${BASE+'/'+p.file}"`;
+      
       html += `<div class="nav-group ${isOpen?'is-open':''}">
         <div class="nav-parent-row">
           <button class="nav-ico-btn" data-group="${p.key}" title="展开 / 折叠" aria-label="展开或折叠 ${esc(p.title)}">
             <span class="ico-face">${iconOf(p,BASE)}</span>
             <span class="ico-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
           </button>
-          <a class="nav-parent-link ${p.key===currentKey()?'on':''}" href="${BASE+'/'+p.file}">
+          <${tag} class="nav-parent-link ${p.key===currentKey()?'on':''} ${isDir?'is-dir':''}"${href}>
             <span class="nav-body"><span class="t">${esc(p.title)}</span></span>
             <span class="tag tag-${p.tagColor}">${esc(p.tag)}</span>
-          </a>
+          </${tag}>
         </div>
         <div class="nav-children-wrap"><div>${childHtml}</div></div>
       </div>`;
@@ -263,6 +271,14 @@ function renderNav(filter){
       e.preventDefault();
       e.stopPropagation();
       btn.closest('.nav-group').classList.toggle('is-open');
+    });
+  });
+
+  // 新增：点击纯目录（无 file）的文字也触发折叠
+  navList.querySelectorAll('.nav-parent-link.is-dir').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      link.closest('.nav-group').classList.toggle('is-open');
     });
   });
 }

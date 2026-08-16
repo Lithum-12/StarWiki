@@ -527,3 +527,6 @@ body.modal-open{overflow:hidden}
 .m-link:hover .arr::before{opacity:1;transform:none}
 .m-link .arr svg{transition:.2s}
 .m-link:hover .arr svg{transform:translate(2px,-2px)}
+
+/* 纯目录（无跳转链接）样式微调 */
+.nav-parent-link.is-dir{cursor:pointer}
