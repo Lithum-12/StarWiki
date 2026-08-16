@@ -10,7 +10,6 @@
 <body data-page="anything-but-fish" data-root="">
 
 <script type="text/markdown" id="page-md">
-# Anything But Fish (就是不钓鱼)
 
 **钓鱼竿充满了力量，你现在能钓上任何东西！**
 
@@ -41,7 +40,7 @@ Anything But Fish (ABF) 是一款彻底重构 Minecraft 钓鱼机制的 Fabric �
 | **客户端 GUI 依赖** | [Fabric API](https://modrinth.com/mod/fabric-api)（仅 Fabric）, [Mod Menu](https://modrinth.com/mod/modmenu)（仅 Fabric）, [YACL](https://modrinth.com/mod/yacl)（1.20+） / [Cloth Config API](https://modrinth.com/mod/cloth-config)（1.20-） |
 | **未来计划** | 移植至 NeoForge |
 
-## 极广的版本支持
+## 版本支持
 
 ABF 的兼容性较高，几乎覆盖了 Fabric 发展史上的所有主流版本，且支持部分 Forge 版本：
 
@@ -53,6 +52,7 @@ ABF 的兼容性较高，几乎覆盖了 Fabric 发展史上的所有主流版�
 | **1.18~1.19** | 1.18 ~ 1.19.4 |  |
 | **1.17.x** | 1.17 ~ 1.17.1 | 1.17.x 需要 Java 17 |
 | **1.15~1.16** | 1.15 ~ 1.16.5 | 1.17.x 需 Java 17；1.15.x 无 GUI |
+| **1.20.1-forge** | 1.20 ~ 1.20.4 | Forge 版本 |
 
 </script>
 
@@ -71,8 +71,7 @@ var modrinthSvg = '<svg viewBox="0 0 24 24" fill="#1bd96a"><path d="M12.252.004a
 
 var mcmodSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
 
-/* ★ 按照你的要求，Curseforge 复用蓝奏云的云朵图标 */
-var lanzouSvg = '<svg viewBox="0 0 24 24" fill="#ff6452"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>';
+var curseforgeSvg = '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#f16436"><title>CurseForge</title><path d="M18.326 9.2145S23.2261 8.4418 24 6.1882h-7.5066V4.4H0l2.0318 2.3576V9.173s5.1267-.2665 7.1098 1.2372c2.7146 2.516-3.053 5.917-3.053 5.917L5.0995 19.6c1.5465-1.4726 4.494-3.3775 9.8983-3.2857-2.0565.65-4.1245 1.6651-5.7344 3.2857h10.9248l-1.0288-3.2726s-7.918-4.6688-.8336-7.1127z"/></svg>';
 
 var githubSvg = '<svg viewBox="0 0 24 24" fill="#8b949e"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
 
@@ -92,7 +91,7 @@ window.ModalDict = {
       return '<div class="modal-actions">' +
         card('MC 百科', 'https://www.mcmod.cn/class/25024.html', 'MC 百科资源发布页', mcmodSvg) +
         card('Modrinth', 'https://modrinth.com/mod/anything-but-fish', '资源下载', modrinthSvg) +
-        card('Curseforge', 'https://www.curseforge.com/minecraft/mc-mods/anything-but-fish', '资源下载', lanzouSvg) +
+        card('Curseforge', 'https://www.curseforge.com/minecraft/mc-mods/anything-but-fish', '资源下载', curseforgeSvg) +
         card('GitHub', 'https://github.com/Lithum-12/Anything-but-Fish', '问题反馈', githubSvg) +
       '</div>';
     })()

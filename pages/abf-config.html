@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABF 配置文件详解 · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="abf-config" data-root="">
+
+<script type="text/markdown" id="page-md">
+
+> 本教程在 Github 亦有收录，如果你想查阅，[点击这里](https://github.com/Lithum-12/Anything-but-Fish/wiki)
+
+自 23.8 更新后，Anything But Fish (ABF) 的可配置性进一步提高。虽然本质是一个随机钓鱼竿模组，但其强大的可配置性使其完全可以当作**整合包魔改工具**。
+
+## 配置界面与文件位置
+
+### GUI 配置界面 (推荐)
+
+> **推荐新手使用 GUI**
+> 如果你在客户端安装了本模组及前置 (Fabric API, Mod Menu, YACL)，可以直接通过 **模组菜单** 打开图形化配置界面，这能显著降低上手难度。
+
+若想通过直观的 GUI 修改配置，需要安装以下前置：
+- [Fabric API](https://modrinth.com/mod/fabric-api) (23.8+ 版本为可选前置)
+- [Mod Menu](https://modrinth.com/mod/modmenu)
+- [YACL](https://modrinth.com/mod/yacl) (适用于 1.20+) 或 [Cloth Config API](https://modrinth.com/mod/cloth-config) (适用于 1.20-)
+
+### 配置文件路径
+配置文件位于 `.minecraft/config/anythingbutfish.json5`，首次启动时自动生成。
+> **提示**：更新模组时，由于配置项可能发生变化，建议删除旧配置以防出现兼容问题。
+
+## 核心机制：概率与产出
+
+收杆时的产出由三个概率值控制，**三者总和不得超过 100**。剩余的部分即为“跑掉了”（什么也没钓到）的概率。
+
+| 参数 | 默认值 | 说明 |
+| --- | :-: | --- |
+| `chanceItem` | 60 | 钓到随机物品的概率 (0~100) |
+| `chanceEntity` | 25 | 钓到实体（生物）的概率。*小心点燃的 TNT 和苦力怕！* |
+| `chanceXp` | 10 | 钓到经验球的概率 |
+
+*若三项之和超过 100，模组会按比例自动缩放至 100 以内。*
+
+## 核心机制：池模式 (黑/白名单)
+
+模组支持两种池模式，分别由 `itemPoolIsWhitelist` 和 `entityPoolIsWhitelist` 控制：
+
+- **白名单 (true)**：只有列表中的条目可以出现。列表为空则完全跳过该类战利品。
+- **黑名单 (false)**：列表中的条目从全注册表中排除，其余均可出现（受注册表筛选器约束）。
+
+## 物理参数
+
+控制收杆后战利品飞向玩家的方式：
+- **`flingSpeed`** (默认 0.1)：水平速度倍率。值越大，战利品飞向玩家的水平速度越快。
+- **`flingArc`** (默认 0.08)：向上弧度倍率。值越大，战利品飞得越高。设为 0.0 时沿直线飞行。
+
+---
+
+## 配置项速查手册
+
+为了保持页面清爽，我们将详细的布尔值开关、筛选器规则以及 JSON 格式示例整理在了下方的速查弹窗中：
+
+[功能开关与杂项](#modal:abf-switches)  [注册表筛选器](#modal:abf-filters)
+
+[物品与实体池格式](#modal:abf-pools)  [完整 JSON5 配置示例](#modal:abf-full-json)
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+
+<script>
+/* 弹窗字典 (使用模板字符串避免引号冲突) */
+window.ModalDict = {
+  'abf-switches': {
+    kicker: 'CONFIG · SWITCHES',
+    title: '功能开关与杂项',
+    body: `
+      <ul style="line-height:2.2;color:var(--ink-2);padding-left:1.2em;margin:0">
+        <li><code>enabled</code> <span style="color:var(--mut)">(默认 true)</span>：模组总开关。设为 false 时完全恢复原版钓鱼行为。</li>
+        <li><code>debugMode</code> <span style="color:var(--mut)">(默认 false)</span>：调试模式。开启后每次收杆都会在聊天栏输出钓到的结果，用于排查冲突。</li>
+        <li><code>infiniteDurability</code> <span style="color:var(--mut)">(默认 false)</span>：无限耐久。钓鱼竿不再损耗，对原版及继承 FishingRodItem 的模组钓鱼竿均生效。</li>
+        <li><code>moddedRodCompat</code> <span style="color:var(--mut)">(默认 true)</span>：模组钓鱼竿兼容标志。任何使用原版浮标实体的钓鱼竿都会自动触发模组机制。</li>
+        <li><code>waitForBite</code> <span style="color:var(--mut)">(默认 true)</span>：等待上钩。若禁用，每次收杆都给予随机战利品；若启用，则必须像原版一样等待鱼咬钩。</li>
+      </ul>
+    `
+  },
+  'abf-filters': {
+    kicker: 'CONFIG · FILTERS',
+    title: '注册表筛选器',
+    body: `
+      <div style="padding:12px;border:1px solid var(--acc-orange);border-radius:var(--r-sm);background:rgba(var(--acc-orange-rgb),.08);color:var(--ink);margin-bottom:16px;font-size:13px;line-height:1.6">
+        <strong>⚠️ 注意：</strong>以下筛选器仅在<strong>黑名单模式</strong>下从全注册表抽取时生效。白名单模式下无效。
+      </div>
+      <ul style="line-height:2.2;color:var(--ink-2);padding-left:1.2em;margin:0">
+        <li><code>allowModdedItems</code> / <code>allowModdedEntities</code> <span style="color:var(--mut)">(默认 true)</span>：是否允许非 minecraft 命名空间的物品/实体进入随机池。</li>
+        <li><code>allowAdminItems</code> <span style="color:var(--mut)">(默认 true)</span>：是否允许命令方块、屏障、调试棒、结构方块等管理员物品。</li>
+        <li><code>allowDangerousMobs</code> <span style="color:var(--mut)">(默认 false)</span>：是否允许末影龙、凋灵等极度危险的生物。</li>
+      </ul>
+    `
+  },
+  'abf-pools': {
+    kicker: 'CONFIG · POOLS',
+    title: '物品与实体池格式',
+    body: `
+      <p style="color:var(--ink-2);line-height:1.8;margin-top:0">通过 <code>itemPool</code> 和 <code>entityPool</code> 数组定义。可配合全局的 <code>itemCountMin/Max</code> 或在条目内单独指定 <code>minCount/maxCount</code>。</p>
+      
+      <p style="font-family:var(--mono);font-size:12px;color:var(--acc-teal-t);margin:18px 0 8px;letter-spacing:.05em">▎ 白名单模式示例 (仅产出指定物品)</p>
+      <pre style="background:var(--panel-deep);padding:14px;border-radius:var(--r-sm);border:1px solid var(--line);font-family:var(--mono);font-size:12.5px;color:var(--ink-2);overflow-x:auto;margin:0;line-height:1.6"><code>"itemPoolIsWhitelist": true,
+"itemPool": [
+  { "id": "minecraft:diamond" },
+  { "id": "minecraft:iron_ingot", "minCount": 1, "maxCount": 5 }
+]</code></pre>
+
+      <p style="font-family:var(--mono);font-size:12px;color:var(--acc-red-t);margin:18px 0 8px;letter-spacing:.05em">▎ 黑名单模式示例 (排除指定物品)</p>
+      <pre style="background:var(--panel-deep);padding:14px;border-radius:var(--r-sm);border:1px solid var(--line);font-family:var(--mono);font-size:12.5px;color:var(--ink-2);overflow-x:auto;margin:0;line-height:1.6"><code>"itemPoolIsWhitelist": false,
+"itemPool": [
+  { "id": "minecraft:dirt" },
+  { "id": "minecraft:stone" }
+]</code></pre>
+      <p style="color:var(--mut);font-size:12px;margin-top:14px">* 注意：玩家 (minecraft:player) 和浮标始终被排除，无法通过配置添加。</p>
+    `
+  },
+  'abf-full-json': {
+    kicker: 'JSON5 · FULL EXAMPLE',
+    title: '完整配置文件示例',
+    body: `
+      <p style="color:var(--ink-2);margin-top:0">一份带注释的完整配置文件示例（JSON5 格式），可直接复制参考：</p>
+      <pre style="background:var(--panel-deep);padding:16px;border-radius:var(--r-sm);border:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink-2);overflow-x:auto;margin:10px 0;line-height:1.6;max-height:400px"><code>/*
+ * AnythingButFish Configuration File
+ *
+ * Pool modes:
+ *   true  (WHITELIST) – only items/entities in the list can appear.
+ *   false (BLACKLIST) – full registry minus items/entities in the list.
+ *
+ * Probability: chanceItem + chanceEntity + chanceXp <= 100.
+ */
+{
+  "itemPoolIsWhitelist": false,
+  "entityPoolIsWhitelist": false,
+  "enabled": true,
+  "debugMode": false,
+  "infiniteDurability": false,
+  "moddedRodCompat": true,
+  "waitForBite": false,
+  
+  "allowModdedItems": true,
+  "allowModdedEntities": true,
+  "allowAdminItems": false,
+  "allowDangerousMobs": false,
+  
+  "chanceItem": 60,
+  "chanceEntity": 25,
+  "chanceXp": 10,
+  
+  "itemCountMin": 1,
+  "itemCountMax": 1,
+  "itemPool": [],
+  "entityPool": [],
+  
+  "xpMin": 1,
+  "xpMax": 50,
+  
+  "flingSpeed": 0.1,
+  "flingArc": 0.08
+}</code></pre>
+    `
+  }
+};
+</script>
+</body>
+</html>
