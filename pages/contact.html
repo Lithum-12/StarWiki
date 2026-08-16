@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>联系与社交 · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="contact" data-root="">
+
+<script type="text/markdown" id="page-md">
+# 联系与社交
+
+感谢你阅读星图百科。如果你对我的整合包、模组或 Wiki 引擎有任何建议、Bug 反馈，或者只是想一起联机生存，欢迎通过以下方式联系我。
+
+## 玩家交流
+
+如果你在游戏中遇到了问题，或者想获取最新的整合包内测资格，请加入官方玩家群：
+
+[👥 玩家交流与反馈](#modal:contact-qq)
+
+## 开发者主页
+
+想了解更多关于我的开源项目、模组开发日志或是日常动态？欢迎访问我的社交平台：
+
+[🌐 开发者社交平台](#modal:contact-social)
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+
+<script>
+/* ★ 箭头 SVG */
+var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+
+/* ★ 平台图标 (GitHub, MC百科, 抖音) */
+var githubSvg = '<svg viewBox="0 0 24 24" fill="#8b949e"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
+var mcmodSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
+var douyinSvg = '<svg viewBox="0 0 24 24" fill="#fe2c55"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.55a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.01z"/></svg>';
+
+/* ★ 优化后的 QQ 群二维码 SVG (裁切了 A4 白边，仅保留黑块，体积缩小 50%) */
+var qqQrSvg = `<svg viewBox="128 252 340 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#fff;border-radius:8px;">
+<rect x="128" y="252" width="340" height="340" fill="#fff"/>
+<defs><rect id="p" width="11" height="11"/></defs>
+<g fill="#000000"><use x="160" y="284" xlink:href="#p" /><use x="160" y="295" xlink:href="#p" /><use x="160" y="306" xlink:href="#p" /><use x="160" y="317" xlink:href="#p" /><use x="160" y="328" xlink:href="#p" /><use x="160" y="339" xlink:href="#p" /><use x="160" y="350" xlink:href="#p" /><use x="160" y="372" xlink:href="#p" /><use x="160" y="394" xlink:href="#p" /><use x="160" y="405" xlink:href="#p" /><use x="160" y="416" xlink:href="#p" /><use x="160" y="438" xlink:href="#p" /><use x="160" y="460" xlink:href="#p" /><use x="160" y="482" xlink:href="#p" /><use x="160" y="493" xlink:href="#p" /><use x="160" y="504" xlink:href="#p" /><use x="160" y="515" xlink:href="#p" /><use x="160" y="526" xlink:href="#p" /><use x="160" y="537" xlink:href="#p" /><use x="160" y="548" xlink:href="#p" /><use x="171" y="284" xlink:href="#p" /><use x="171" y="350" xlink:href="#p" /><use x="171" y="372" xlink:href="#p" /><use x="171" y="383" xlink:href="#p" /><use x="171" y="394" xlink:href="#p" /><use x="171" y="427" xlink:href="#p" /><use x="171" y="438" xlink:href="#p" /><use x="171" y="460" xlink:href="#p" /><use x="171" y="482" xlink:href="#p" /><use x="171" y="548" xlink:href="#p" /><use x="182" y="284" xlink:href="#p" /><use x="182" y="306" xlink:href="#p" /><use x="182" y="317" xlink:href="#p" /><use x="182" y="328" xlink:href="#p" /><use x="182" y="350" xlink:href="#p" /><use x="182" y="372" xlink:href="#p" /><use x="182" y="449" xlink:href="#p" /><use x="182" y="460" xlink:href="#p" /><use x="182" y="482" xlink:href="#p" /><use x="182" y="504" xlink:href="#p" /><use x="182" y="515" xlink:href="#p" /><use x="182" y="526" xlink:href="#p" /><use x="182" y="548" xlink:href="#p" /><use x="193" y="284" xlink:href="#p" /><use x="193" y="306" xlink:href="#p" /><use x="193" y="317" xlink:href="#p" /><use x="193" y="328" xlink:href="#p" /><use x="193" y="350" xlink:href="#p" /><use x="193" y="416" xlink:href="#p" /><use x="193" y="438" xlink:href="#p" /><use x="193" y="449" xlink:href="#p" /><use x="193" y="482" xlink:href="#p" /><use x="193" y="504" xlink:href="#p" /><use x="193" y="515" xlink:href="#p" /><use x="193" y="526" xlink:href="#p" /><use x="193" y="548" xlink:href="#p" /><use x="204" y="284" xlink:href="#p" /><use x="204" y="306" xlink:href="#p" /><use x="204" y="317" xlink:href="#p" /><use x="204" y="328" xlink:href="#p" /><use x="204" y="350" xlink:href="#p" /><use x="204" y="405" xlink:href="#p" /><use x="204" y="416" xlink:href="#p" /><use x="204" y="438" xlink:href="#p" /><use x="204" y="482" xlink:href="#p" /><use x="204" y="504" xlink:href="#p" /><use x="204" y="515" xlink:href="#p" /><use x="204" y="526" xlink:href="#p" /><use x="204" y="548" xlink:href="#p" /><use x="215" y="284" xlink:href="#p" /><use x="215" y="350" xlink:href="#p" /><use x="215" y="372" xlink:href="#p" /><use x="215" y="405" xlink:href="#p" /><use x="215" y="427" xlink:href="#p" /><use x="215" y="460" xlink:href="#p" /><use x="215" y="482" xlink:href="#p" /><use x="215" y="548" xlink:href="#p" /><use x="226" y="284" xlink:href="#p" /><use x="226" y="295" xlink:href="#p" /><use x="226" y="306" xlink:href="#p" /><use x="226" y="317" xlink:href="#p" /><use x="226" y="328" xlink:href="#p" /><use x="226" y="339" xlink:href="#p" /><use x="226" y="350" xlink:href="#p" /><use x="226" y="372" xlink:href="#p" /><use x="226" y="394" xlink:href="#p" /><use x="226" y="416" xlink:href="#p" /><use x="226" y="438" xlink:href="#p" /><use x="226" y="460" xlink:href="#p" /><use x="226" y="482" xlink:href="#p" /><use x="226" y="493" xlink:href="#p" /><use x="226" y="504" xlink:href="#p" /><use x="226" y="515" xlink:href="#p" /><use x="226" y="526" xlink:href="#p" /><use x="226" y="537" xlink:href="#p" /><use x="226" y="548" xlink:href="#p" /><use x="237" y="394" xlink:href="#p" /><use x="237" y="405" xlink:href="#p" /><use x="237" y="427" xlink:href="#p" /><use x="237" y="438" xlink:href="#p" /><use x="248" y="284" xlink:href="#p" /><use x="248" y="295" xlink:href="#p" /><use x="248" y="328" xlink:href="#p" /><use x="248" y="339" xlink:href="#p" /><use x="248" y="350" xlink:href="#p" /><use x="248" y="361" xlink:href="#p" /><use x="248" y="372" xlink:href="#p" /><use x="248" y="383" xlink:href="#p" /><use x="248" y="394" xlink:href="#p" /><use x="248" y="427" xlink:href="#p" /><use x="248" y="449" xlink:href="#p" /><use x="248" y="460" xlink:href="#p" /><use x="248" y="471" xlink:href="#p" /><use x="248" y="493" xlink:href="#p" /><use x="248" y="526" xlink:href="#p" /><use x="248" y="537" xlink:href="#p" /><use x="248" y="548" xlink:href="#p" /><use x="259" y="284" xlink:href="#p" /><use x="259" y="295" xlink:href="#p" /><use x="259" y="306" xlink:href="#p" /><use x="259" y="339" xlink:href="#p" /><use x="259" y="361" xlink:href="#p" /><use x="259" y="372" xlink:href="#p" /><use x="259" y="394" xlink:href="#p" /><use x="259" y="416" xlink:href="#p" /><use x="259" y="427" xlink:href="#p" /><use x="259" y="438" xlink:href="#p" /><use x="259" y="471" xlink:href="#p" /><use x="259" y="482" xlink:href="#p" /><use x="259" y="493" xlink:href="#p" /><use x="259" y="515" xlink:href="#p" /><use x="259" y="548" xlink:href="#p" /><use x="270" y="306" xlink:href="#p" /><use x="270" y="328" xlink:href="#p" /><use x="270" y="339" xlink:href="#p" /><use x="270" y="350" xlink:href="#p" /><use x="270" y="394" xlink:href="#p" /><use x="270" y="405" xlink:href="#p" /><use x="270" y="416" xlink:href="#p" /><use x="270" y="427" xlink:href="#p" /><use x="270" y="449" xlink:href="#p" /><use x="270" y="460" xlink:href="#p" /><use x="270" y="504" xlink:href="#p" /><use x="270" y="515" xlink:href="#p" /><use x="281" y="306" xlink:href="#p" /><use x="281" y="328" xlink:href="#p" /><use x="281" y="372" xlink:href="#p" /><use x="281" y="383" xlink:href="#p" /><use x="281" y="394" xlink:href="#p" /><use x="281" y="427" xlink:href="#p" /><use x="281" y="438" xlink:href="#p" /><use x="281" y="460" xlink:href="#p" /><use x="281" y="471" xlink:href="#p" /><use x="281" y="482" xlink:href="#p" /><use x="281" y="515" xlink:href="#p" /><use x="281" y="526" xlink:href="#p" /><use x="281" y="548" xlink:href="#p" /><use x="292" y="284" xlink:href="#p" /><use x="292" y="295" xlink:href="#p" /><use x="292" y="317" xlink:href="#p" /><use x="292" y="339" xlink:href="#p" /><use x="292" y="350" xlink:href="#p" /><use x="292" y="372" xlink:href="#p" /><use x="292" y="383" xlink:href="#p" /><use x="292" y="394" xlink:href="#p" /><use x="292" y="416" xlink:href="#p" /><use x="292" y="427" xlink:href="#p" /><use x="292" y="449" xlink:href="#p" /><use x="292" y="537" xlink:href="#p" /><use x="292" y="548" xlink:href="#p" /><use x="303" y="295" xlink:href="#p" /><use x="303" y="306" xlink:href="#p" /><use x="303" y="317" xlink:href="#p" /><use x="303" y="328" xlink:href="#p" /><use x="303" y="383" xlink:href="#p" /><use x="303" y="427" xlink:href="#p" /><use x="303" y="438" xlink:href="#p" /><use x="303" y="471" xlink:href="#p" /><use x="303" y="482" xlink:href="#p" /><use x="303" y="504" xlink:href="#p" /><use x="303" y="515" xlink:href="#p" /><use x="314" y="284" xlink:href="#p" /><use x="314" y="295" xlink:href="#p" /><use x="314" y="317" xlink:href="#p" /><use x="314" y="350" xlink:href="#p" /><use x="314" y="361" xlink:href="#p" /><use x="314" y="372" xlink:href="#p" /><use x="314" y="405" xlink:href="#p" /><use x="314" y="438" xlink:href="#p" /><use x="314" y="471" xlink:href="#p" /><use x="314" y="482" xlink:href="#p" /><use x="314" y="493" xlink:href="#p" /><use x="314" y="526" xlink:href="#p" /><use x="325" y="306" xlink:href="#p" /><use x="325" y="317" xlink:href="#p" /><use x="325" y="361" xlink:href="#p" /><use x="325" y="383" xlink:href="#p" /><use x="325" y="394" xlink:href="#p" /><use x="325" y="405" xlink:href="#p" /><use x="325" y="416" xlink:href="#p" /><use x="325" y="427" xlink:href="#p" /><use x="325" y="438" xlink:href="#p" /><use x="325" y="449" xlink:href="#p" /><use x="325" y="504" xlink:href="#p" /><use x="325" y="515" xlink:href="#p" /><use x="325" y="526" xlink:href="#p" /><use x="325" y="537" xlink:href="#p" /><use x="336" y="284" xlink:href="#p" /><use x="336" y="295" xlink:href="#p" /><use x="336" y="339" xlink:href="#p" /><use x="336" y="350" xlink:href="#p" /><use x="336" y="361" xlink:href="#p" /><use x="336" y="372" xlink:href="#p" /><use x="336" y="383" xlink:href="#p" /><use x="336" y="416" xlink:href="#p" /><use x="336" y="427" xlink:href="#p" /><use x="336" y="438" xlink:href="#p" /><use x="336" y="449" xlink:href="#p" /><use x="336" y="460" xlink:href="#p" /><use x="336" y="471" xlink:href="#p" /><use x="336" y="482" xlink:href="#p" /><use x="336" y="493" xlink:href="#p" /><use x="336" y="504" xlink:href="#p" /><use x="336" y="526" xlink:href="#p" /><use x="336" y="537" xlink:href="#p" /><use x="336" y="548" xlink:href="#p" /><use x="347" y="372" xlink:href="#p" /><use x="347" y="405" xlink:href="#p" /><use x="347" y="416" xlink:href="#p" /><use x="347" y="460" xlink:href="#p" /><use x="347" y="504" xlink:href="#p" /><use x="347" y="515" xlink:href="#p" /><use x="358" y="284" xlink:href="#p" /><use x="358" y="295" xlink:href="#p" /><use x="358" y="306" xlink:href="#p" /><use x="358" y="317" xlink:href="#p" /><use x="358" y="328" xlink:href="#p" /><use x="358" y="339" xlink:href="#p" /><use x="358" y="350" xlink:href="#p" /><use x="358" y="372" xlink:href="#p" /><use x="358" y="383" xlink:href="#p" /><use x="358" y="416" xlink:href="#p" /><use x="358" y="427" xlink:href="#p" /><use x="358" y="449" xlink:href="#p" /><use x="358" y="460" xlink:href="#p" /><use x="358" y="482" xlink:href="#p" /><use x="358" y="504" xlink:href="#p" /><use x="358" y="548" xlink:href="#p" /><use x="369" y="284" xlink:href="#p" /><use x="369" y="350" xlink:href="#p" /><use x="369" y="372" xlink:href="#p" /><use x="369" y="383" xlink:href="#p" /><use x="369" y="427" xlink:href="#p" /><use x="369" y="449" xlink:href="#p" /><use x="369" y="460" xlink:href="#p" /><use x="369" y="504" xlink:href="#p" /><use x="369" y="526" xlink:href="#p" /><use x="369" y="537" xlink:href="#p" /><use x="380" y="284" xlink:href="#p" /><use x="380" y="306" xlink:href="#p" /><use x="380" y="317" xlink:href="#p" /><use x="380" y="328" xlink:href="#p" /><use x="380" y="350" xlink:href="#p" /><use x="380" y="372" xlink:href="#p" /><use x="380" y="394" xlink:href="#p" /><use x="380" y="449" xlink:href="#p" /><use x="380" y="460" xlink:href="#p" /><use x="380" y="471" xlink:href="#p" /><use x="380" y="482" xlink:href="#p" /><use x="380" y="493" xlink:href="#p" /><use x="380" y="504" xlink:href="#p" /><use x="380" y="515" xlink:href="#p" /><use x="380" y="526" xlink:href="#p" /><use x="380" y="537" xlink:href="#p" /><use x="391" y="284" xlink:href="#p" /><use x="391" y="306" xlink:href="#p" /><use x="391" y="317" xlink:href="#p" /><use x="391" y="328" xlink:href="#p" /><use x="391" y="350" xlink:href="#p" /><use x="391" y="383" xlink:href="#p" /><use x="391" y="394" xlink:href="#p" /><use x="391" y="405" xlink:href="#p" /><use x="391" y="438" xlink:href="#p" /><use x="391" y="449" xlink:href="#p" /><use x="391" y="526" xlink:href="#p" /><use x="391" y="548" xlink:href="#p" /><use x="402" y="284" xlink:href="#p" /><use x="402" y="306" xlink:href="#p" /><use x="402" y="317" xlink:href="#p" /><use x="402" y="328" xlink:href="#p" /><use x="402" y="350" xlink:href="#p" /><use x="402" y="394" xlink:href="#p" /><use x="402" y="438" xlink:href="#p" /><use x="402" y="515" xlink:href="#p" /><use x="413" y="284" xlink:href="#p" /><use x="413" y="350" xlink:href="#p" /><use x="413" y="372" xlink:href="#p" /><use x="413" y="383" xlink:href="#p" /><use x="413" y="427" xlink:href="#p" /><use x="413" y="460" xlink:href="#p" /><use x="413" y="515" xlink:href="#p" /><use x="413" y="526" xlink:href="#p" /><use x="424" y="284" xlink:href="#p" /><use x="424" y="295" xlink:href="#p" /><use x="424" y="306" xlink:href="#p" /><use x="424" y="317" xlink:href="#p" /><use x="424" y="328" xlink:href="#p" /><use x="424" y="339" xlink:href="#p" /><use x="424" y="350" xlink:href="#p" /><use x="424" y="372" xlink:href="#p" /><use x="424" y="383" xlink:href="#p" /><use x="424" y="394" xlink:href="#p" /><use x="424" y="416" xlink:href="#p" /><use x="424" y="427" xlink:href="#p" /><use x="424" y="438" xlink:href="#p" /><use x="424" y="471" xlink:href="#p" /><use x="424" y="482" xlink:href="#p" /><use x="424" y="493" xlink:href="#p" /><use x="424" y="526" xlink:href="#p" /><use x="424" y="548" xlink:href="#p" /></g>
+</svg>`;
+
+/* 弹窗字典 */
+window.ModalDict = {
+  'contact-qq': {
+    kicker: 'COMMUNITY · 玩家交流',
+    title: '加入官方社群',
+    body: `
+      <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+        <div style="width:160px;height:160px;flex:none;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.1);">
+          ` + qqQrSvg + `
+        </div>
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:var(--mono);font-size:12px;color:var(--mut);margin-bottom:6px;">QQ 群号 (点击选中复制)</div>
+          <div style="font-family:var(--mono);font-size:24px;font-weight:bold;color:var(--ink);user-select:all;cursor:text;margin-bottom:18px;letter-spacing:.05em;">975603358</div>
+          
+          <div style="font-family:var(--mono);font-size:12px;color:var(--mut);margin-bottom:6px;">开发者邮箱</div>
+          <a href="mailto:3532087260@qq.com" style="font-family:var(--mono);font-size:15px;color:var(--alt-t);text-decoration:none;border-bottom:1px dashed var(--alt-line);user-select:all;">3532087260@qq.com</a>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding-top:14px;border-top:1px dashed var(--line-soft);font-size:13px;color:var(--mut);line-height:1.7;">
+        * 进群请备注“星图百科”或“MC玩家”。<br>
+        * 反馈 Bug 时，请尽量提供 <code style="background:var(--panel-deep);padding:2px 6px;border-radius:4px;font-size:12px;">logs/latest.log</code> 文件。
+      </div>
+    `
+  },
+  'contact-social': {
+    kicker: 'SOCIAL · 开发者矩阵',
+    title: '社交平台与主页',
+    body: (function(){
+      var A = '<span class="arr">' + ARROW + '</span>';
+      
+      function card(name, href, desc, svg, isDisabled) {
+        if (isDisabled) {
+          return '<div class="m-link" style="pointer-events:none;opacity:.45;filter:grayscale(1);">' +
+            '<span class="m-ico">' + svg + '</span>' +
+            '<span class="m-body"><span class="m-t">' + name + '</span>' +
+            '<span class="m-s">' + desc + '</span></span></div>';
+        }
+        return '<a class="m-link" href="' + href + '" target="_blank" rel="noopener">' +
+          '<span class="m-ico">' + svg + '</span>' +
+          '<span class="m-body"><span class="m-t">' + name + '</span>' +
+          '<span class="m-s">' + desc + '</span></span>' + A + '</a>';
+      }
+
+      // 占位符图标 (虚线圆圈)
+      var placeholderSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>';
+
+      return '<div class="modal-actions">' +
+        card('GitHub', 'https://github.com/Lithum-12', '开源项目与源码仓库', githubSvg) +
+        card('MC 百科', 'https://center.mcmod.cn/601517/', 'MC 百科开发者主页', mcmodSvg) +
+        card('抖音', 'https://v.douyin.com/ifuPNQDq', '日常动态与整活视频', douyinSvg) +
+        card('Coming Soon', '#', '神秘新平台 · 敬请期待', placeholderSvg, true) +
+      '</div>';
+    })()
+  }
+};
+</script>
+</body>
+</html>

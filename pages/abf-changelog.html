@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABF 更新日志 · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="abf-changelog" data-root="">
+
+<script type="text/markdown" id="page-md">
+
+本页面记录了 Anything But Fish (ABF) 模组的历史版本更新内容、底层重构与 Bug 修复。你可以使用右侧的大纲快速跳转到特定版本。
+
+## 23.8-patch.1 (2026-08-13)
+
+### 核心
+- 将 Forge 目标版本降级至 47.2.18
+- 切换为无参模组构造器，以兼容 47.2.x 版本
+- 支持更多 Minecraft 版本
+
+> 本更新为 Forge 平台修复版，Fabric 平台无需更新
+
+---
+
+## 23.8 (2026-08-10)
+*这是一次架构级的重大更新，引入了全新的黑白名单机制，并首次加入 Forge 支持！*
+
+### 版本支持
+- 新增 **mc-26.1** (支持 26.1.x，由 @ZenanMiao 贡献代码)
+- 新增 **mc-1.20.1-forge** (支持 Forge 加载器，Alpha 测试版)
+- 全面兼容 Fabric 1.15 ~ 26.1.2 (除 1.21.4 和 1.20.0 外的所有版本)
+
+### 核心重构
+- **战利品池系统重制**：废弃旧的权重池系统，全面改用**白名单/黑名单模式**。
+  - **白名单**：仅允许列表中的物品/实体出现。
+  - **黑名单**：从全注册表中随机抽取，并排除列表中的条目。
+  - **空白名单**意味着完全跳过该类战利品（不再回退到全注册表抽取）。
+- 移除了旧版“将钓鱼竿加入初始奖励箱”的特性（不再影响原版箱子）。
+- 新增配置文件解析前的**注释剥离功能**，彻底修复了因注释导致的加载失败问题。
+- 修复了注释中单个字符可能导致整个配置文件损坏的致命 Bug。
+- 修正了 `itemCountMax` 的默认值以匹配代码逻辑。
+
+### 机制修复
+- 修复了危险生物和管理员物品的过滤逻辑。
+- 修复了钓鱼战利品中模组物品/实体的过滤问题，现使用 `level.registryAccess()` 正确获取注册表。
+- 修复了部分旧版本中钓鱼竿耐久度机制失效的问题。
+- 修复了 1.16.5 版本中 `FishingRodDurabilityMixin` 的注入目标和方法签名。
+- 新增物品池**单条目堆叠数量范围**支持（可在 JSON 中单独指定 `minCount` / `maxCount`）。
+- 为战利品表修改添加了 `source.isBuiltin()` 检查。
+
+### 视觉与本地化
+- 新增 `allowAdminItems` 和 `allowDangerousMobs` 的语言键。
+- 补全了黑白名单模式的多语言文件。
+- 修正了 `replaceLootChestRods` 的中文翻译。
+- 优化了 README.md 的排版。
+
+### 构建与工程
+- 优化了硬编码的 Java 路径处理，提升跨平台兼容性。
+- 改进了 Minecraft 版本范围的语法解析。
+- 移除了 `build.gradle` 中未使用的 refmap 配置，并为每个版本正确配置了 Mixin refmap。
+- 将 Mixin `defaultRequire` 从 0 提升至 1。
+- **Fabric API 现改为可选前置**。
+
+### 其他
+- 开源协议更新为 **LGPLv3**。
+- 更新了模组图标，统一了全代码库的注释风格。
+
+---
+
+## 22.0.3 (2026-03-01)
+
+### 修复与改进
+- 修复了因缺失 Refmap 导致模组无法运行的问题。
+- 新增 **“等待上钩 (Wait for Bite)”** 机制支持，现可通过配置文件控制是否必须等待鱼咬钩。
+- 优化了物品过滤逻辑。
+
+---
+
+## 20.1.11 (2026-02-25)
+
+### 配置与本地化
+- 配置文件格式正式迁移至 **JSON5**（全面支持注释）。
+- 新增 `allowAdminItems`（允许管理员物品）和 `allowDangerousMobs`（允许危险生物）的中文翻译与语言键。
+- 修复了 `itemCountMax` 的默认值问题。
+
+### 核心修复
+- 修复了危险生物和管理员物品的过滤逻辑。
+- 修复了跨平台环境下的 Java 路径识别问题。
+- 为战利品表修改添加了 `source.isBuiltin()` 检查。
+- 清理了构建脚本中无用的 refmap 配置。
+- 开源协议更新为 **LGPLv3**，并补充了 LICENSE 与 README 文件。
+
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
