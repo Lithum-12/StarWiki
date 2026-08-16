@@ -337,8 +337,11 @@ function renderCurrent(){
 
   contentEl.innerHTML=res.html;
   contentEl.querySelectorAll('img').forEach(im=>{
-    const s=im.getAttribute('src');
-    if(s&&!/^(https?:|data:|#)/.test(s)) im.setAttribute('src',BASE+'/'+s);
+    const s=im.getAttribute('src')||'';
+    const m=s.match(/img\/([a-z0-9_-]+)\.svg$/i);
+    // ★ 命中资产包 → 原地替换为内联 SVG（不发起任何图片请求）
+    if(m && window.SVGPack && SVGPack[m[1]]){ im.outerHTML=SVGPack[m[1]]; return; }
+    if(s && !/^(https?:|data:|#)/.test(s)) im.setAttribute('src', BASE+'/'+s);
   });
 
   tocList.innerHTML = res.toc.filter(h=>h.level<=3)

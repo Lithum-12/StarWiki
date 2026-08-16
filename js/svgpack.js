@@ -1,0 +1,5 @@
+/* svgpack.js —— 把 SVG 以字符串打包，云端无需任何独立 .svg 文件 */
+window.SVGPack = {
+  'starfield': '<svg class="pack" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240"><rect width="800" height="240" fill="#0b0d12"/><circle cx="60" cy="40" r="1.4" fill="#fff" opacity=".8"/><circle cx="180" cy="90" r="1" fill="#cfe3ff" opacity=".6"/><circle cx="320" cy="50" r="1.8" fill="#fff" opacity=".9"/><circle cx="470" cy="120" r="1.1" fill="#ffe9c4" opacity=".7"/><circle cx="610" cy="60" r="1.5" fill="#fff" opacity=".8"/><circle cx="720" cy="150" r="1" fill="#cfe3ff" opacity=".6"/><circle cx="250" cy="180" r="1.2" fill="#fff" opacity=".5"/><circle cx="540" cy="200" r="1.6" fill="#fff" opacity=".7"/><path d="M0 200 Q200 150 400 190 T800 170" stroke="#589a99" stroke-width="1.5" fill="none" opacity=".5"/></svg>',
+  'waves': '<svg class="pack" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160"><rect width="800" height="160" fill="#101418"/><path d="M0 100 Q100 70 200 100 T400 100 T600 100 T800 100 V160 H0 Z" fill="#589a99" opacity=".25"/><path d="M0 120 Q100 90 200 120 T400 120 T600 120 T800 120 V160 H0 Z" fill="#c06a69" opacity=".2"/></svg>'
+};
