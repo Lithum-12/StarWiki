@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAD 技术文档 · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="hope-and-despair-tech" data-root="">
+
+<script type="text/markdown" id="page-md">
+# HAD 技术文档
+
+本文档记录了 Hope and Despair (惊变100天) 整合包的核心模组构成、环境要求以及服务端部署指南。
+
+## 核心模组阵容
+
+整合包内置了 120+ 个模组，涵盖了世界生成、战斗、生存与性能优化：
+
+| 类别 | 代表模组 | 作用 |
+| --- | --- | --- |
+| **核心玩法** | 僵尸游戏、僵尸意识、In Control! | 控制僵尸生成、突变机制与难度曲线 |
+| **世界生成** | 失落的城市、超多生物群系、静谧四季 | 生成废弃的城市废墟，丰富的生物群系与季节变化 |
+| **战斗武装** | 永恒枪械工坊：零 (TaCZ)、斯巴达武器/盾牌 | 提供现代化的枪械与冷兵器，对抗尸潮 |
+| **生存辅助** | 稳态 (Homeostatic)、精妙背包、舒适用品 | 管理体温/水分，扩展背包容量，改善睡眠机制 |
+| **性能优化** | Embeddium、铷、现代化 UI、物理声效 | 保证在大型城市废墟和尸潮中的帧数稳定与沉浸感 |
+
+## 环境要求与安装
+
+### 客户端安装
+- **HMCL / PCL2 启动器**：直接下载 `.mrpack` 文件拖入窗口即可自动安装。
+- **Prism / MultiMC**：选择“添加实例” -> “导入”，浏览选择下载的文件即可。
+- **配置要求**：在 19.0 及以后版本中进行了深度优化，但请确保你的显卡支持 **OpenGL 4.3** 及以上版本。
+
+### 存档迁移警告
+⛔ **不建议**将旧版 (18.x) 的存档迁移到新版本 (19.x+)。新版本更换了家具模组、城市生成逻辑及大量配置，强行迁移极大概率导致存档损坏。建议重开新档游玩。
+
+## 服务端部署
+
+从 `19.3.141` 版本开始，作者提供了原生服务端支持。
+
+[🖥️ 查看服务端部署指南](#modal:server)
+
+## 未来更新计划 (20.0)
+
+未来的 20.0 版本将引入全新的世界观、重制过的游戏阶段和交易系统。任务书仅作为指导游玩的参考，**实际的生存路线完全由玩家自己决定**。
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+
+<script>
+/* 弹窗字典 */
+window.ModalDict = {
+  'server': {
+    kicker: 'SERVER · 服务端',
+    title: '服务端部署指南',
+    body: '<p>自 19.3.141 版本起，整合包提供原生服务端支持。</p>'+
+          '<p><strong>部署方式：</strong></p>'+
+          '<ol><li>下载服务端整合包文件。</li><li>使用 <code>mrpack-install</code> 工具进行自动化部署。</li><li>具体的一键部署脚本与参数配置，请参考整合包发布页（Modrinth）上方的官方教程。</li></ol>'+
+          '<p style="color:var(--mut);font-size:12px;margin-top:12px">* 服务端文件同样遵循 CC BY-NC-ND 4.0 协议，禁止用于商业盈利服务器。</p>'
+  }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hope and Despair · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="hope-and-despair" data-root="">
+
+<script type="text/markdown" id="page-md">
+# 希望与绝望：惊变100天 (Hope and Despair)
+
+**[HAD] 希望与绝望-惊变100天** 是一款基于经典玩法重制的硬核魔改生存整合包。在这个被僵尸 Apocalypse 吞噬的世界里，你的唯一目标就是活下去，建造避难所，并撑过漫长的 100 天。
+
+## 核心生存机制
+
+整合包在原版生存的基础上，引入了极具挑战性的硬核机制：
+
+### 1. 僵尸突变与进化
+每隔一段时间，僵尸将会发生**突变**。它们不再只是无脑的怪物，而是学会了**破坏以及放置方块**。随着时间的推移，僵尸的智力和破坏力会越来越强，难度呈指数级上升。
+
+### 2. 体温与环境系统
+你必须时刻关注自己的**体温**（显示在物品栏上方）。
+- **过冷或过热**：都会导致玩家持续掉血。
+- **空气稀薄区域**：当 Y 坐标 > 160 或处于岩浆附近时，你会受到窒息伤害。务必准备好相应的防护装备或离开这些区域。
+
+### 3. 精神状态与疲劳
+整天不睡觉会使你倍感疲惫，精神状态不佳会严重影响你的生存能力。寻找安全的避难所并使用 *舒适用品 (Comforts)* 模组提供的睡袋来维持良好的作息。
+
+## 维度封锁与求生
+
+**无法进入下界和末地**。但这并不意味着你无法获取那里的资源。整合包通过魔改添加了大量配方，你可以在主世界通过搜索和合成来获取原本存在于其他维度的稀有材料。
+
+本包的设计初衷并非击败末影龙，而是**纯粹的求生**。
+
+## 生存指南 (FAQ)
+
+**Q: 我被僵尸感染了，怎么办？**
+A: 普通的牛奶桶已经无法解毒。你需要合成特定的解药，[💊 点击查看解药配方](#modal:antidote)。
+
+**Q: 游戏如何启动？**
+A: 创建普通世界存档后，游戏会自动开始。如果没有触发，请在聊天栏点击 **[点这里]** 启动惊变100天挑战。
+
+**Q: 为什么我总是莫名其妙的死亡？**
+A: 除了被僵尸咬死，最常见的原因是**体温异常**，或者误入了**空气稀薄区域**（Y>160）导致窒息。
+
+## 整合包档案
+
+| 属性 | 信息 |
+| --- | --- |
+| **作者** | Lithum-12 |
+| **MC 版本** | 1.20.1 |
+| **加载器** | Forge (47.3.7) |
+| **整合包类型** | 魔改、硬核、冒险、国创 |
+| **打包/托管** | Modrinth |
+| **许可协议** | CC BY-NC-ND 4.0 |
+
+如需了解本整合包包含的 120+ 个核心模组及部署指南，请查阅 [📖 HAD 技术文档](/pages/hope-and-despair-tech.html)。
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+
+<script>
+/* 弹窗字典 */
+window.ModalDict = {
+  'antidote': {
+    kicker: 'RECIPE · 解药',
+    title: '感染解毒剂配方',
+    body: '<p>旧版本的狐狸草针剂已删除，普通牛奶也无效。你需要在工作台合成：</p>'+
+          '<ul><li><strong>1x</strong> 牛奶桶</li><li><strong>3x</strong> 玻璃瓶</li><li><strong>2x</strong> 小麦</li></ul>'+
+          '<p style="color:var(--acc-teal-t)">* 合成后将获得 3 瓶解毒剂，可解除僵尸感染状态。</p>'
+  }
+};
+</script>
+</body>
+</html>

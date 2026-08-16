@@ -30,6 +30,18 @@ window.iconOf = function(p, base) {
 /* ══ 条目注册表（包含 children 子项目） ══ */
 window.PAGES = [
   { 
+    key:'mc-modpacks', 
+    title:'Minecraft 整合包', 
+    tag:'MC', 
+    tagColor:'red', 
+    palette:'red', 
+    desc:'硬核与魔改整合包游玩记录与档案',
+    children: [
+      { key:'hope-and-despair', file:'pages/hope-and-despair.html', title:'Hope and Despair', desc:'惊变100天：硬核僵尸生存与城市废墟' },
+      { key:'hope-and-despair-tech', file:'pages/hope-and-despair-tech.html', title:'HAD 技术文档', desc:'核心模组、环境部署与魔改说明' }
+    ]
+  },
+  { 
     key:'syntax', file:'pages/syntax.html', title:'语法手册', tag:'手册', tagColor:'red', palette:'red', date:'2025-06-14', desc:'本站支持的全部 Markdown 语法演示',
     children: [
       { key:'syntax-inline', file:'pages/syntax-inline.html', title:'行内样式', desc:'粗体、斜体、高亮与链接' },
