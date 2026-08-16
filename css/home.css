@@ -3,6 +3,9 @@
 /* ══ 首页独立缩放：125%（只影响 index.html，条目页仍走 --ui-scale 的 110%） ══ */
 html{zoom:1.25}
 
+/* ══ 首页弹窗补偿：页面 125% × 0.88 = 110% ══ */
+:root{--modal-zoom:calc(1.1 / 1.25)}
+
 /* ══ 首页背景装饰层 ══ */
 body{position:relative;overflow-x:hidden}
 body::before{

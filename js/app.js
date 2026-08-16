@@ -96,8 +96,17 @@ document.body.insertAdjacentHTML('afterbegin', `
     <div class="side-foot">
       <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
       <div class="mono" style="opacity:.7">engine v1.4 · parser: local</div>
+      <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg> 收起侧栏
+      </button>
     </div>
   </aside>
+  <button class="side-reopen" id="reopenBtn" title="展开侧栏" aria-label="展开侧栏">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10 2 2-2 2"/></svg>
+  </button>
+  <button class="side-top" id="topBtn" title="回到顶部" aria-label="回到顶部">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14"/><path d="M12 20V8"/><path d="m6 14 6-6 6 6"/></svg>
+  </button>
   <div class="scrim" id="scrim"></div>
   <main class="main" id="main">
     <header class="topbar">
@@ -162,6 +171,18 @@ $('#themeBtn').addEventListener('click',()=>{
   applyPalette(currentKey());
   toast(t==='dark' ? '已切换至深色模式' : '已切换至浅色模式');
 });
+
+/* ── 侧栏收起 / 展开（状态记忆） ── */
+const setSide = collapsed => {
+  document.body.classList.toggle('side-collapsed', collapsed);
+  try{ localStorage.setItem('wikiSide', collapsed?'collapsed':'open'); }catch(e){}
+};
+try{ if(localStorage.getItem('wikiSide')==='collapsed') document.body.classList.add('side-collapsed'); }catch(e){}
+$('#collapseBtn').addEventListener('click',()=>setSide(true));
+$('#reopenBtn').addEventListener('click',()=>setSide(false));
+
+/* ── 收起态：回到顶部 ── */
+$('#topBtn').addEventListener('click',()=>mainEl.scrollTo({top:0,behavior:'smooth'}));
 
 /**
  * 扁平化页面注册表（用于上一篇/下一篇翻页）
@@ -381,7 +402,10 @@ searchInput.addEventListener('input',()=>renderNav(searchInput.value));
 document.addEventListener('keydown',e=>{
   const typing=/INPUT|TEXTAREA/.test(document.activeElement.tagName);
   if(e.key==='/'&&!typing){e.preventDefault();searchInput.focus();}
-  else if(e.key==='['&&!typing){document.body.classList.toggle('nav-open');}
+  else if(e.key==='['&&!typing){
+    if(matchMedia('(min-width:901px)').matches) setSide(!document.body.classList.contains('side-collapsed'));
+    else document.body.classList.toggle('nav-open');
+  }
   else if(e.key==='Escape'){
     document.body.classList.remove('nav-open');
     if(document.activeElement===searchInput){searchInput.blur();searchInput.value='';renderNav('');}}

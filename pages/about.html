@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>关于本站 · 星图百科</title>
-<link rel="stylesheet" href="../css/style.css">
 <script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body data-page="about" data-root="..">
 
@@ -23,13 +23,74 @@
 | `[[维基链接]]` | ✅ | 支持 `[[条目#锚点]]` |
 | 脚注 `[^1]` | ✅ | 文末汇总，可回跳 |
 | 原生 HTML 标签 | ⛔ | 出于安全一律转义 |
-
-
 </script>
-<!-- 条目页需要解析器和外壳。绝对不要引入 home.js！ -->
-<script src="../js/theme.js"></script>
+
 <script src="../js/parser.js"></script>
 <script src="../js/pages.js"></script>
 <script src="../js/app.js"></script>
+<script src="../js/modal.js"></script>
+
+<script>
+/* ── 正文最下方注入按钮，点击弹出居中弹窗 ── */
+(function(){
+  var host=document.getElementById('mdContent');
+  if(!host||!window.WikiModal)return;
+
+  /* 外链图标：圆角方框 + 右上箭头（与整站同款描边风格） */
+  var ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+
+  var wrap=document.createElement('div');
+  wrap.style.cssText='margin-top:30px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap';
+  wrap.innerHTML='<button class="btn" id="btnSiteInfo" type="button">✦ 站点信息</button>'+
+                 '<button class="btn" id="btnKeys" type="button">⌨ 快捷键一览</button>'+
+                 '<button class="btn" id="btnLinks" type="button"><span class="btn-arr">'+ARROW+'</span>外链导航</button>';
+  host.appendChild(wrap);
+
+  document.getElementById('btnSiteInfo').addEventListener('click',function(){
+    WikiModal.open({
+      kicker:'ABOUT · 星图百科',
+      title:'关于这个小站',
+      body:
+        '<div class="key-row"><span>性质</span><span>个人项目 · 非商业用途</span></div>'+
+        '<div class="key-row"><span>技术</span><span>原生 HTML / CSS / JS · 零依赖</span></div>'+
+        '<div class="key-row"><span>解析</span><span>Markdown 浏览器本地渲染</span></div>'+
+        '<div class="key-row"><span>版本</span><span>engine v1.4 · parser: local</span></div>'
+    });
+  });
+
+  document.getElementById('btnKeys').addEventListener('click',function(){
+    WikiModal.open({
+      kicker:'HELP · KEYBOARD',
+      title:'快捷键一览',
+      body:
+        '<div class="key-row"><span><kbd>/</kbd></span><span>聚焦搜索框</span></div>'+
+        '<div class="key-row"><span><kbd>[</kbd></span><span>收起 / 展开侧栏</span></div>'+
+        '<div class="key-row"><span><kbd>Esc</kbd></span><span>关闭弹窗 / 侧栏</span></div>'+
+        '<div class="key-row"><span><kbd>?</kbd></span><span>打开快捷键弹窗</span></div>'
+    });
+  });
+
+  document.getElementById('btnLinks').addEventListener('click',function(){
+    var A='<span class="arr">'+ARROW+'</span>';
+    /* 卡片生成器：名字 / 网址 / 小字 / 图标文件名 */
+    function card(name,href,desc,icon){
+      return '<a class="m-link" href="'+href+'" target="_blank" rel="noopener">'+
+        '<span class="m-ico"><img src="../img/icons/'+icon+'" alt="" onerror="this.style.display=\'none\'"></span>'+
+        '<span class="m-body"><span class="m-t">'+name+'</span>'+
+        '<span class="m-s">'+desc+'</span></span>'+A+'</a>';
+    }
+    WikiModal.open({
+      kicker:'LINKS · 常去的站',
+      title:'外链导航',
+      body:'<div class="modal-actions">'+
+        card('NASA','https://www.nasa.gov','nasa.gov · 官方发布与影像','nasa.svg')+
+        card('ESO','https://www.eso.org','eso.org · 欧洲南方天文台','eso.svg')+
+        card('维基百科','https://zh.wikipedia.org','wikipedia.org · 词条考证','wikipedia.svg')+
+        card('GitHub','https://github.com','github.com · 代码与备份','github.svg')+
+      '</div>'
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -111,9 +111,11 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-web
 .app{position:relative;z-index:1;display:flex;min-height:100vh}
 
 /* ── 侧栏 ── */
-.sidebar{width:290px;flex:none;position:sticky;top:0;height:100vh;overflow-y:auto;
+.sidebar{width:290px;flex:none;position:sticky;top:0;height:100vh;overflow:hidden;
   display:flex;flex-direction:column;gap:16px;padding:22px 16px 16px;
   border-right:1px solid var(--line-soft);background:var(--panel-2)}
+/* 导航区独占剩余高度，独立滚动；min-height:0 是 flex 子项能收缩的关键 */
+#navList{flex:1;min-height:0;overflow-y:auto;margin:0 -8px;padding:0 8px}
 .brand{display:flex;gap:12px;align-items:center;padding:2px 6px;text-decoration:none;color:inherit}
 .logo{width:42px;height:42px;flex:none;border-radius:var(--r-sm);display:grid;place-items:center;
   background:var(--panel-deep);border:1px solid var(--line)}
@@ -151,7 +153,7 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-web
 .tag-teal{color:var(--acc-teal-t);border-color:var(--acc-teal);background:var(--teal-tint)}
 .tag-orange{color:var(--acc-orange-t);border-color:var(--acc-orange);background:var(--orange-tint)}
 .tag-gray{color:var(--ink-2);border-color:var(--line);background:var(--hover)}
-.side-foot{margin-top:auto;padding:12px 8px 4px;border-top:1px dashed var(--line-soft);
+.side-foot{flex:none;padding:12px 8px 4px;border-top:1px dashed var(--line-soft);
   font-size:11px;color:var(--mut);line-height:1.9}
 .mono{font-family:var(--mono)}
 kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r-xs);
@@ -409,4 +411,119 @@ kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r
 
 .nav-ico img,.proj-icon img{object-fit:contain;border-radius:4px}
 
-/* 丝
+/* ══ 侧栏收起 / 展开 ══ */
+.side-collapse-btn{margin-top:10px;width:100%;justify-content:center;padding:6px 0}
+.side-reopen{position:fixed;left:14px;bottom:14px;z-index:65;width:38px;height:38px;
+  display:grid;place-items:center;background:var(--panel-deep);border:1px solid var(--line);
+  border-radius:var(--r-sm);color:var(--ink-2);cursor:pointer;
+  opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s}
+.side-reopen:hover{color:var(--brand-t);border-color:var(--brand)}
+@media(min-width:901px){
+  .sidebar{transition:width .3s ease,padding .3s ease,border-color .3s ease}
+  body.side-collapsed .sidebar{width:0;padding:22px 0 16px;border-right-color:transparent}
+  body.side-collapsed .side-reopen{opacity:1;pointer-events:auto;transform:none}
+}
+
+/* ══ 收起态浮动按钮：回到顶部（位于唤回按钮上方） ══ */
+.side-top{position:fixed;left:14px;bottom:60px;z-index:65;width:38px;height:38px;
+  display:grid;place-items:center;background:var(--panel-deep);border:1px solid var(--line);
+  border-radius:var(--r-sm);color:var(--ink-2);cursor:pointer;
+  opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s}
+.side-top:hover{color:var(--alt-t);border-color:var(--alt)}
+@media(min-width:901px){
+  body.side-collapsed .side-top{opacity:1;pointer-events:auto;transform:none}
+}
+
+/* ══ 侧栏交互最终补丁（后载覆盖旧规则） ══ */
+#navList{overflow-x:hidden}
+.nav-ico-btn:hover{border-color:var(--brand-line);color:var(--brand-t);transform:translateX(2px)}
+.nav-parent-link:hover{background:var(--hover);transform:translateX(2px)}
+.nav-child:hover{transform:none;background:var(--hover)}
+
+/* ══ 悬停位移统一补丁：子项也右移，横向溢出已锁死不会折断 ══ */
+#navList{overflow-x:hidden}
+.nav-ico-btn:hover{border-color:var(--brand-line);color:var(--brand-t);transform:translateX(2px)}
+.nav-parent-link:hover{background:var(--hover);transform:translateX(2px)}
+.nav-child:hover{transform:translateX(2px);background:var(--hover)}
+
+/* ══ 通用弹窗：正中弹出 + 背景压暗 ══ */
+body.modal-open{overflow:hidden}
+.modal-overlay{position:fixed;inset:0;z-index:130;display:grid;place-items:center;padding:24px;
+  background:var(--scrim);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .25s ease}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal{width:min(560px,100%);max-height:min(72vh,660px);display:flex;flex-direction:column;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 24px 70px var(--card-shadow);position:relative;overflow:hidden;
+  transform:translateY(16px) scale(.96);transition:transform .28s cubic-bezier(.2,.7,.3,1);zoom:var(--modal-zoom,1)}
+.modal-overlay.show .modal{transform:none}
+.modal::before{content:'';position:absolute;top:0;left:0;width:150px;height:3px;background:var(--brand)}
+.modal::after{content:'';position:absolute;top:0;left:150px;width:46px;height:3px;background:var(--alt)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 0}
+.modal-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--brand-t)}
+.modal-kicker::before{content:'✦ '}
+.modal-close{width:30px;height:30px;flex:none;border:1px solid var(--line);border-radius:var(--r-xs);
+  background:var(--panel-deep);color:var(--mut);font-size:16px;line-height:1;cursor:pointer;transition:.18s}
+.modal-close:hover{color:var(--brand-t);border-color:var(--brand)}
+.modal-title{font-family:var(--serif);font-size:22px;color:var(--title);margin:10px 20px 0;
+  padding-bottom:12px;position:relative}
+.modal-title::after{content:'';position:absolute;left:0;bottom:0;width:64px;height:3px;
+  background:var(--brand);border-radius:2px}
+.modal-body{padding:16px 20px 22px;overflow-y:auto;font-size:14px;line-height:1.9;color:var(--ink-2)}
+.key-row{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:8px 2px;border-bottom:1px dashed var(--line-soft);font-size:13px;color:var(--ink-2)}
+.key-row:last-child{border-bottom:none}
+
+/* ══ 弹窗内：外链按钮组 ══ */
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+@media(max-width:560px){.modal-actions{grid-template-columns:1fr}}
+.m-link{display:flex;flex-direction:column;gap:6px;padding:14px 16px;
+  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);
+  text-decoration:none;color:var(--ink-2);transition:.2s}
+.m-link:hover{transform:translateY(-2px);border-color:var(--brand);color:var(--ink);
+  box-shadow:0 8px 22px var(--card-shadow)}
+.m-link .m-t{font-family:var(--serif);font-size:15px;color:var(--ink);
+  display:flex;align-items:center;gap:8px}
+.m-link .arr{margin-left:auto;color:var(--brand-t);transition:.2s}
+.m-link:hover .arr{transform:translate(2px,-2px)}
+.m-link .m-s{font-family:var(--mono);font-size:11px;color:var(--mut)}
+
+/* ══ 外链箭头 SVG 尺寸 ══ */
+.btn .btn-arr{display:grid;place-items:center}
+.btn .btn-arr svg{width:13px;height:13px;display:block}
+.m-link .arr{display:grid;place-items:center}
+.m-link .arr svg{width:14px;height:14px;display:block}
+
+/* ══ 外链按钮：站点图标 ══ */
+.m-link{flex-direction:row;align-items:center;gap:12px}
+.m-ico{width:36px;height:36px;flex:none;display:grid;place-items:center;padding:7px;
+  border:1px solid var(--line-soft);border-radius:var(--r-xs);background:var(--panel)}
+.m-ico img{width:100%;height:100%;display:block;object-fit:contain}
+.m-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+
+/* ══ 外链按钮 v2：卡片化绚丽版（对齐首页 README 卡片） ══ */
+.m-link{position:relative;overflow:hidden;--card-acc:var(--brand);
+  display:flex;align-items:center;gap:12px;padding:14px 16px 14px 19px;
+  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);
+  text-decoration:none;color:var(--ink-2);transition:.2s}
+/* 左侧 3px 彩色竖条 */
+.m-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--card-acc)}
+/* 悬停：上浮 + 边框染色 + 投影，与首页卡片同手感 */
+.m-link:hover{transform:translateY(-3px);border-color:var(--card-acc);
+  box-shadow:0 10px 26px var(--card-shadow);color:var(--ink)}
+/* 四个一组循环站点主色，和首页卡片色序一致 */
+.modal-actions .m-link:nth-child(4n+1){--card-acc:var(--acc-red)}
+.modal-actions .m-link:nth-child(4n+2){--card-acc:var(--acc-teal)}
+.modal-actions .m-link:nth-child(4n+3){--card-acc:var(--acc-orange)}
+.modal-actions .m-link:nth-child(4n+4){--card-acc:var(--gray)}
+/* 图标格子悬停染边 */
+.m-link .m-ico{transition:.2s}
+.m-link:hover .m-ico{border-color:var(--card-acc)}
+.m-link .m-t{color:var(--ink)}
+/* 右侧：VISIT 小字 + 箭头，悬停滑入（= 首页的 README →） */
+.m-link .arr{display:flex;align-items:center;gap:6px;color:var(--card-acc)}
+.m-link .arr::before{content:'VISIT';font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  opacity:0;transform:translateX(-6px);transition:.2s}
+.m-link:hover .arr::before{opacity:1;transform:none}
+.m-link .arr svg{transition:.2s}
+.m-link:hover .arr svg{transform:translate(2px,-2px)}

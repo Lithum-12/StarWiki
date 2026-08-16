@@ -127,3 +127,22 @@ if(reduce){
   })();
 }
 })();
+
+/* 背景浮动粒子 */
+(function spawnParticles(){
+  const wrap=document.createElement('div');
+  wrap.className='home-particles';
+  const colors=['var(--acc-red)','var(--acc-teal)','var(--acc-orange)','var(--c-gray)'];
+  for(let i=0;i<18;i++){
+    const d=document.createElement('i');
+    const size=2+Math.random()*3;
+    d.style.cssText='width:'+size+'px;height:'+size+'px;'
+      +'left:'+(Math.random()*100)+'%;'
+      +'top:'+(60+Math.random()*40)+'%;'
+      +'background:'+colors[i%colors.length]+';'
+      +'animation-duration:'+(14+Math.random()*18)+'s;'
+      +'animation-delay:'+(-(Math.random()*20))+'s;';
+    wrap.appendChild(d);
+  }
+  document.body.appendChild(wrap);
+})();
