@@ -95,7 +95,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     <nav id="navList"></nav>
     <div class="side-foot">
       <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
-      <div class="mono" style="opacity:.7">engine v1.4 · parser: local</div>
+      <div class="mono" style="opacity:.7">engine v4.5 · By LithumC</div>
       <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg> 收起侧栏
       </button>
