@@ -246,8 +246,10 @@ function renderNav(filter){
             <span class="ico-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
           </button>
           <${tag} class="nav-parent-link ${p.key===currentKey()?'on':''} ${isDir?'is-dir':''}"${href}>
-            <span class="nav-body"><span class="t">${esc(p.title)}</span></span>
-            <span class="tag tag-${p.tagColor}">${esc(p.tag)}</span>
+            <span class="nav-body">
+              <span class="row"><span class="t">${esc(p.title)}</span><span class="tag tag-${p.tagColor}">${esc(p.tag)}</span></span>
+              <span class="s">${esc(p.desc||'')}</span>
+            </span>
           </${tag}>
         </div>
         <div class="nav-children-wrap"><div>${childHtml}</div></div>
