@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="200" viewBox="0 0 1040 200">
+  <rect width="1040" height="200" fill="#000000"/>
+  <path d="M0 90 Q65 78 130 90 T260 90 T390 90 T520 90 T650 90 T780 90 T910 90 T1040 90" fill="none" stroke="#589a99" stroke-width="1" opacity=".3"/>
+  <path d="M0 120 Q65 96 130 120 T260 120 T390 120 T520 120 T650 120 T780 120 T910 120 T1040 120" fill="none" stroke="#589a99" stroke-width="1.5" opacity=".7"/>
+  <path d="M0 152 Q65 140 130 152 T260 152 T390 152 T520 152 T650 152 T780 152 T910 152 T1040 152" fill="none" stroke="#589a99" stroke-width="1" opacity=".3"/>
+  <polyline points="0,60 40,52 80,66 120,50 160,64 200,48 240,62 280,54 320,68 360,50 400,60 440,46 480,64 520,52 560,66 600,48 640,60 680,50 720,64 760,52 800,62 840,46 880,58 920,50 960,64 1000,52 1040,60" fill="none" stroke="#c06a69" stroke-width="1.2" opacity=".65"/>
+  <text x="16" y="28" fill="#cbcbcb" opacity=".7" font-size="13" font-family="monospace">视宁度 III/V · 大气抖动示意</text>
+  <rect x="880" y="16" width="10" height="10" fill="none" stroke="#589a99"/>
+  <text x="898" y="25" fill="#cbcbcb" opacity=".7" font-size="12" font-family="monospace">平稳</text>
+  <rect x="952" y="16" width="10" height="10" fill="none" stroke="#c06a69"/>
+  <text x="970" y="25" fill="#cbcbcb" opacity=".7" font-size="12" font-family="monospace">抖动</text>
+  <rect x=".5" y=".5" width="1039" height="199" fill="none" stroke="#cbcbcb" stroke-opacity=".18"/>
+</svg>

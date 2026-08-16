@@ -1,0 +1,8 @@
+# 临时文件
+Untitled-1.html
+*.tmp
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db

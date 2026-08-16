@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于本站 · 星图百科</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/theme.js"></script>
+</head>
+<body data-page="about" data-root="..">
+
+<script type="text/markdown" id="page-md">
+## 解析器支持情况
+
+| 语法 | 支持 | 备注 |
+| --- | :-: | --- |
+| 标题 / 段落 / 换行 | ✅ | 自动进入大纲 |
+| 粗体、斜体、删除线、==高亮== | ✅ | 可嵌套 |
+| 有序 / 无序 / 嵌套 / 任务列表 | ✅ | 缩进两格即嵌套 |
+| 表格与对齐 | ✅ | 超宽表格可横向滚动 |
+| 围栏代码块 | ✅ | 带语言标签与一键复制 |
+| 引用 / 分隔线 / 图片 | ✅ | 相对路径图片自动定位 |
+| `[[维基链接]]` | ✅ | 支持 `[[条目#锚点]]` |
+| 脚注 `[^1]` | ✅ | 文末汇总，可回跳 |
+| 原生 HTML 标签 | ⛔ | 出于安全一律转义 |
+
+
+</script>
+<!-- 条目页需要解析器和外壳。绝对不要引入 home.js！ -->
+<script src="../js/theme.js"></script>
+<script src="../js/parser.js"></script>
+<script src="../js/pages.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
