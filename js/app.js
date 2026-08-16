@@ -10,7 +10,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 /* ── 功能开关 ── */
 const IMPORT_ENABLED = false;
 
-const BASE = document.body.dataset.root || '.';
+const BASE = document.body.hasAttribute('data-root') ? document.body.dataset.root : '.';
 const KEY  = document.body.dataset.page || 'home';
 const params = new URLSearchParams(location.search);
 const impKey = params.get('imp');

@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>关于本站 · 星图百科</title>
-<script src="../js/theme.js"></script>
-<link rel="stylesheet" href="../css/style.css">
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
 </head>
-<body data-page="about" data-root="..">
+<body data-page="about" data-root="">
 
 <script type="text/markdown" id="page-md">
 # 关于本站与功能演示
@@ -38,10 +38,10 @@
 | 原生 HTML 标签 | ⛔ | 出于安全一律转义 |
 </script>
 
-<script src="../js/parser.js"></script>
-<script src="../js/pages.js"></script>
-<script src="../js/app.js"></script>
-<script src="../js/modal.js"></script>
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
 
 <script>
 /* ── 魔法链接拦截与弹窗字典（本页独立闭环，无需修改 app.js） ── */
@@ -94,7 +94,7 @@
         var A = '<span class="arr">' + ARROW + '</span>';
         function card(name,href,desc,icon){
           return '<a class="m-link" href="'+href+'" target="_blank" rel="noopener">'+
-            '<span class="m-ico"><img src="../img/icons/'+icon+'" alt="" onerror="this.style.display=\'none\'"></span>'+
+            '<span class="m-ico"><img src="/img/icons/'+icon+'" alt="" onerror="this.style.display=\'none\'"></span>'+
             '<span class="m-body"><span class="m-t">'+name+'</span>'+
             '<span class="m-s">'+desc+'</span></span>'+A+'</a>';
         }
