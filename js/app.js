@@ -174,6 +174,16 @@ $('#themeBtn').addEventListener('click',()=>{
 
 /* ── 侧栏收起 / 展开（状态记忆） ── */
 const setSide = collapsed => {
+  // ★ 折叠动画前冻结正文宽度，避免文字被逐行挤压重排
+  if (matchMedia('(min-width:901px)').matches) {
+    const wrap = document.querySelector('.wrap');
+    if (wrap) {
+      document.body.style.setProperty('--freeze-w', wrap.offsetWidth + 'px');
+      document.body.classList.add('side-anim');
+      clearTimeout(setSide._t);
+      setSide._t = setTimeout(() => document.body.classList.remove('side-anim'), 320);
+    }
+  }
   document.body.classList.toggle('side-collapsed', collapsed);
   try{ localStorage.setItem('wikiSide', collapsed?'collapsed':'open'); }catch(e){}
 };
@@ -181,8 +191,15 @@ try{ if(localStorage.getItem('wikiSide')==='collapsed') document.body.classList.
 $('#collapseBtn').addEventListener('click',()=>setSide(true));
 $('#reopenBtn').addEventListener('click',()=>setSide(false));
 
-/* ── 收起态：回到顶部 ── */
-$('#topBtn').addEventListener('click',()=>mainEl.scrollTo({top:0,behavior:'smooth'}));
+/* ── 收起态：回到顶部（下滚才显示，点击立刻隐藏） ── */
+let topLocked=false;
+$('#topBtn').addEventListener('click',()=>{
+  topLocked=true;                              // 上锁：回顶途中不让按钮重新冒出
+  document.body.classList.remove('show-top');  // 立刻隐藏
+  mainEl.scrollTo({top:0,behavior:'smooth'});
+});
+/* 用户中途手动滚轮干预 → 解锁，恢复正常的显隐逻辑 */
+mainEl.addEventListener('wheel',()=>{ topLocked=false; },{passive:true});
 
 /**
  * 扁平化页面注册表（用于上一篇/下一篇翻页）
@@ -454,7 +471,16 @@ $('#scrim').addEventListener('click',()=>document.body.classList.remove('nav-ope
 searchInput.addEventListener('input',()=>renderNav(searchInput.value));
 document.addEventListener('keydown',e=>{
   const typing=/INPUT|TEXTAREA/.test(document.activeElement.tagName);
-  if(e.key==='/'&&!typing){e.preventDefault();searchInput.focus();}
+  if(e.key==='/'&&!typing){
+    e.preventDefault();
+    // ★ 侧栏收着时先展开再聚焦，杜绝“凭空打字”
+    if(matchMedia('(min-width:901px)').matches){
+      if(document.body.classList.contains('side-collapsed')) setSide(false);
+    }else{
+      document.body.classList.add('nav-open');   // 移动端直接拉开抽屉
+    }
+    searchInput.focus();
+  }
   else if(e.key==='['&&!typing){
     if(matchMedia('(min-width:901px)').matches) setSide(!document.body.classList.contains('side-collapsed'));
     else document.body.classList.toggle('nav-open');
@@ -515,6 +541,9 @@ let ticking=false;
 function updateScroll(){
   const max=mainEl.scrollHeight-mainEl.clientHeight;
   progress.style.width=(max>0?mainEl.scrollTop/max*100:0)+'%';
+  const down=mainEl.scrollTop>320;
+  if(!down) topLocked=false;
+  if(!topLocked) document.body.classList.toggle('show-top',down);
   if(!spyEls.length)return;
   const top=mainEl.scrollTop+120-pageCard.offsetTop;
   let cur=spyEls[0];
