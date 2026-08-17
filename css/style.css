@@ -423,9 +423,15 @@ kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r
   opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s}
 .side-reopen:hover{color:var(--brand-t);border-color:var(--brand)}
 @media(min-width:901px){
-  .sidebar{transition:width .3s ease,padding .3s ease,border-color .3s ease}
+  .sidebar{transition:width .3s cubic-bezier(.4,0,.2,1),padding .3s cubic-bezier(.4,0,.2,1),border-color .3s}
+  /* ★ 内部元素锁定宽度：收起时只被“裁掉”，不再被“压扁” */
+  .sidebar .brand,.sidebar .search,#navList,.side-foot{min-width:258px}
   body.side-collapsed .sidebar{width:0;padding:22px 0 16px;border-right-color:transparent}
   body.side-collapsed .side-reopen{opacity:1;pointer-events:auto;transform:none}
+
+  /* ★ 过渡期间冻结正文宽度：文字不换行，整体平滑位移 */
+  body.side-anim .main{overflow-x:hidden}
+  body.side-anim .wrap{width:var(--freeze-w,100%);max-width:none}
 }
 
 /* ══ 收起态浮动按钮：回到顶部（位于唤回按钮上方） ══ */
@@ -435,7 +441,7 @@ kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r
   opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s}
 .side-top:hover{color:var(--alt-t);border-color:var(--alt)}
 @media(min-width:901px){
-  body.side-collapsed .side-top{opacity:1;pointer-events:auto;transform:none}
+  body.side-collapsed.show-top .side-top{opacity:1;pointer-events:auto;transform:none}
 }
 
 /* ══ 侧栏交互最终补丁（后载覆盖旧规则） ══ */
@@ -551,4 +557,4 @@ body.modal-open{overflow:hidden}
 .dot-purple{background:var(--acc-purple)}
 /* 首页项目卡片紫色强调 */
 .proj-card.acc-purple{--card-acc:var(--acc-purple)}
-
+#openBtn{display:none}
