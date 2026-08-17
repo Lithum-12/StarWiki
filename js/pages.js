@@ -42,6 +42,7 @@ window.PAGES = [
       { key:'hope-and-despair-tech', file:'pages/hope-and-despair-tech.html', title:'安装与环境配置', desc:'核心模组、环境部署与魔改说明' },
       { key:'hope-and-despair-server', file:'pages/hope-and-despair-server.html', title:'服务端部署指南', desc:'19.4.159 版本 Windows/Linux 自动化部署教程' },
       { key:'hope-and-despair-changelog', file:'pages/hope-and-despair-changelog.html', title:'更新日志', desc:'历史版本更新记录与注意事项' },
+      { key:'hope-and-despair-license', file:'pages/hope-and-despair-license.html', title:'许可协议', desc:'整合包内容授权声明与使用条款' },
     ]
   },
   {
