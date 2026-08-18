@@ -10,7 +10,6 @@
 <body data-page="hope-and-despair-tech" data-root="">
 
 <script type="text/markdown" id="page-md">
-
 本文档记录了 Hope and Despair 整合包的核心模组构成、环境要求以及服务端部署指南。
 
 ## 环境要求与安装
@@ -18,8 +17,11 @@
 ### 客户端安装
 
 - **HMCL / PCL2 启动器**：直接下载 `.mrpack` 文件拖入窗口即可自动安装。
-- **Prism / MultiMC**：选择“添加实例” -> “导入”，浏览选择下载的文件即可。
-- **配置要求**：在 19.0 及以后版本中进行了深度优化，但请确保你的显卡支持 **OpenGL 4.3** 及以上版本。
+- **Prism / MultiMC**：选择“添加实例” -> “导入”，浏览选择下载的 `.mrpack` 文件即可。
+
+### 配置要求
+
+整合包在 19.0 及以后版本中进行了深度优化，但这不一定代表所有计算机均能完美运行。[🖥️ 查看客户端详细配置要求](#modal:client-specs)
 
 ### 存档迁移警告
 
@@ -40,5 +42,40 @@
 <script src="/js/app.js"></script>
 <script src="/js/modal.js"></script>
 
+<script>
+/* 弹窗字典 */
+window.ModalDict = {
+  'client-specs': {
+    kicker: 'CLIENT · REQUIREMENTS',
+    title: '客户端配置要求',
+    body: 
+      '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;">' +
+        // 最低配置卡片（橙色警告）
+        '<div style="flex:1;min-width:220px;padding:16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);border-top:3px solid var(--acc-orange);">' +
+          '<div style="font-family:var(--mono);font-size:11px;color:var(--acc-orange-t);letter-spacing:.14em;margin-bottom:10px;">MINIMUM · 最低配置</div>' +
+          '<div style="font-size:13px;color:var(--ink-2);line-height:1.9;">' +
+            '<div style="color:var(--mut);font-size:12px;margin-bottom:6px;">⚠️ 保证基础流畅运行</div>' +
+            '<div>• <strong>CPU:</strong> 4核 3.2 GHz+</div>' +
+            '<div>• <strong>RAM:</strong> 8 GB (分配 3G)</div>' +
+            '<div>• <strong>GPU:</strong> GTX 1650 / 同等级 (OpenGL 4.3+)</div>' +
+            '<div>• <strong>Disk:</strong> 6 GB (推荐 SSD)</div>' +
+          '</div>' +
+        '</div>' +
+        // 推荐配置卡片（青色推荐）
+        '<div style="flex:1;min-width:220px;padding:16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);border-top:3px solid var(--acc-teal);">' +
+          '<div style="font-family:var(--mono);font-size:11px;color:var(--acc-teal-t);letter-spacing:.14em;margin-bottom:10px;">RECOMMENDED · 推荐配置</div>' +
+          '<div style="font-size:13px;color:var(--ink-2);line-height:1.9;">' +
+            '<div style="color:var(--mut);font-size:12px;margin-bottom:6px;">✅ 开启光影与高视距</div>' +
+            '<div>• <strong>CPU:</strong> R5-5600 / i5-12400F</div>' +
+            '<div>• <strong>RAM:</strong> 16 GB (分配 6G+)</div>' +
+            '<div>• <strong>GPU:</strong> RTX 3060 / RX 6600 及以上</div>' +
+            '<div>• <strong>Disk:</strong> 10 GB NVMe SSD</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="font-size:12px;color:var(--mut);margin-top:14px;padding-top:10px;border-top:1px dashed var(--line-soft);">* 后期实体数量较多，CPU 单核性能与内存容量对帧数影响通常大于显卡。</div>'
+  }
+};
+</script>
 </body>
 </html>

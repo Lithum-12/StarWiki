@@ -55,7 +55,7 @@ window.PAGES = [
     date:'2026-08-17',
     desc:'重构钓鱼：除了鱼，能钓上整个世界',
     children: [
-      { key:'abf-config', file:'pages/abf-config.html', title:'ABF 配置文件详解', desc:'GUI 配置与 JSON 战利品池自定义指南' },
+      { key:'abf-config', file:'pages/abf-config.html', title:'配置文件详解', desc:'GUI 配置与 JSON 战利品池自定义指南' },
       { key:'abf-changelog', file:'pages/abf-changelog.html', title:'更新日志', desc:'历史版本更新记录与底层重构说明' },
     ]
   },
