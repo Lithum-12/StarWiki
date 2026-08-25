@@ -6,21 +6,6 @@ window.PALETTES = {
   orange:{brand:'#ff8035', rgb:'255,128,53',  t:'#ff9552', tLight:'#d15a10'},
   purple:{brand:'#663399', rgb:'102,51,153',  t:'#9b66cc', tLight:'#552b80'},
 };
-/* ══ 子项专属图标（内联 SVG · 自动跟随主题色） ══ */
-const SUB_ICONS = window.SUB_ICONS = {
-  /* CPU 芯片 */
-  tech:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="10" y="10" width="4" height="4" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>',
-  /* 双层机架 */
-  server:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01M10 6.5h.01M10 17.5h.01"/></svg>',
-  /* 方框+时钟 */
-  history: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M12 10v2l1.7 1"/></svg>',
-  /* 方框+对勾 */
-  license: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 10.5h6"/><path d="m9.5 14.5 1.8 1.8 3.4-3.4"/></svg>',
-  /* 面板+滑杆 */
-  sliders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8v8M12 8v8M16 8v8"/><path d="M6.5 10.5h3M10.5 13.5h3M14.5 9.5h3"/></svg>',
-  /* 方框+提交节点 */
-  commit:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 12h3M14.5 12h3"/></svg>'
-};
 
 /* ══ 默认项目图标（干净版，无多余空格） ══ */
 window.DEFAULT_ICON = '<svg viewBox="0 0 104 104" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M51.7 92.5V51.7L16.4 31.3l35.3 20.4L87 31.3 51.7 11 16.4 31.3v40.8l35.3 20.4L87 72V31.3L51.7 11"/></svg>';
@@ -45,44 +30,26 @@ window.iconOf = function(p, base) {
 /* ══ 条目注册表（包含 children 子项目） ══ */
 window.PAGES = [
   { 
-    key:'hope-and-despair', 
-    file:'pages/hope-and-despair.html',   /* ★ 主条目自带 file，点标题直接进介绍页 */
-    title:'Hope and Despair', 
-    tag:'整合包', 
-    tagColor:'red', 
-    palette:'red', 
-    date:'2026-08-16', 
-    desc:'惊变100天：硬核僵尸生存与极端挑战',
+    key:'syntax', file:'pages/syntax.html', title:'语法手册', tag:'手册', tagColor:'red', palette:'red', date:'2025-06-14', desc:'本站支持的全部 Markdown 语法演示',
     children: [
-      { key:'hope-and-despair-tech', file:'pages/hope-and-despair-tech.html', title:'安装与环境配置', desc:'核心模组、环境部署与魔改说明', icon:SUB_ICONS.tech },
-      { key:'hope-and-despair-server', file:'pages/hope-and-despair-server.html', title:'服务端部署指南', desc:'19.4.159 版本 Windows/Linux 自动化部署教程', icon:SUB_ICONS.server },
-      { key:'hope-and-despair-changelog', file:'pages/hope-and-despair-changelog.html', title:'更新日志', desc:'历史版本更新记录与注意事项', icon:SUB_ICONS.history },
-      { key:'hope-and-despair-license', file:'pages/hope-and-despair-license.html', title:'许可协议', desc:'整合包内容授权声明与使用条款', icon:SUB_ICONS.license },
+      { key:'syntax-inline', file:'pages/syntax-inline.html', title:'行内样式', desc:'粗体、斜体、高亮与链接' },
+      { key:'syntax-block', file:'pages/syntax-block.html', title:'块级元素', desc:'列表、表格、代码与引用' }
     ]
   },
-  {
-    key:'anything-but-fish',
-    file:'pages/anything-but-fish.html',
-    title:'Anything But Fish',
-    tag:'模组',
-    tagColor:'orange',
-    palette:'orange',
-    date:'2026-08-17',
-    desc:'重构钓鱼：除了鱼，能钓上整个世界',
+  { 
+    key:'catalog', file:'pages/catalog.html', title:'深空天体目录', tag:'目录', tagColor:'orange', palette:'orange', date:'2025-06-02', desc:'适合入门者的梅西耶天体速查表',
     children: [
-      { key:'abf-config', file:'pages/abf-config.html', title:'配置文件详解', desc:'GUI 配置与 JSON 战利品池自定义指南', icon:SUB_ICONS.tech },
-      { key:'abf-changelog', file:'pages/abf-changelog.html', title:'更新日志', desc:'历史版本更新记录与底层重构说明', icon:SUB_ICONS.history },
+      { key:'catalog-messier', file:'pages/catalog-messier.html', title:'梅西耶天体', desc:'110 个经典深空目标' },
+      { key:'catalog-caldwell', file:'pages/catalog-caldwell.html', title:'科德韦尔天体', desc:'进阶观测的 109 个目标' }
     ]
   },
-  {
-    key:'contact',
-    file:'pages/contact.html',
-    title:'联系与社交',
-    tag:'关于',
-    tagColor:'purple', /* ★ 使用我们之前加的紫色，代表神秘与社交 */
-    palette:'purple',
-    date:'2026-08-17',
-    desc:'玩家交流群、开发者主页与社交平台'
+  { 
+    key:'field', file:'pages/field.html', title:'观测者手册', tag:'手册', tagColor:'teal', palette:'teal', date:'2025-05-21', desc:'出发前的完整检查清单与日志模板',
+    children: [
+      { key:'field-gear', file:'pages/field-gear.html', title:'装备检查', desc:'三脚架、目镜与红光照明' },
+      { key:'field-log', file:'pages/field-log.html', title:'观测日志', desc:'现场手记与后期誊录模板' }
+    ]
   },
+  { key:'glossary', file:'pages/glossary.html', title:'术语表', tag:'词条', tagColor:'gray', date:'2025-04-30', desc:'按频率排列的高频观星词条' },
   { key:'about', file:'pages/about.html', title:'关于本站', tag:'说明', tagColor:'gray', date:'2025-06-14', desc:'解析器能力、快捷键与项目结构' }
 ];
