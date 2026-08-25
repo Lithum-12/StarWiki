@@ -94,10 +94,12 @@ document.body.insertAdjacentHTML('afterbegin', `
     </div>
     <nav id="navList"></nav>
     <div class="side-foot">
-      <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
-      <div class="mono" style="opacity:.7">engine v4.7 · by lithumc</div>
+      <div class="side-foot-info">
+        <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
+        <div class="mono" style="opacity:.7">engine v4.7 · by lithumc</div>
+      </div>
       <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg> 收起侧栏
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg>
       </button>
     </div>
   </aside>
@@ -188,7 +190,13 @@ const setSide = collapsed => {
   try{ localStorage.setItem('wikiSide', collapsed?'collapsed':'open'); }catch(e){}
 };
 try{ if(localStorage.getItem('wikiSide')==='collapsed') document.body.classList.add('side-collapsed'); }catch(e){}
-$('#collapseBtn').addEventListener('click',()=>setSide(true));
+$('#collapseBtn').addEventListener('click', () => {
+  if (matchMedia('(min-width:901px)').matches) {
+    setSide(true); // 桌面端：执行折叠动画
+  } else {
+    document.body.classList.remove('nav-open'); // 手机端：直接关闭抽屉
+  }
+});
 $('#reopenBtn').addEventListener('click',()=>setSide(false));
 
 /* ── 收起态：回到顶部（下滚才显示，点击立刻隐藏） ── */
