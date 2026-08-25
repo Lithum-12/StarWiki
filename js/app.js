@@ -96,7 +96,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     <div class="side-foot">
       <div class="side-foot-info">
         <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
-        <div class="mono" style="opacity:.7">engine v4.7 · by lithumc</div>
+        <div class="mono" style="opacity:.7">engine v4.11 · by lithumc</div>
       </div>
       <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg>
@@ -115,7 +115,7 @@ document.body.insertAdjacentHTML('afterbegin', `
       <button class="icon-btn" id="menuBtn" title="目录" aria-label="目录">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
-      <div class="crumb"><span>~/星图百科</span><span class="sep">/</span><b id="crumbPage"></b></div>
+      <div class="crumb"><span class="crumb-brand">✦ 星图百科</span><span class="sep">/</span><b id="crumbPage"></b></div>
       <div class="spacer"></div>
       <button class="btn ${IMPORT_ENABLED?'':'is-disabled'}" id="openBtn"
         ${IMPORT_ENABLED?'':'aria-disabled="true" title="正在维护"'}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-2.54 6a2 2 0 0 1-1.84 1.25H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>打开文件</button>      <input type="file" id="fileInput" accept=".md,.markdown,.txt,text/markdown" multiple hidden>
