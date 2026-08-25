@@ -37,7 +37,7 @@ function splitRow(l){
  */
 function inline(text){
   const codes=[];
-  const links=[];
+  const links=[]; // ★ 新增：保护链接、图片、按钮的数组
   let s=escapeHtml(text);
   
   // 1. 保护行内代码
@@ -98,7 +98,6 @@ function inline(text){
   
   return s;
 }
-
 /**
  * 生成代码块 HTML
  * @param {string} lang - 代码语言
