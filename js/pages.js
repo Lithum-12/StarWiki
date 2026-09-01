@@ -5,21 +5,22 @@ window.PALETTES = {
   teal:  {brand:'#589a99', rgb:'88,154,153',  t:'#5b9a9a', tLight:'#3c7a77'},
   orange:{brand:'#ff8035', rgb:'255,128,53',  t:'#ff9552', tLight:'#d15a10'},
   purple:{brand:'#663399', rgb:'102,51,153',  t:'#9b66cc', tLight:'#552b80'},
+  gold:  {brand:'#F2C14E', rgb:'242,193,78',  t:'#ffd66b', tLight:'#b8860b'}, /* ★ 新增金色 */
 };
 /* ══ 子项专属图标（内联 SVG · 自动跟随主题色） ══ */
 const SUB_ICONS = window.SUB_ICONS = {
-  /* CPU 芯片 */
-  tech:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="10" y="10" width="4" height="4" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>',
-  /* 双层机架 */
-  server:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01M10 6.5h.01M10 17.5h.01"/></svg>',
-  /* 方框+时钟 */
-  history: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M12 10v2l1.7 1"/></svg>',
-  /* 方框+对勾 */
-  license: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 10.5h6"/><path d="m9.5 14.5 1.8 1.8 3.4-3.4"/></svg>',
-  /* 面板+滑杆 */
-  sliders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8v8M12 8v8M16 8v8"/><path d="M6.5 10.5h3M10.5 13.5h3M14.5 9.5h3"/></svg>',
-  /* 方框+提交节点 */
-  commit:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 12h3M14.5 12h3"/></svg>'
+  /* CPU 芯片 · 技术文档 */
+  tech:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4" rx="1"/><path d="M9.5 3v3M14.5 3v3M9.5 18v3M14.5 18v3M3 9.5h3M3 14.5h3M18 9.5h3M18 14.5h3"/></svg>',
+  /* 双层机架 · 服务端部署 */
+  server:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6.5" rx="2"/><rect x="3" y="13.5" width="18" height="6.5" rx="2"/><path d="M7 7.25h.01M7 16.75h.01"/></svg>',
+  /* 方框+时钟 · HAD 更新日志 */
+  history: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="15" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M12 10.4V12l1.5.9"/></svg>',
+  /* 证书+对勾 · 许可协议 */
+  license: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3.5" width="12" height="17" rx="2"/><path d="M9.5 7.5h5M9.5 10.5h5"/><path d="m9.8 14.6 1.6 1.6 3-3"/></svg>',
+  /* 面板+双滑杆 · ABF 配置 */
+  sliders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="15" rx="2"/><path d="M9 8.5v7M15 8.5v7"/><path d="M7.5 10.5h3M13.5 13.5h3"/></svg>',
+  /* 版本卡片 · ABF 更新日志 */
+  commit:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="15" rx="2"/><circle cx="12" cy="12" r="2.2"/><path d="M7.5 12h2.3M14.2 12h2.3"/></svg>'
 };
 
 /* ══ 默认项目图标（干净版，无多余空格） ══ */
@@ -72,6 +73,24 @@ window.PAGES = [
     children: [
       { key:'abf-config', file:'pages/abf-config.html', title:'配置文件详解', desc:'GUI 配置与 JSON 战利品池自定义指南', icon:SUB_ICONS.tech },
       { key:'abf-changelog', file:'pages/abf-changelog.html', title:'更新日志', desc:'历史版本更新记录与底层重构说明', icon:SUB_ICONS.history },
+    ]
+  },
+  {
+    key:'tracker-tips',
+    file:'pages/tracker-tips.html',
+    title:'TrackerTips',
+    tag:'模组',
+    tagColor:'gold',
+    palette:'gold',
+    date:'2026-09-01',
+    desc:'更醒目的弹窗提示，适用于各类整合包的轻量级 Overlay 模组',
+    children: [
+      { key:'tt-gui', file:'pages/tt-gui.html', title:'初学配置界面', desc:'GUI 配置面板的基础操作与功能介绍', icon:SUB_ICONS.sliders },
+      { key:'tt-text', file:'pages/tt-text.html', title:'文本配置详解', desc:'hints 文件夹下的 JSON 文本格式与触发器说明', icon:SUB_ICONS.tech },
+      { key:'tt-theme', file:'pages/tt-theme.html', title:'主题配置详解', desc:'themes 文件夹下的颜色、动画与布局自定义', icon:SUB_ICONS.license },
+      { key:'tt-listener', file:'pages/tt-listener.html', title:'新监听器注册', desc:'面向开发者：如何通过 API 注册自定义触发器', icon:SUB_ICONS.commit },
+      { key:'tt-changelog', file:'pages/tt-changelog.html', title:'更新日志', desc:'TrackerTips 的历史版本更新记录', icon:SUB_ICONS.history },
+      { key:'tt-license', file:'pages/tt-license.html', title:'许可协议', desc:'LGPLv3 开源许可与免责声明', icon:SUB_ICONS.license }
     ]
   },
   {

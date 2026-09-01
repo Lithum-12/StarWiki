@@ -20,12 +20,15 @@
   --c-white-soft:#fefefe;   --c-white-soft-rgb:254,254,254;
   --c-black:#000000;
   --c-gray:#cbcbcb;         --c-gray-rgb:203,203,203;
+  --acc-gold:#F2C14E;       --acc-gold-rgb:242,193,78;
+  --acc-gold-t:#ffd66b;     --acc-gold-t-rgb:255,214,107;
 
   /* ── L1 · 主色派生 ── */
   --red-tint:rgba(var(--acc-red-rgb),.09);       --red-line:rgba(var(--acc-red-rgb),.5);
   --teal-tint:rgba(var(--acc-teal-rgb),.12);     --teal-line:rgba(var(--acc-teal-rgb),.35);
   --orange-tint:rgba(var(--acc-orange-rgb),.10); --orange-line:rgba(var(--acc-orange-rgb),.45);
   --purple-tint:rgba(var(--acc-purple-rgb),.10); --purple-line:rgba(var(--acc-purple-rgb),.45);
+  --gold-tint:rgba(var(--acc-gold-rgb),.10); --gold-line:rgba(var(--acc-gold-rgb),.45);
 
   /* ── L2 · 语义别名层 ── */
   --brand:var(--acc-red);       --brand-rgb:var(--acc-red-rgb);
@@ -101,6 +104,8 @@
   --mark-ink:#211f1a;
   --pulse-glow:rgba(var(--alt-rgb),.45);
   --dots: radial-gradient(circle, rgba(79,74,61,0.06) 1.2px, transparent 1.2px);
+  --acc-gold-t:#b8860b;     --acc-gold-t-rgb:184,134,11; /* 暗金黄 */
+  --gold-line:rgba(var(--acc-gold-rgb),.55);
 }
 
 html{scroll-behavior:smooth;zoom:var(--ui-scale,1.1)}
@@ -126,7 +131,7 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-web
 .logo .star{fill:var(--brand)}
 .logo .spark{fill:var(--alt)}
 .brand b{font-family:var(--serif);font-size:19px;display:block;letter-spacing:.04em;color:var(--title)}
-.brand small{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--mut)}
+.brand small{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--mut);text-transform:uppercase}
 .search{position:relative}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-2)}
 .search input{width:100%;padding:10px 12px 10px 34px;font-size:13px;font-family:var(--sans);
@@ -146,11 +151,30 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-web
 .nav-ico img{object-fit:contain}
 .nav-body{flex:1;min-width:0}
 .nav-body .row{display:flex;align-items:center;gap:8px}
-.nav-body .t{font-size:13.5px;font-weight:600;color:var(--ink);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nav-body .s{display:block;font-size:11.5px;color:var(--mut);margin-top:3px}
-.nav-item .rm{position:absolute;right:8px;top:8px;width:20px;height:20px;border-radius:var(--r-xs);
+.nav-body .t{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--ink);
+  flex:1;
+  min-width:0;
+  /* ★ 确保这三行存在 */
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.nav-body .s{
+  display:block;
+  font-size:11.5px;
+  color:var(--mut);
+  margin-top:3px;
+  /* ★ 新增：单行截断，防止换行撑高 */
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.nav-item .rm{position:absolute;right:8px;top:8px;width:20px;height:20px;border-radius:var;overflow:hidden(--r-xs);
   display:grid;place-items:center;font-size:13px;color:var(--mut);transition:.15s}
-.nav-item .rm:hover{color:var(--brand-t);background:var(--brand-tint)}
+.nav-item .rm:hover{color:var(--brand-t);background:var(--brand-tint);overflow:hidden}
 .nav-empty{padding:14px 10px;font-size:12px;color:var(--mut)}
 .tag{flex:none;font-family:var(--mono);font-size:10px;line-height:1.6;padding:1px 6px;border-radius:var(--r-xs);border:1px solid}
 .tag-red{color:var(--acc-red-t);border-color:var(--acc-red);background:var(--red-tint)}
@@ -556,11 +580,12 @@ body.modal-open{overflow:hidden}
 .m-link:hover{transform:translateY(-3px);border-color:var(--card-acc);
   box-shadow:0 10px 26px var(--card-shadow);color:var(--ink)}
 /* 四个一组循环站点主色，和首页卡片色序一致 */
-.modal-actions .m-link:nth-child(5n+1){--card-acc:var(--acc-red)}
-.modal-actions .m-link:nth-child(5n+2){--card-acc:var(--acc-teal)}
-.modal-actions .m-link:nth-child(5n+3){--card-acc:var(--acc-orange)}
-.modal-actions .m-link:nth-child(5n+4){--card-acc:var(--acc-purple)}
-.modal-actions .m-link:nth-child(5n+5){--card-acc:var(--gray)}
+.modal-actions .m-link:nth-child(6n+1){--card-acc:var(--acc-red)}
+.modal-actions .m-link:nth-child(6n+2){--card-acc:var(--acc-teal)}
+.modal-actions .m-link:nth-child(6n+3){--card-acc:var(--acc-orange)}
+.modal-actions .m-link:nth-child(6n+4){--card-acc:var(--acc-purple)}
+.modal-actions .m-link:nth-child(6n+5){--card-acc:var(--acc-gold)}
+.modal-actions .m-link:nth-child(6n+6){--card-acc:var(--gray)}
 /* 图标格子悬停染边 */
 .m-link .m-ico{transition:.2s}
 .m-link:hover .m-ico{border-color:var(--card-acc)}
@@ -592,3 +617,73 @@ body.modal-open{overflow:hidden}
 /* 首页项目卡片紫色强调 */
 .proj-card.acc-purple{--card-acc:var(--acc-purple)}
 #openBtn{display:none}
+
+/* 金色标签与圆点（强化权重，确保未点击时也显示金色） */
+.nav-item .tag-gold, 
+.nav-parent-link .tag-gold, 
+.tag-gold {
+  color: var(--acc-gold-t) !important;
+  border-color: var(--acc-gold) !important;
+  background: var(--gold-tint) !important;
+}
+.dot-gold{background:var(--acc-gold)}
+/* 首页项目卡片金色强调 */
+.proj-card.acc-gold{--card-acc:var(--acc-gold)}
+
+/* ══ 全局极简滚动条（侧边栏 + 右侧大纲） ══ */
+#navList::-webkit-scrollbar,
+.toc::-webkit-scrollbar{
+  width:4px;
+}
+#navList::-webkit-scrollbar-thumb,
+.toc::-webkit-scrollbar-thumb{
+  background:var(--scroll);
+  border-radius:4px;
+  border:none;
+}
+#navList::-webkit-scrollbar-track,
+.toc::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+/* ══ 侧边栏打字机光标 ══ */
+.tw-cursor{
+  display:inline-block;
+  margin-left:2px;
+  color:var(--brand-t);
+  font-weight:bold;
+  animation:blink 1s steps(2,start) infinite;
+}
+@keyframes blink{to{visibility:hidden}}
+
+/* ══ 侧边栏打字机：Syntax Error 故障特效 ══ */
+.tw-error-overlay{
+  position:absolute;
+  inset:0;
+  /* ★ 降低透明度，改为半透明故障红 */
+  background:rgba(220, 38, 38, .65); 
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:.1em;
+  z-index:10;
+  pointer-events:none;
+  
+  /* ★ 取消位移，改为瞬间闪现 (透明度 0 -> 1) */
+  opacity:0;
+  transition:opacity .08s ease-out; /* 极快的淡入，几乎是一瞬间 */
+}
+.tw-error-overlay.show{
+  opacity:1; /* 瞬间出现 */
+}
+.brand-text-wrap{
+  position:relative;
+  display:inline-block;
+  min-width:140px;
+  overflow:hidden; 
+  border-radius:2px;
+}

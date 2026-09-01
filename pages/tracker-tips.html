@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrackerTips · 星图百科</title>
+<script src="/js/theme.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="tracker-tips" data-root="">
+
+<script type="text/markdown" id="page-md">
+
+**更醒目的弹窗提示，适用于各类整合包。**
+
+> ⚠️ **兼容性警告**
+> 本模组仍处于开发阶段——大部分功能尚未完善，且与其他模组的兼容性未经过全面验证。如果您遇到问题，请优先向本模组的 Issue 追踪器反馈。
+
+## 简介
+
+TrackerTips 是一个轻量级、可自定义的提示覆盖层（Overlay）模组，类似于原版的 Toast 通知。
+
+当玩家满足特定条件时，屏幕角落会弹出一个带有图标、标题和正文的提示框。您只需在 `config` 文件夹下编写 JSON 文件，或通过 Cloth Config API 进行编辑，即可轻松自定义文本、颜色甚至入场动画。
+
+## 配置方式
+
+您可以通过以下三种方式来配置本模组：
+
+### 1. 指令 (Commands)
+指令用于调整世界配置。
+
+**无需 OP 权限：**
+- `/trackertips about` – 显示模组信息
+
+**需要 OP 权限：**
+- `/trackertips reload` – 从世界中重新加载配置文件
+- `/trackertips test <id>` – 强制测试某个提示
+- `/trackertips list [global/saves]` – 列出全局/世界提示
+
+### 2. 配置界面 (Config Screen)
+按下 **F8**（未来可能会移除）或使用 Forge 的配置按钮打开 GUI。
+
+您可以在此更改常规设置，或阅读模组的使用说明。如果安装了 Cloth Config API，您还可以微调每个提示的文本和主题文件。
+
+### 3. 编辑 JSON 文件
+**服务端配置文件**位于 `config/trackertips/` 目录下：
+- `hints/` – 提示文本文件
+- `themes/` – 提示主题文件
+
+**客户端配置文件**：
+- `config/trackertips-client.toml` – 客户端设置（覆盖层位置、宽度、淡入淡出等）
+- `config/trackertips/global_config.json` – 全局属性
+
+## 技术支持
+
+### 触发器 (Triggers)
+当前版本支持以下触发条件：
+
+| 触发器 ID | 说明 |
+| :--- | :--- |
+| `First_join` | 首次加入世界 |
+| `Item_obtained` | 获得物品 |
+| `Kill_entity` | 击杀实体 |
+| `Mine_block` | 挖掘方块 |
+| `Potion_added` | 获得药水效果 |
+| `Potion_removed` | 药水效果消失 |
+| `Advancement` | 获得进度 |
+| `Dimension_change` | 切换维度 |
+
+`triggers` 允许其他模组通过公共入口点注册新的触发器，并可以附带它们自己的语言和主题文件。
+
+### 版本支持
+目前仅支持 **Forge 1.20.1**。Fabric 和更多 Forge 版本正在计划中。
+
+## 反馈与许可
+
+如果您有任何建议，请随时告诉我！我对任何新功能或改进的想法都持开放态度。如果您发现任何 Bug，请在 GitHub Issue 追踪器上报告。
+
+**许可证**：LGPLv3-only。您可以在模组附带的 LICENSE 文件中找到完整的许可文本。
+
+*本模组与 Mojang AB 或 Microsoft Corporation 无任何关联。所有权利归其各自所有者所有。*
+</script>
+
+<script src="/js/parser.js"></script>
+<script src="/js/pages.js"></script>
+<script src="/js/svgpack.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

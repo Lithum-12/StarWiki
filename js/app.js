@@ -85,7 +85,7 @@ document.body.insertAdjacentHTML('afterbegin', `
           <circle class="spark" cx="19.5" cy="4.5" r="1.3"/>
         </svg>
       </span>
-      <span><b>星图百科</b><small>LOCAL · MARKDOWN · WIKI</small></span>
+<span><b>星图百科</b><span class="brand-text-wrap"><small id="brandTypewriter"></small><div class="tw-error-overlay" id="twError">SYNTAX ERROR</div></span></span>
     </a>
     <div class="search">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -565,6 +565,84 @@ mainEl.addEventListener('scroll',()=>{
 
 /* ── 启动 ── */
 renderCurrent();
+
+/* ── 侧边栏品牌区：随机极客打字机 (含 Syntax Error 彩蛋) ── */
+(function(){
+  const el = document.getElementById('brandTypewriter');
+  const errOverlay = document.getElementById('twError');
+  if(!el || !errOverlay) return;
+
+  const PHRASES_NORMAL = [
+    'LOCAL · MARKDOWN · WIKI', 'NO SERVER · NO TRACKER', 'OBSERVING THE STARS...', 
+    'PURE STATIC · ZERO DEPS', 'BREWING COFFEE... [OK]', 'WELCOME OBSERVER', 
+    'GIT COMMIT -M "UPDATE"', 'LOADING STAR_MAP...', 'BUILD SUCCESSFUL IN 0S', 'KEEP CALM AND CODE.'
+  ];
+  
+  const PHRASES_MEME = [
+    'GOLD CARROT NOT TOTEM', '3 ⊄ VALVE', 'CONNECT POTATO FAILED', 
+    'FIXED 90% OF THE BUGS', 'KILL WHITE ZOMBIE', 'NUKE EASY · UH OH', 
+    'KA LE', 'FREE MY PARTNER MOD', 'DRINK MORE LAVA', 'I CAN JVAV', 'THE CAKE IS REAL'
+  ];
+
+  // 70% 概率正常，30% 概率触发彩蛋
+  const isMeme = Math.random() < 0.3;
+  const pool = isMeme ? PHRASES_MEME : PHRASES_NORMAL;
+  const text = pool[Math.floor(Math.random() * pool.length)];
+  
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'tw-cursor';
+  cursor.textContent = '_';
+  if(isMeme) cursor.style.color = 'var(--acc-orange-t)';
+  el.appendChild(cursor);
+
+  function type() {
+    if (i < text.length) {
+      el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+      i++;
+      setTimeout(type, 35 + Math.random() * 50);
+    } else {
+      // 打字完成
+      if (isMeme) {
+        // ★ 触发 Syntax Error 彩蛋流程 (瞬间闪现版)
+        setTimeout(() => {
+          // 1. 红色报错层瞬间闪现 (不再有向上推的动画)
+          errOverlay.classList.add('show');
+          
+          // 2. 等待 1.2 秒 (稍微缩短一点，更符合故障的急促感)
+          setTimeout(() => {
+            // 3. 瞬间消失
+            errOverlay.classList.remove('show');
+            
+            // 4. 清空当前梗，重新输出一句正常的话
+            setTimeout(() => {
+              el.innerHTML = '';
+              el.appendChild(cursor);
+              cursor.style.color = ''; // 恢复默认色
+              
+              const normalText = PHRASES_NORMAL[Math.floor(Math.random() * PHRASES_NORMAL.length)];
+              let j = 0;
+              (function retype() {
+                if (j < normalText.length) {
+                  el.insertBefore(document.createTextNode(normalText.charAt(j)), cursor);
+                  j++;
+                  setTimeout(retype, 35 + Math.random() * 50);
+                } else {
+                  setTimeout(() => { cursor.style.display = 'none'; }, 3000);
+                }
+              })();
+            }, 150); // 红屏消失后，稍微停顿一下再重打
+          }, 1200); // 红屏停留 1.2 秒
+        }, 1500); // 打完后等 1.5 秒再报错
+      } else {
+        // 正常语句，打完 3 秒后隐藏光标
+        setTimeout(() => { cursor.style.display = 'none'; }, 3000);
+      }
+    }
+  }
+  
+  setTimeout(type, 500);
+})();
 
 const h=decodeURIComponent(location.hash.slice(1));
 if(h.startsWith('a-')){
