@@ -131,7 +131,7 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-web
 .logo .star{fill:var(--brand)}
 .logo .spark{fill:var(--alt)}
 .brand b{font-family:var(--serif);font-size:19px;display:block;letter-spacing:.04em;color:var(--title)}
-.brand small{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--mut);text-transform:uppercase}
+.brand small{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--mut);text-transform:uppercase}
 .search{position:relative}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-2)}
 .search input{width:100%;padding:10px 12px 10px 34px;font-size:13px;font-family:var(--sans);
@@ -172,7 +172,7 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-web
   overflow:hidden;
   text-overflow:ellipsis;
 }
-.nav-item .rm{position:absolute;right:8px;top:8px;width:20px;height:20px;border-radius:var;overflow:hidden(--r-xs);
+.nav-item .rm{position:absolute;right:8px;top:8px;width:20px;height:20px;border-radius:var(--r-xs);
   display:grid;place-items:center;font-size:13px;color:var(--mut);transition:.15s}
 .nav-item .rm:hover{color:var(--brand-t);background:var(--brand-tint);overflow:hidden}
 .nav-empty{padding:14px 10px;font-size:12px;color:var(--mut)}

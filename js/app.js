@@ -96,7 +96,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     <div class="side-foot">
       <div class="side-foot-info">
         <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
-        <div class="mono" style="opacity:.7">engine v4.11 · by lithumc</div>
+        <div class="mono" style="opacity:.7">engine v5.2 · by lithumc</div>
       </div>
       <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg>
@@ -579,9 +579,9 @@ renderCurrent();
   ];
   
   const PHRASES_MEME = [
-    'GOLD CARROT NOT TOTEM', '3 ⊄ VALVE', 'CONNECT POTATO FAILED', 
+    'GOLDEN CARROT NOT TOTEM', '3 ⊄ VALVE', 'CONNECT POTATO FAILED', 
     'FIXED 90% OF THE BUGS', 'KILL WHITE ZOMBIE', 'NUKE EASY · UH OH', 
-    'KA LE', 'FREE MY PARTNER MOD', 'DRINK MORE LAVA', 'I CAN JVAV', 'THE CAKE IS REAL'
+    'KA · LE', 'FREE MY PARTNER MOD', 'DRINK MORE LAVA', 'I CAN JVAV', 'THE CAKE IS REAL'
   ];
 
   // 70% 概率正常，30% 概率触发彩蛋

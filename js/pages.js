@@ -78,7 +78,7 @@ window.PAGES = [
   {
     key:'tracker-tips',
     file:'pages/tracker-tips.html',
-    title:'TrackerTips',
+    title:'Tracker Tips',
     tag:'模组',
     tagColor:'gold',
     palette:'gold',

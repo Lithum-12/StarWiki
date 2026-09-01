@@ -10,12 +10,106 @@
 <body data-page="tt-changelog" data-root="">
 
 <script type="text/markdown" id="page-md">
-# 更新日志
+本页面记录了 TrackerTips 的历史版本更新内容，版本号对应 GitHub 的提交节点。你可以使用右侧的大纲快速跳转到特定版本。
 
-> 🚧 **正在施工中**
-> 本页面的内容正在紧锣密鼓地编写中，敬请期待！
+## v20.3 `8aa3e62`
 
-返回 [TrackerTips 主条目](/pages/tracker-tips.html)
+### 核心
+添加 README.md
+
+---
+
+## v19.26 `43a84c1`
+*链式触发登场：提示现在可以“串”起来了。*
+
+### 触发器
+- 新触发器：`first_join`（首次加入存档，每玩家仅一次）
+- 新增**链式触发**（`HintChain`）：提示关闭后可执行 dismiss / 显示下一个提示等动作
+
+### GUI
+- 事件编辑器大扩展：支持链式触发编辑、音调（pitch）设置、first_join 类型
+- 配置界面滚动条（`TTScrollBar`）与“快捷指令”（`shortcutCommand`）设置
+
+### 本地化
+- 补全 shortcut_command、pitch、first_join、chain* 等 9+ 个翻译键
+
+---
+
+## v15.7 `f233ca5`
+
+### 主题
+- 全新主题系统：`TTTheme` / `TTThemeManager` / `TTAnimation`，支持自定义颜色、边框、圆角、内边距与入场动画（none / fade / slide / slide_up）
+- 新增主题编辑器 `TTThemeEditorScreen`（Cloth Config）
+
+### GUI
+- 配置界面重构为原生 Minecraft 标签页（`TTConfigTab`：General / Events / Themes / Usage）
+
+---
+
+## v13.12 `19d3fb5`
+
+### GUI
+- GUI 大重构：改用 Cloth Config API 编辑器（`TTClothEventEditor`）
+- 新增 `TTConfirmScreen` 确认对话框、`TTNewEventScreen` 新建事件界面
+- F8 快捷键打开配置界面，接入 Forge 原生配置界面
+
+### 构建
+- 构建系统更新（build.gradle 大改）
+
+---
+
+## v11.8 `df13456`
+
+### 核心
+- 引入 `IEventHintTrigger` 接口 + `TriggerEvent` 事件包装系统，改为 Forge 事件驱动，告别纯轮询
+
+### GUI
+- 第一个自带配置界面 `TTConfigScreen` 与事件编辑器 `TTEventEditorScreen`
+
+---
+## v10.5 `ab75636`
+
+### GUI
+- 补全 i18n 翻译键
+---
+
+## v8.2 `988386d`
+
+### 触发器
+- 大批新触发器：`health_below`、`in_dimension`、`item_obtained`、`kill_entity`，并完善 `mine_block`
+
+### 核心
+- 新增 `HideHintPacket`，支持提示隐藏与持久状态管理
+- 玩家数据扩展：冷却、一次性触发、已显示记录
+
+### 操作
+- 新增快捷键系统（`TTKeyMappings`：H 关闭当前提示 / J 切换显示）
+
+---
+
+## v3.0 `74e9b34`
+
+### 核心
+- 新增命令系统 `TTCommands`（Brigadier）
+- 客户端配置扩展、渲染优化
+
+### 触发器
+- 新增触发器：`advancement`（进度）、`has_item`（持有物品）
+
+### 本地化
+- 引入 en_us / zh_cn 双语本地化支持
+
+---
+
+## v2.0 `0504b14`
+*初次提交。*
+
+### 核心
+- 模组基础结构：主类、网络通道（`TTNetwork` / `ShowHintPacket`）、提示引擎（`HintEngine`）、玩家数据 Capability（`PlayerHintData`）
+- 基础配置系统（`TTConfigManager` + `HintDefinition`）与客户端渲染（`HintRenderer`）
+
+### 触发器
+- 首批触发器：`game_time`、`potion_effect`、`mine_block`
 </script>
 
 <script src="/js/parser.js"></script>

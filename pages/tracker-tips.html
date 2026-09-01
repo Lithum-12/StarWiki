@@ -11,14 +11,14 @@
 
 <script type="text/markdown" id="page-md">
 
-**更醒目的弹窗提示，适用于各类整合包。**
-
 > ⚠️ **兼容性警告**
 > 本模组仍处于开发阶段——大部分功能尚未完善，且与其他模组的兼容性未经过全面验证。如果您遇到问题，请优先向本模组的 Issue 追踪器反馈。
 
 ## 简介
 
 TrackerTips 是一个轻量级、可自定义的提示覆盖层（Overlay）模组，类似于原版的 Toast 通知。
+
+[📥 获取项目与相关链接](#modal:tracker-tips-links)
 
 当玩家满足特定条件时，屏幕角落会弹出一个带有图标、标题和正文的提示框。您只需在 `config` 文件夹下编写 JSON 文件，或通过 Cloth Config API 进行编辑，即可轻松自定义文本、颜色甚至入场动画。
 
@@ -80,10 +80,53 @@ TrackerTips 是一个轻量级、可自定义的提示覆盖层（Overlay）模�
 
 *本模组与 Mojang AB 或 Microsoft Corporation 无任何关联。所有权利归其各自所有者所有。*
 </script>
-
 <script src="/js/parser.js"></script>
 <script src="/js/pages.js"></script>
 <script src="/js/svgpack.js"></script>
 <script src="/js/app.js"></script>
+<script src="/js/modal.js"></script>
+</script>
+<script>
+/* ⭐ 箭头 SVG */
+var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+
+/* ⭐ 平台图标 */
+var githubSvg = '<svg viewBox="0 0 24 24" fill="#8b949e"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>';
+
+// 占位符图标 (虚线圆圈，用于 Coming Soon)
+var placeholderSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>';
+
+/* 弹窗字典 */
+window.ModalDict = {
+  'tracker-tips-links': {
+    kicker: 'LINKS · 下载与导航',
+    title: '获取 Tracker Tips',
+    body: (function(){
+      var A = '<span class="arr">' + ARROW + '</span>';
+      
+      // 升级 card 函数：支持 isDisabled 参数渲染禁用态
+      function card(name, href, desc, svg, isDisabled) {
+        if (isDisabled) {
+          return '<div class="m-link" style="pointer-events:none;opacity:.45;filter:grayscale(1);">' +
+            '<span class="m-ico">' + svg + '</span>' +
+            '<span class="m-body"><span class="m-t">' + name + '</span>' +
+            '<span class="m-s">' + desc + '</span></span></div>';
+        }
+        return '<a class="m-link" href="' + href + '" target="_blank" rel="noopener">' +
+          '<span class="m-ico">' + svg + '</span>' +
+          '<span class="m-body"><span class="m-t">' + name + '</span>' +
+          '<span class="m-s">' + desc + '</span></span>' + A + '</a>';
+      }
+      
+      return '<div class="modal-actions">' +
+        card('GitHub', 'https://github.com/Lithum-12/TrackerTips', '开源项目与源码仓库', githubSvg) +
+        card('Coming Soon', '#', '神秘新平台 · 敬请期待', placeholderSvg, true) +
+        card('Coming Soon', '#', '神秘新平台 · 敬请期待', placeholderSvg, true) +
+        card('Coming Soon', '#', '神秘新平台 · 敬请期待', placeholderSvg, true) +
+      '</div>';
+    })()
+  }
+};
+</script>
 </body>
 </html>
