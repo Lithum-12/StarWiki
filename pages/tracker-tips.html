@@ -20,7 +20,11 @@ TrackerTips 是一个轻量级、可自定义的提示覆盖层（Overlay）模�
 
 [📥 获取项目与相关链接](#modal:tracker-tips-links)
 
-当玩家满足特定条件时，屏幕角落会弹出一个带有图标、标题和正文的提示框。您只需在 `config` 文件夹下编写 JSON 文件，或通过 Cloth Config API 进行编辑，即可轻松自定义文本、颜色甚至入场动画。
+当玩家满足特定条件时，屏幕上会弹出一个带有图标、标题和正文的提示框。提示框可停靠在屏幕的 8 个方位（包括快捷栏上方），并支持"避免与聊天栏重叠"选项。
+
+支持**持久显示**（条件持续期间常驻，例如低血量警告）、**链式触发**（已显示的提示可继续监听下一个触发器，匹配后自动关闭或切换到下一个提示——非常适合制作引导教程序列），以及**主题**（颜色、边框、圆角、入场动画）。
+
+您只需在 `config` 文件夹下编写 JSON 文件，或通过 Cloth Config API 进行编辑，即可轻松自定义文本、颜色甚至入场动画。
 
 ## 配置方式
 
@@ -58,16 +62,19 @@ TrackerTips 是一个轻量级、可自定义的提示覆盖层（Overlay）模�
 
 | 触发器 ID | 说明 |
 | :--- | :--- |
-| `First_join` | 首次加入世界 |
-| `Item_obtained` | 获得物品 |
-| `Kill_entity` | 击杀实体 |
-| `Mine_block` | 挖掘方块 |
-| `Potion_added` | 获得药水效果 |
-| `Potion_removed` | 药水效果消失 |
-| `Advancement` | 获得进度 |
-| `Dimension_change` | 切换维度 |
+| `game_time` | 一天内时间：在/之后/之前/区间内 |
+| `first_join` | 首次加入世界（每位玩家仅一次） |
+| `has_item` | 持有物品 |
+| `item_obtained` | 获得物品 |
+| `kill_entity` | 击杀实体 |
+| `mine_block` | 挖掘方块 |
+| `potion_added` / `potion_removed` / `potion_active` | 获得效果 / 效果消失 / 效果持续中（持久状态） |
+| `advancement` | 获得进度 / 进度状态 |
+| `dimension_change` | 切换维度 |
+| `in_dimension` | 玩家所在维度 |
+| `in_structure` | 玩家身处结构内（例如村庄；周期性检查） |
 
-`triggers` 允许其他模组通过公共入口点注册新的触发器，并可以附带它们自己的语言和主题文件。
+`triggers` 允许其他模组通过公共入口点（`Triggers.register`）注册新的触发器，并可以附带它们自己的语言和主题文件。此外，扩展模组还可以通过 `TTConfigManager.registerHintProvider` 编程注册提示定义、通过 `TTThemeManager.registerBuiltIn` 注册内置主题，无需用户手写 JSON 文件。
 
 ### 版本支持
 目前仅支持 **Forge 1.20.1**。Fabric 和更多 Forge 版本正在计划中。
@@ -85,7 +92,6 @@ TrackerTips 是一个轻量级、可自定义的提示覆盖层（Overlay）模�
 <script src="/js/svgpack.js"></script>
 <script src="/js/app.js"></script>
 <script src="/js/modal.js"></script>
-</script>
 <script>
 /* ⭐ 箭头 SVG */
 var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
