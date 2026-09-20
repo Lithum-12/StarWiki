@@ -21,9 +21,9 @@ PAGES.forEach((p, groupIdx) => {
     html += `<div class="proj-group">
       <div class="proj-group-head">
         <span class="proj-group-icon">${iconOf(p,'')}</span>
-        <h3 class="proj-group-title">${esc(p.title)}</h3>
-        <span class="tag tag-${p.tagColor}">${esc(p.tag)}</span>
-        <span class="proj-group-desc">${esc(p.desc||'')}</span>
+        <h3 class="proj-group-title">${esc(window.t(p.title))}</h3>
+        <span class="tag tag-${p.tagColor}">${esc(window.t(p.tag))}</span>
+        <span class="proj-group-desc">${esc(window.t(p.desc)||'')}</span>
       </div>
       <div class="proj-grid">`;
     
@@ -34,7 +34,7 @@ PAGES.forEach((p, groupIdx) => {
           <span class="proj-icon">${iconOf(p,'')}</span>
           <span class="proj-info">
             <span class="proj-row"><span class="proj-date">OVERVIEW · 概述</span></span>
-            <span class="proj-title">${esc(p.title)}</span>
+            <span class="proj-title">${esc(window.t(p.title))}</span>
           </span>
         </span>
         <span class="proj-desc">查看该主题的整体介绍与入口。</span>
@@ -48,10 +48,10 @@ PAGES.forEach((p, groupIdx) => {
           <span class="proj-icon">${iconOf(c,'')}</span>
           <span class="proj-info">
             <span class="proj-row"><span class="proj-date">${String(groupIdx+1).padStart(2,'0')}.${String(i+1).padStart(2,'0')}</span></span>
-            <span class="proj-title">${esc(c.title)}</span>
+            <span class="proj-title">${esc(window.t(c.title))}</span>
           </span>
         </span>
-        <span class="proj-desc">${esc(c.desc||'')}</span>
+        <span class="proj-desc">${esc(window.t(c.desc)||'')}</span>
         <span class="proj-more">README <span class="arr">→</span></span>
       </a>`;
     });
@@ -64,13 +64,13 @@ PAGES.forEach((p, groupIdx) => {
           <span class="proj-icon">${iconOf(p,'')}</span>
           <span class="proj-info">
             <span class="proj-row">
-              <span class="tag tag-${p.tagColor}">${esc(p.tag)}</span>
+              <span class="tag tag-${p.tagColor}">${esc(window.t(p.tag))}</span>
               <span class="proj-date">${esc(p.date||'')}</span>
             </span>
-            <span class="proj-title">${esc(p.title)}</span>
+            <span class="proj-title">${esc(window.t(p.title))}</span>
           </span>
         </span>
-        <span class="proj-desc">${esc(p.desc||'')}</span>
+        <span class="proj-desc">${esc(window.t(p.desc)||'')}</span>
         <span class="proj-more">README <span class="arr">→</span></span>
       </a>
     </div></div>`;
@@ -87,12 +87,16 @@ $('#themeBtn').addEventListener('click',()=>{
   try{localStorage.setItem('wikiTheme',t);}catch(e){}
 });
 
+/* ── 语言切换弹窗 ── */
+const langBtn=$('#langBtn');
+if(langBtn) langBtn.addEventListener('click',window.openLangModal);
+
 const term=$('#termBody');
 const LINES=[
   {cmd:true,  t:'whoami'},
   {cmd:false, t:'一个把笔记慢慢攒成 wiki 的普通人'},
   {cmd:true,  t:'ls ./projects'},
-  {cmd:false, t:PAGES.map(p=>p.title).join('  ')},
+  {cmd:false, t:PAGES.map(p=>window.t(p.title)).join('  ')},
   {cmd:true,  t:'cat motto.txt'},
   {cmd:false, t:'"由兴趣驱动 · 非商业用途 · 欢迎随便看看"'}
 ];

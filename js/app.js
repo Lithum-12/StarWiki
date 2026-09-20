@@ -53,21 +53,22 @@ function applyPalette(key){
 
 /* ── 维基链接（支持子页面） ── */
 function wikiResolver(target, anchor){
-  const t = target.trim();
+  /* ② 局部变量改名 q，避免遮蔽 window.t；PAGES 的 title 已升级为多语言对象 */
+  const q = target.trim();
   // 1. 先在顶层找
-  let p = PAGES.find(x=>x.title===t) || PAGES.find(x=>x.title.includes(t));
+  let p = PAGES.find(x=>window.t(x.title)===q) || PAGES.find(x=>window.t(x.title).includes(q));
   if(p) return BASE+'/'+p.file + (anchor ? '#a-'+encodeURIComponent(anchor) : '');
   
   // 2. 去 children 里找
   for (const parent of PAGES) {
     if (parent.children) {
-      const child = parent.children.find(c => c.title === t) || parent.children.find(c => c.title.includes(t));
+      const child = parent.children.find(c => window.t(c.title) === q) || parent.children.find(c => window.t(c.title).includes(q));
       if (child) return BASE+'/'+child.file + (anchor ? '#a-'+encodeURIComponent(anchor) : '');
     }
   }
   
-  // 3. 在本地导入里找
-  const im = imports.find(x=>x.title===t || x.title.includes(t));
+  // 3. 在本地导入里找（imports 的 title 是纯字符串，无需 t()，④ 变量同步改 q）
+  const im = imports.find(x=>x.title===q || x.title.includes(q));
   if(im) return BASE+'/index.html?imp='+im.key;
   return null;
 }
@@ -119,7 +120,7 @@ document.body.insertAdjacentHTML('afterbegin', `
       <div class="spacer"></div>
       <button class="btn ${IMPORT_ENABLED?'':'is-disabled'}" id="openBtn"
         ${IMPORT_ENABLED?'':'aria-disabled="true" title="正在维护"'}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-2.54 6a2 2 0 0 1-1.84 1.25H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>打开文件</button>      <input type="file" id="fileInput" accept=".md,.markdown,.txt,text/markdown" multiple hidden>
-      <button class="btn theme-btn" id="langBtn" disabled title="正在维护" aria-label="语言切换">
+      <button class="btn theme-btn" id="langBtn" title="切换语言" aria-label="语言切换">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 2.5V5"/><path d="M3 6.5h11.5"/><path d="M5.5 9.5c1 3.4 3.6 6.3 7 8"/><path d="M11.5 9.5c-1 3.4-3.6 6.3-7 8"/><path d="M13 21.5l4-10 4 10"/><path d="M14.7 17.5h4.6"/></svg>
       </button>
       <button class="btn theme-btn" id="themeBtn" title="切换主题" aria-label="切换主题">
@@ -173,6 +174,10 @@ $('#themeBtn').addEventListener('click',()=>{
   applyPalette(currentKey());
   toast(t==='dark' ? '已切换至深色模式' : '已切换至浅色模式');
 });
+
+/* ── 语言切换弹窗 ── */
+const langBtn=$('#langBtn');
+if(langBtn) langBtn.addEventListener('click',window.openLangModal);
 
 /* ── 侧栏收起 / 展开（状态记忆） ── */
 const setSide = collapsed => {
@@ -234,7 +239,7 @@ function renderNav(filter){
 
   PAGES.forEach(p => {
     const hasChildren = p.children && p.children.length > 0;
-    const isMatch = !q || p.title.toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q);
+    const isMatch = !q || window.t(p.title).toLowerCase().includes(q) || (window.t(p.desc)||'').toLowerCase().includes(q);
 
     let childMatch = false;
     let childHtml = '';
@@ -242,12 +247,12 @@ function renderNav(filter){
     // 1. 先生成子项 HTML 和匹配状态
     if (hasChildren) {
       p.children.forEach(c => {
-        const cMatch = !q || c.title.toLowerCase().includes(q) || (c.desc||'').toLowerCase().includes(q);
+        const cMatch = !q || window.t(c.title).toLowerCase().includes(q) || (window.t(c.desc)||'').toLowerCase().includes(q);
         if (cMatch) childMatch = true;
         const isCurrent = c.key === currentKey();
         childHtml += `<a class="nav-item nav-child ${isCurrent?'on':''}" href="${BASE+'/'+c.file}">
           <span class="nav-ico">${iconOf(c,BASE)}</span>
-          <span class="nav-body"><span class="t">${esc(c.title)}</span></span>
+          <span class="nav-body"><span class="t">${esc(window.t(c.title))}</span></span>
         </a>`;
       });
     }
@@ -266,14 +271,14 @@ function renderNav(filter){
       
       html += `<div class="nav-group ${isOpen?'is-open':''}">
         <div class="nav-parent-row">
-          <button class="nav-ico-btn" data-group="${p.key}" title="展开 / 折叠" aria-label="展开或折叠 ${esc(p.title)}">
+          <button class="nav-ico-btn" data-group="${p.key}" title="展开 / 折叠" aria-label="展开或折叠 ${esc(window.t(p.title))}">
             <span class="ico-face">${iconOf(p,BASE)}</span>
             <span class="ico-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
           </button>
           <${tag} class="nav-parent-link ${p.key===currentKey()?'on':''} ${isDir?'is-dir':''}"${href}>
             <span class="nav-body">
-              <span class="row"><span class="t">${esc(p.title)}</span><span class="tag tag-${p.tagColor}">${esc(p.tag)}</span></span>
-              <span class="s">${esc(p.desc||'')}</span>
+              <span class="row"><span class="t">${esc(window.t(p.title))}</span><span class="tag tag-${p.tagColor}">${esc(window.t(p.tag))}</span></span>
+              <span class="s">${esc(window.t(p.desc)||'')}</span>
             </span>
           </${tag}>
         </div>
@@ -283,8 +288,8 @@ function renderNav(filter){
       html += `<a class="nav-item ${p.key===currentKey()?'on':''}" href="${hrefOf(p)}">
         <span class="nav-ico">${iconOf(p,BASE)}</span>
         <span class="nav-body">
-          <span class="row"><span class="t">${esc(p.title)}</span><span class="tag tag-${p.tagColor}">${esc(p.tag)}</span></span>
-          <span class="s">${esc(p.desc||'')}</span>
+          <span class="row"><span class="t">${esc(window.t(p.title))}</span><span class="tag tag-${p.tagColor}">${esc(window.t(p.tag))}</span></span>
+          <span class="s">${esc(window.t(p.desc)||'')}</span>
         </span>
       </a>`;
     }
@@ -340,7 +345,8 @@ function renderCurrent(){
     // 3. 最终兜底
     if (!info) info = PAGES[0]; 
     
-    md=(document.getElementById('page-md')||{}).textContent||'';
+    const rawMd=(document.getElementById('page-md')||{}).textContent||'';
+    md=window.getMarkdownByLang(rawMd, window.CURRENT_LANG);
   }
 
   applyPalette(currentKey());
@@ -348,11 +354,11 @@ function renderCurrent(){
   const res=MDParser.render(md,{wiki:wikiResolver});
   codeStore=res.codes;
 
-  document.title=info.title+' · 星图百科';
-  $('#crumbPage').textContent=info.title;
-  $('#kick').textContent=info.removable?'本地导入':'演示条目 · '+(info.tag||'');
+  document.title=window.t(info.title)+' · 星图百科';
+  $('#crumbPage').textContent=window.t(info.title);
+  $('#kick').textContent=info.removable?'本地导入':'演示条目 · '+(window.t(info.tag)||'');
   const pageTitle=$('#pageTitle');
-  pageTitle.textContent=info.title;
+  pageTitle.textContent=window.t(info.title);
   pageTitle.insertAdjacentHTML('beforeend','<span class="caret" aria-hidden="true"></span>');
 
   const text=res.html.replace(/<[^>]+>/g,'');
@@ -379,8 +385,8 @@ function renderCurrent(){
   if(order.length>1){
     const prev=order[(idx-1+order.length)%order.length], next=order[(idx+1)%order.length];
     pager.innerHTML=
-      '<a class="prev" href="'+hrefOf(prev)+'"><span class="lbl">← 上一篇</span><span class="ttl">'+esc(prev.title)+'</span></a>'+
-      '<a class="next" href="'+hrefOf(next)+'"><span class="lbl">下一篇 →</span><span class="ttl">'+esc(next.title)+'</span></a>';
+      '<a class="prev" href="'+hrefOf(prev)+'"><span class="lbl">← 上一篇</span><span class="ttl">'+esc(window.t(prev.title))+'</span></a>'+
+      '<a class="next" href="'+hrefOf(next)+'"><span class="lbl">下一篇 →</span><span class="ttl">'+esc(window.t(next.title))+'</span></a>';
   } else pager.innerHTML='';
 
   renderNav(searchInput.value);

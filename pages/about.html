@@ -10,6 +10,7 @@
 <body data-page="about" data-root="">
 
 <script type="text/markdown" id="page-md">
+<!-- lang:zh -->
 
 由 LithumC 精心打磨，这一页是 **N** 天的战果。
 欢迎来到星图百科。这是一个纯静态、零依赖的 Wiki 引擎。
@@ -36,6 +37,32 @@
 | `[[维基链接]]` | ✅ | 支持 `[[条目#锚点]]` |
 | 魔法弹窗链接 | ✅ | 使用 `[文字](#modal:id)` 触发 |
 | 原生 HTML 标签 | ⛔ | 出于安全一律转义 |
+
+<!-- lang:en -->
+# About & Features
+
+Welcome to StarWiki. A pure static, zero-dependency local Wiki engine.
+
+## Magic Links
+
+This site supports **modal triggers** right inside Markdown — just point a normal link's `href` at `#modal:customId`:
+
+- [✦ Site tech stack](#modal:site-info)
+- [⌨ Keyboard shortcuts](#modal:keys)
+- [↗ External links](#modal:links)
+
+## Parser Capabilities
+
+| Syntax | Support | Notes |
+| --- | :-: | --- |
+| Headings / Paragraphs | ✅ | Auto TOC |
+| Bold, Italic, ~~Del~~, ==Mark== | ✅ | Nestable |
+| Ordered / Unordered / Task lists | ✅ | Two-space indent for nesting |
+| Tables & alignment | ✅ | Wide tables scroll horizontally |
+| Fenced code blocks | ✅ | Language label + copy button |
+| `[[WikiLinks]]` | ✅ | Supports `[[Page#Anchor]]` |
+| Magic modal links | ✅ | Use `[text](#modal:id)` |
+| Raw HTML tags | ⛔ | Escaped for safety |
 </script>
 
 <script src="/js/parser.js"></script>

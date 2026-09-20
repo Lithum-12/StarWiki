@@ -687,3 +687,24 @@ body.modal-open{overflow:hidden}
   overflow:hidden; 
   border-radius:2px;
 }
+/* ══ 语言切换弹窗（设计系统内实现，零 inline style） ══ */
+.lang-list{display:flex;flex-direction:column;gap:8px}
+.lang-sep{display:flex;align-items:center;gap:10px;margin:6px 0 2px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--mut)}
+.lang-sep::after{content:'';flex:1;height:1px;background:var(--line-soft)}
+.lang-opt{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;
+  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-deep);
+  color:var(--ink-2);cursor:pointer;font-family:var(--sans);font-size:13.5px;text-align:left;transition:.18s}
+.lang-opt:hover{transform:translateY(-1px);border-color:var(--brand);color:var(--ink)}
+.lang-opt.on{background:var(--brand-tint);border-color:var(--brand-line);color:var(--brand-t)}
+.lang-ico{width:28px;height:28px;flex:none;display:grid;place-items:center;padding:5px;
+  border:1px solid var(--line-soft);border-radius:var(--r-xs);background:var(--panel);color:var(--ink-2)}
+.lang-opt.on .lang-ico{border-color:var(--brand-line);color:var(--brand-t)}
+.lang-ico svg{width:100%;height:100%;display:block}
+.lang-ico-txt{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.lang-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.lang-name{font-weight:600;color:inherit}
+.lang-sub{font-family:var(--mono);font-size:11px;color:var(--mut)}
+.lang-badge{flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--mut);
+  border:1px dashed var(--line);border-radius:var(--r-xs);padding:2px 7px}
+.lang-opt.on .lang-badge{color:var(--brand-t);border-style:solid;border-color:var(--brand-line)}
