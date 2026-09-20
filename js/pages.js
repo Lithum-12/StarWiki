@@ -89,18 +89,19 @@ window.openLangModal = function() {
   }
 
   var html = '<div class="lang-list">';
-  html += row({ code:'__auto', ico:GLOBE, main:'浏览器默认',
-    sub: raw ? ('将识别为 ' + (NAME[autoCode] || autoCode) + ' · ' + raw) : '无法读取浏览器语言 · 回退简体中文',
-    badge: isAuto ? '✓ 当前' : '', active: isAuto });
-  html += '<div class="lang-sep">或强制指定</div>';
+  html += row({ code:'__auto', ico:GLOBE, main: window.tUI('langAuto'),
+    sub: raw ? window.tUI('langAutoWill', { name: (NAME[autoCode] || autoCode), raw: raw })
+             : window.tUI('langAutoFail'),
+    badge: isAuto ? window.tUI('langCurrent') : '', active: isAuto });
+  html += '<div class="lang-sep">' + window.tUI('langForce') + '</div>';
   langs.forEach(function(code){
     var active = !isAuto && stored === code;
     html += row({ code:code, ico:code, txt:true, main: NAME[code] || code,
-      badge: active ? '✓ 当前' : (isAuto && code === autoCode ? '浏览器匹配' : ''), active: active });
+      badge: active ? window.tUI('langCurrent') : (isAuto && code === autoCode ? window.tUI('langMatch') : ''), active: active });
   });
   html += '</div>';
 
-  window.WikiModal.open({ kicker:'I18N · LANGUAGE', title:'选择显示语言', body: html });
+  window.WikiModal.open({ kicker: window.tUI('langKicker'), title: window.tUI('langTitle'), body: html });
 
   setTimeout(function(){
     var scope = document.querySelector('#modalBody') || document;
@@ -116,6 +117,107 @@ window.openLangModal = function() {
     });
   }, 0);
 };
+
+/* ══ UI 字符串字典（外壳/首页/弹窗全部固定文案 · zh 以本地原文为准） ══ */
+window.I18N = {
+  zh: {
+    brand:'星图百科', crumbBrand:'✦ 星图百科', brandSub:'PERSONAL · NON-COMMERCIAL',
+    searchPh:'搜索条目…  ( / )',
+    sideKeys:'<kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭',
+    engineSide:'engine v5.2 · by lithumc', engineFoot:'engine v4.11 · by lithumc',
+    collapse:'收起侧栏', reopen:'展开侧栏', totop:'回到顶部', menu:'目录', lang:'切换语言', theme:'切换主题',
+    tocTitle:'本页大纲', tocEmpty:'本页没有小标题', navEmpty:'没有匹配的条目',
+    kickLocal:'本地导入', kickDemo:'演示条目 · {tag}',
+    words:'约 {n} 字', minutes:'预计 {n} 分钟', updated:'更新 {d}', localFile:'本地文件',
+    pagerPrev:'← 上一篇', pagerNext:'下一篇 →',
+    copy:'复制', copied:'已复制 ✓', missingWiki:'未收录的条目',
+    dropTitle:'松开以载入 Markdown', dropSub:'.md / .markdown / .txt · 解析不会离开本机',
+    unsupported:'不支持或未知的文件', removed:'已移除该本地条目',
+    modalUndefined:'弹窗内容未定义: {id}', modalUndefinedNoId:'弹窗内容未定义',
+    loadedToast:'已载入《{title}》· 解析全程在本地',
+    themeDark:'已切换至深色模式', themeLight:'已切换至浅色模式',
+    helpKicker:'HELP · KEYBOARD', helpTitle:'快捷键一览',
+    keySearch:'聚焦搜索框', keySide:'收起 / 展开侧栏', keyEsc:'关闭弹窗 / 侧栏 / 搜索焦点', keyHelp:'打开本帮助',
+    langKicker:'I18N · LANGUAGE', langTitle:'选择显示语言',
+    langAuto:'浏览器默认', langAutoWill:'将识别为 {name} · {raw}', langAutoFail:'无法读取浏览器语言 · 回退简体中文',
+    langForce:'或强制指定', langMatch:'浏览器匹配', langCurrent:'✓ 当前',
+    navProjects:'项目', navAbout:'关于',
+    helloKicker:'✦ HELLO WORLD',
+    helloTitle:'在喧嚣的互联网中<br>放一叠<em> 不常翻阅的档案</em>',
+    helloText:'白天应付需求，晚上折腾爱好。这个小站是我自己的数字自留地：内容就地解析，数据全在本地。<br>如果恰好对你有点用，那是意外之喜。',
+    secProjects:'项目列表', secProjectsNote:'每一项都是独立的一页', secAbout:'关于这个小站',
+    aboutP1:'一开始只是想把本人 <strong>Github</strong> 的维基界面搬出来，后来写了一个小小的 Markdown 解析器，就变成了现在看到的样子。',
+    aboutP2:'全站没有任何框架与构建工具：几个 HTML、JS、CSS，少有模块化但不搞繁杂，方便我随时修修改改。',
+    aboutP3:'它不面向任何人，只是我自己折腾出来的一个角落。如果恰好对你有点用，那是意外之喜。',
+    factK1:'性质', factV1:'个人项目 · <b>非商业用途</b>',
+    factK2:'技术', factV2:'纯代码，无任何依赖',
+    factK3:'解析', factV3:'浏览器本地渲染，无网络请求',
+    factK4:'维护', factV4:'作为 Github 的镜像教程站，随写随更',
+    factK5:'起步', factV5:'2026.06.15 · 缓慢施工中',
+    footSig:'✦ 星图百科 · 手写于某个凌晨', footNoncom:'个人项目，仅供学习交流，不用于任何商业用途',
+    termWho:'一个把笔记慢慢攒成 wiki 的普通人', termMotto:'"由兴趣驱动 · 非商业用途 · 欢迎随便看看"',
+    overview:'OVERVIEW · 概述', overviewDesc:'查看该主题的整体介绍与入口。'
+  },
+  en: {
+    brand:'StarChart Wiki', crumbBrand:'✦ StarChart Wiki', brandSub:'PERSONAL · NON-COMMERCIAL',
+    searchPh:'Search entries…  ( / )',
+    sideKeys:'<kbd>/</kbd> Search &nbsp;<kbd>[</kbd> Sidebar &nbsp;<kbd>Esc</kbd> Close',
+    engineSide:'engine v5.2 · by lithumc', engineFoot:'engine v4.11 · by lithumc',
+    collapse:'Collapse sidebar', reopen:'Expand sidebar', totop:'Back to top', menu:'Contents', lang:'Language', theme:'Toggle theme',
+    tocTitle:'On this page', tocEmpty:'No subheadings on this page', navEmpty:'No matching entries',
+    kickLocal:'LOCAL IMPORT', kickDemo:'DEMO · {tag}',
+    words:'~{n} words', minutes:'~{n} min read', updated:'Updated {d}', localFile:'Local file',
+    pagerPrev:'← Previous', pagerNext:'Next →',
+    copy:'Copy', copied:'Copied ✓', missingWiki:'Entry not indexed',
+    dropTitle:'Drop to load Markdown', dropSub:'.md / .markdown / .txt · parsing never leaves this machine',
+    unsupported:'Unsupported or unknown file', removed:'Local entry removed',
+    modalUndefined:'Modal undefined: {id}', modalUndefinedNoId:'Modal content undefined',
+    loadedToast:'Loaded "{title}" · parsed entirely locally',
+    themeDark:'Switched to dark mode', themeLight:'Switched to light mode',
+    helpKicker:'HELP · KEYBOARD', helpTitle:'Keyboard shortcuts',
+    keySearch:'Focus search', keySide:'Collapse / expand sidebar', keyEsc:'Close modal / sidebar / search focus', keyHelp:'Open this help',
+    langKicker:'I18N · LANGUAGE', langTitle:'Choose display language',
+    langAuto:'Browser default', langAutoWill:'Will detect {name} · {raw}', langAutoFail:'Cannot read browser language · falling back to Chinese',
+    langForce:'Or force a language', langMatch:'browser match', langCurrent:'✓ current',
+    navProjects:'Projects', navAbout:'About',
+    helloKicker:'✦ HELLO WORLD',
+    helloTitle:'In the noisy internet,<br>keep a <em>seldom-opened drawer</em>',
+    helloText:'By day I ship features; by night I tinker. This site is my own digital plot: content parsed in place, data all local.<br>If it happens to help you, that\'s a happy accident.',
+    secProjects:'Projects', secProjectsNote:'Each entry is a standalone page', secAbout:'About this site',
+    aboutP1:'It began as an attempt to move my <strong>GitHub</strong> wiki out; then I wrote a tiny Markdown parser, and it became what you see now.',
+    aboutP2:'No frameworks, no build tools: just a few HTML, JS and CSS files — lightly modularized, easy to tweak.',
+    aboutP3:'It addresses nobody; a corner I built for myself. If it happens to help you, that\'s a happy accident.',
+    factK1:'Nature', factV1:'Personal · <b>non-commercial</b>',
+    factK2:'Tech', factV2:'Pure code, zero dependencies',
+    factK3:'Parsing', factV3:'Rendered locally in browser, no network',
+    factK4:'Maintenance', factV4:'GitHub mirror tutorial site, updated as written',
+    factK5:'Started', factV5:'2026.06.15 · slow construction',
+    footSig:'✦ StarChart Wiki · handwritten at some midnight', footNoncom:'Personal project, for learning only, never commercial',
+    termWho:'an ordinary person piling notes into a wiki', termMotto:'"interest-driven · non-commercial · feel free to look around"',
+    overview:'OVERVIEW', overviewDesc:'Overall introduction and entry of this topic.'
+  }
+};
+
+/* 翻译函数：当前语言 → zh 兜底 → 键名兜底；支持 {var} 插值 */
+window.tUI = function(key, vars) {
+  const lang = window.CURRENT_LANG || 'zh';
+  const d = window.I18N[lang] || window.I18N.zh;
+  let s = d[key] !== undefined ? d[key] : (window.I18N.zh[key] !== undefined ? window.I18N.zh[key] : key);
+  if (vars) for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+  return s;
+};
+
+/* 扫描 data-i18n 属性，批量替换静态节点（首页等静态 HTML 用） */
+window.applyI18N = function(root) {
+  root = root || document;
+  root.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = window.tUI(el.getAttribute('data-i18n')); });
+  root.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = window.tUI(el.getAttribute('data-i18n-ph')); });
+  root.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = window.tUI(el.getAttribute('data-i18n-title')); });
+  root.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', window.tUI(el.getAttribute('data-i18n-aria'))); });
+};
+
+/* <html lang> 与当前界面语言同步 */
+document.documentElement.lang = (window.CURRENT_LANG === 'zh') ? 'zh-CN' : window.CURRENT_LANG;
 
 /* ══ 配色预设 ══ */
 window.PALETTES = {
