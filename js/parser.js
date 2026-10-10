@@ -3,9 +3,11 @@
 window.MDParser = (function () {
 'use strict';
 let S = null, opts = null;
+/* 解析器自带文案：pages.js 未加载时退回键名 */
+const T = (k, v) => (window.tUI ? window.tUI(k, v) : k);
 
 /** HTML 转义 */
-const escapeHtml = s => s.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+const escapeHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 /**
  * 提取纯文本（去除 Markdown 标记）
@@ -59,7 +61,7 @@ function inline(text){
     if(hash>-1){anchor=target.slice(hash+1);target=target.slice(0,hash);}
     const href=opts.wiki?opts.wiki(target.trim(),anchor):null;
     const html = href?`<a class="wikilink" href="${href}">${label}</a>`
-                     :`<span class="wikilink missing" title="未收录的条目">${label}</span>`;
+                     :`<span class="wikilink missing" title="${T('missingWiki')}">${label}</span>`;
     links.push(html);
     return '\u0003'+(links.length-1)+'\u0003';
   });
@@ -108,7 +110,7 @@ function mkCode(lang,code){
   const id='code'+(++S.cb); S.codes[id]=code;
   const lines=code.split('\n').map(l=>`<span class="cl">${escapeHtml(l)||' '}</span>`).join('');
   return `<div class="code-block"><div class="code-bar"><span class="code-lang">${escapeHtml(lang||'text')}</span>`+
-         `<button class="copy-btn" data-code="${id}" type="button">复制</button></div><pre><code>${lines}</code></pre></div>`;
+         `<button class="copy-btn" data-code="${id}" type="button">${T('copy')}</button></div><pre><code>${lines}</code></pre></div>`;
 }
 /**
  * 生成表格 HTML
@@ -219,8 +221,8 @@ function render(src,o){
   });
   let html=parseBlocks(lines);
   if(S.fnUsed.length){
-    html+='<section class="footnotes"><div class="fn-title">参考脚注</div><ol>'+
-      S.fnUsed.map(id=>`<li id="fn-${id}">${inline(S.fn[id])}<a class="fnback" href="#fnref-${id}" title="返回正文">↩</a></li>`).join('')+
+    html+='<section class="footnotes"><div class="fn-title">'+T('footnotes')+'</div><ol>'+
+      S.fnUsed.map(id=>`<li id="fn-${id}">${inline(S.fn[id])}<a class="fnback" href="#fnref-${id}" title="${T('fnBack')}">↩</a></li>`).join('')+
       '</ol></section>';
   }
   return {html,toc:S.toc,codes:S.codes};

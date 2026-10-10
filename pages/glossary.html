@@ -4,10 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>术语表 · 星图百科</title>
-<script src="/js/theme.js"></script>
-<link rel="stylesheet" href="/css/style.css">
+<script>
+/* 站点根：去掉文件名，条目页再退掉 pages 目录。资源必须运行时拼绝对地址——
+   托管方（热铁盒）的服务端改写器按字面量拼相对路径，条目页在子目录里怎么写都会拼错 */
+window.SITE_ROOT=location.href.split('#')[0].split('?')[0].replace(/\/[^/]*$/,'').replace(/\/pages$/,'');
+document.write('<script src="'+window.SITE_ROOT+'/js/theme.js"><\/script>'+
+  '<link rel="stylesheet" href="'+window.SITE_ROOT+'/css/style.css">');
+</script>
 </head>
-<body data-page="glossary" data-root="">
+<body data-page="glossary">
 
 <script type="text/markdown" id="page-md">
 按使用频率排列的高频词条。
@@ -33,9 +38,9 @@
 本站用 `[[条目名]]` 表示站内跳转。点击试试：[[深空天体目录]]。
 </script>
 
-<script src="/js/parser.js"></script>
-<script src="/js/pages.js"></script>
-<script src="/js/svgpack.js"></script>
-<script src="/js/app.js"></script>
+<script>document.write('<script src="'+window.SITE_ROOT+'/js/parser.js"><\/script>'+
+  '<script src="'+window.SITE_ROOT+'/js/pages.js"><\/script>'+
+  '<script src="'+window.SITE_ROOT+'/js/svgpack.js"><\/script>'+
+  '<script src="'+window.SITE_ROOT+'/js/app.js"><\/script>');</script>
 </body>
 </html>

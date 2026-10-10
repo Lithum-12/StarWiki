@@ -4,10 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>语法手册 · 星图百科</title>
-<script src="/js/theme.js"></script>
-<link rel="stylesheet" href="/css/style.css">
+<script>
+/* 站点根：去掉文件名，条目页再退掉 pages 目录。资源必须运行时拼绝对地址——
+   托管方（热铁盒）的服务端改写器按字面量拼相对路径，条目页在子目录里怎么写都会拼错 */
+window.SITE_ROOT=location.href.split('#')[0].split('?')[0].replace(/\/[^/]*$/,'').replace(/\/pages$/,'');
+document.write('<script src="'+window.SITE_ROOT+'/js/theme.js"><\/script>'+
+  '<link rel="stylesheet" href="'+window.SITE_ROOT+'/css/style.css">');
+</script>
 </head>
-<body data-page="syntax" data-root="">
+<body data-page="syntax">
 
 <script type="text/markdown" id="page-md">
 本页按类别演示阅读器支持的全部语法，示例所见即所得。
@@ -90,9 +95,9 @@ print(limit_mag(150))  # 约 14.1 等
 [^back]: 试试点击文末的 ↩ 符号。
 </script>
 
-<script src="/js/parser.js"></script>
-<script src="/js/pages.js"></script>
-<script src="/js/svgpack.js"></script>
-<script src="/js/app.js"></script>
+<script>document.write('<script src="'+window.SITE_ROOT+'/js/parser.js"><\/script>'+
+  '<script src="'+window.SITE_ROOT+'/js/pages.js"><\/script>'+
+  '<script src="'+window.SITE_ROOT+'/js/svgpack.js"><\/script>'+
+  '<script src="'+window.SITE_ROOT+'/js/app.js"><\/script>');</script>
 </body>
 </html>
