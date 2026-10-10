@@ -248,7 +248,15 @@ window.I18N = {
     termWho:'一个把笔记慢慢攒成 wiki 的普通人', termMotto:'"由兴趣驱动 · 非商业用途 · 欢迎随便看看"',
     overview:'OVERVIEW · 概述', overviewDesc:'查看该主题的整体介绍与入口。',
     warnLangTitle:'语言支持提示',
-    warnLangBody:'本页正文暂仅提供：{avail}。您当前使用的语言为：{cur}——站点界面已随您的语言翻译，但正文内容尚未撰写。'
+    warnLangBody:'本页正文暂仅提供：{avail}。您当前使用的语言为：{cur}——站点界面已随您的语言翻译，但正文内容尚未撰写。',
+    openFile:'打开文件', maintenance:'正在维护', navToggle:'展开 / 折叠',
+    navToggleAria:'展开或折叠 {title}', tagLocal:'本地',
+    footnotes:'参考脚注', fnBack:'返回正文',
+    closeBtn:'关闭 (Esc)', closeModal:'关闭弹窗', unnamed:'未命名',
+    homeTitle:'星图百科 · 个人项目站',
+    nfPageTitle:'404 · 星图百科', nfTitle:'这一页不在星图上', nfPathLabel:'请求路径：',
+    nfMiss:'cat: No such file or directory —— 该条目未被收录',
+    nfHint:'试试返回首页，或从项目列表里挑一个条目。', nfHome:'返回首页', nfNoncom:'非商业用途'
   },
   en: {
     brand:'StarChart Wiki', crumbBrand:'✦ StarChart Wiki', brandSub:'PERSONAL · NON-COMMERCIAL',
@@ -290,7 +298,15 @@ window.I18N = {
     termWho:'an ordinary person piling notes into a wiki', termMotto:'"interest-driven · non-commercial · feel free to look around"',
     overview:'OVERVIEW', overviewDesc:'Overall introduction and entry of this topic.',
     warnLangTitle:'Language notice',
-    warnLangBody:'The body of this page is currently only available in: {avail}. Your language is set to {cur} — the site interface is translated, but the article body has not been written yet.'
+    warnLangBody:'The body of this page is currently only available in: {avail}. Your language is set to {cur} — the site interface is translated, but the article body has not been written yet.',
+    openFile:'Open file', maintenance:'Under maintenance', navToggle:'Expand / collapse',
+    navToggleAria:'Expand or collapse {title}', tagLocal:'Local',
+    footnotes:'References', fnBack:'Back to text',
+    closeBtn:'Close (Esc)', closeModal:'Close dialog', unnamed:'Untitled',
+    homeTitle:'StarChart Wiki · Personal projects',
+    nfPageTitle:'404 · StarChart Wiki', nfTitle:'This page is off the star chart', nfPathLabel:'Requested path: ',
+    nfMiss:'cat: No such file or directory — this entry is not indexed',
+    nfHint:'Try the home page, or pick an entry from the project list.', nfHome:'Back to home', nfNoncom:'non-commercial'
   }
 };
 
@@ -306,7 +322,10 @@ window.tUI = function(key, vars) {
 /* 扫描 data-i18n 属性，批量替换静态节点（首页等静态 HTML 用） */
 window.applyI18N = function(root) {
   root = root || document;
-  root.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = window.tUI(el.getAttribute('data-i18n')); });
+  root.querySelectorAll('[data-i18n]').forEach(el => {
+    const s = window.tUI(el.getAttribute('data-i18n'));
+    if (el.tagName === 'TITLE') document.title = s; else el.innerHTML = s;
+  });
   root.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = window.tUI(el.getAttribute('data-i18n-ph')); });
   root.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = window.tUI(el.getAttribute('data-i18n-title')); });
   root.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', window.tUI(el.getAttribute('data-i18n-aria'))); });

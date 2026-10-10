@@ -2,6 +2,8 @@
 (function(){
 'use strict';
 var overlay=null,lastFocus=null;
+/* 弹窗自带文案：pages.js 未加载时退回键名 */
+var T=function(k,v){ return window.tUI ? window.tUI(k,v) : k; };
 
 function ensure(){
   if(overlay)return overlay;
@@ -11,7 +13,7 @@ function ensure(){
     '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">'+
       '<div class="modal-head">'+
         '<span class="modal-kicker" id="modalKicker">DIALOG</span>'+
-        '<button class="modal-close" id="modalClose" type="button" title="关闭 (Esc)" aria-label="关闭弹窗">×</button>'+
+        '<button class="modal-close" id="modalClose" type="button" title="'+T('closeBtn')+'" aria-label="'+T('closeModal')+'">×</button>'+
       '</div>'+
       '<h2 class="modal-title" id="modalTitle"></h2>'+
       '<div class="modal-body" id="modalBody"></div>'+
@@ -26,7 +28,7 @@ function open(opts){
   opts=opts||{};
   ensure();
   overlay.querySelector('#modalKicker').textContent=opts.kicker||'DIALOG';
-  overlay.querySelector('#modalTitle').textContent=opts.title||'未命名';
+  overlay.querySelector('#modalTitle').textContent=opts.title||T('unnamed');
   var body=overlay.querySelector('#modalBody');
   if(opts.body instanceof HTMLElement){body.innerHTML='';body.appendChild(opts.body);}
   else body.innerHTML=opts.body||'';
@@ -52,13 +54,13 @@ document.addEventListener('keydown',function(e){
   if(e.key==='?'){
     e.preventDefault();
     open({
-      kicker:'HELP · KEYBOARD',
-      title:'快捷键一览',
+      kicker: T('helpKicker'),
+      title: T('helpTitle'),
       body:
-        '<div class="key-row"><span><kbd>/</kbd></span><span>聚焦搜索框</span></div>'+
-        '<div class="key-row"><span><kbd>[</kbd></span><span>收起 / 展开侧栏</span></div>'+
-        '<div class="key-row"><span><kbd>Esc</kbd></span><span>关闭弹窗 / 侧栏 / 搜索焦点</span></div>'+
-        '<div class="key-row"><span><kbd>?</kbd></span><span>打开本帮助</span></div>'
+        '<div class="key-row"><span><kbd>/</kbd></span><span>'+T('keySearch')+'</span></div>'+
+        '<div class="key-row"><span><kbd>[</kbd></span><span>'+T('keySide')+'</span></div>'+
+        '<div class="key-row"><span><kbd>Esc</kbd></span><span>'+T('keyEsc')+'</span></div>'+
+        '<div class="key-row"><span><kbd>?</kbd></span><span>'+T('keyHelp')+'</span></div>'
     });
   }
 });

@@ -7,6 +7,9 @@ const iconOf = window.iconOf || function(){ return ''; };
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+/* 首页静态文案：先翻译 HTML 里 data-i18n 标记的节点，再渲染卡片 */
+window.applyI18N();
+
 /** 根据标签颜色返回对应的强调类名 */
 const accCls=c=>({teal:'acc-teal',gray:'acc-gray',orange:'acc-orange',purple:'acc-purple',gold:'acc-gold'}[c]||'');
 
@@ -33,11 +36,11 @@ PAGES.forEach((p, groupIdx) => {
         <span class="proj-top">
           <span class="proj-icon">${iconOf(p,'')}</span>
           <span class="proj-info">
-            <span class="proj-row"><span class="proj-date">OVERVIEW · 概述</span></span>
+            <span class="proj-row"><span class="proj-date">${window.tUI('overview')}</span></span>
             <span class="proj-title">${esc(window.t(p.title))}</span>
           </span>
         </span>
-        <span class="proj-desc">查看该主题的整体介绍与入口。</span>
+        <span class="proj-desc">${window.tUI('overviewDesc')}</span>
         <span class="proj-more">README <span class="arr">→</span></span>
       </a>`;
     }
@@ -102,11 +105,11 @@ if(hostBtn){
 const term=$('#termBody');
 const LINES=[
   {cmd:true,  t:'whoami'},
-  {cmd:false, t:'一个把笔记慢慢攒成 wiki 的普通人'},
+  {cmd:false, t:window.tUI('termWho')},
   {cmd:true,  t:'ls ./projects'},
   {cmd:false, t:PAGES.map(p=>window.t(p.title)).join('  ')},
   {cmd:true,  t:'cat motto.txt'},
-  {cmd:false, t:'"由兴趣驱动 · 非商业用途 · 欢迎随便看看"'}
+  {cmd:false, t:window.tUI('termMotto')}
 ];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 /**

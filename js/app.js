@@ -5,6 +5,7 @@ const PAGES = window.PAGES || [];
 const PALETTES = window.PALETTES || {};
 const iconOf = window.iconOf || function(){ return ''; };
 const $ = s => document.querySelector(s);
+const tUI = (k, v) => (window.tUI ? window.tUI(k, v) : k);
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 /* ── 功能开关 ── */
@@ -86,47 +87,47 @@ document.body.insertAdjacentHTML('afterbegin', `
           <circle class="spark" cx="19.5" cy="4.5" r="1.3"/>
         </svg>
       </span>
-<span><b>星图百科</b><span class="brand-text-wrap"><small id="brandTypewriter"></small><div class="tw-error-overlay" id="twError">SYNTAX ERROR</div></span></span>
+<span><b>${tUI('brand')}</b><span class="brand-text-wrap"><small id="brandTypewriter"></small><div class="tw-error-overlay" id="twError">SYNTAX ERROR</div></span></span>
     </a>
     <div class="search">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="searchInput" placeholder="搜索条目…  ( / )" autocomplete="off">
+      <input id="searchInput" placeholder="${tUI('searchPh')}" autocomplete="off">
     </div>
     <nav id="navList"></nav>
     <div class="side-foot">
       <div class="side-foot-info">
-        <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
-        <div class="mono" style="opacity:.7">${window.tUI('engine')}</div>
+        <div>${tUI('sideKeys')}</div>
+        <div class="mono" style="opacity:.7">${tUI('engine')}</div>
       </div>
-      <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
+      <button class="btn side-collapse-btn" id="collapseBtn" title="${tUI('collapse')}" aria-label="${tUI('collapse')}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg>
       </button>
     </div>
   </aside>
-  <button class="side-reopen" id="reopenBtn" title="展开侧栏" aria-label="展开侧栏">
+  <button class="side-reopen" id="reopenBtn" title="${tUI('reopen')}" aria-label="${tUI('reopen')}">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10 2 2-2 2"/></svg>
   </button>
-  <button class="side-top" id="topBtn" title="回到顶部" aria-label="回到顶部">
+  <button class="side-top" id="topBtn" title="${tUI('totop')}" aria-label="${tUI('totop')}">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14"/><path d="M12 20V8"/><path d="m6 14 6-6 6 6"/></svg>
   </button>
   <div class="scrim" id="scrim"></div>
   <main class="main" id="main">
     <header class="topbar">
-      <button class="icon-btn" id="menuBtn" title="目录" aria-label="目录">
+      <button class="icon-btn" id="menuBtn" title="${tUI('menu')}" aria-label="${tUI('menu')}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
-      <div class="crumb"><span class="crumb-brand">✦ 星图百科</span><span class="sep">/</span><b id="crumbPage"></b></div>
+      <div class="crumb"><span class="crumb-brand">${tUI('crumbBrand')}</span><span class="sep">/</span><b id="crumbPage"></b></div>
       <div class="spacer"></div>
       <button class="btn ${IMPORT_ENABLED?'':'is-disabled'}" id="openBtn"
-        ${IMPORT_ENABLED?'':'aria-disabled="true" title="正在维护"'}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-2.54 6a2 2 0 0 1-1.84 1.25H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>打开文件</button>      <input type="file" id="fileInput" accept=".md,.markdown,.txt,text/markdown" multiple hidden>
-      <button class="btn theme-btn" id="hostBtn" title="${window.tUI('hostBtn')}" aria-label="${window.tUI('hostBtn')}">
+        ${IMPORT_ENABLED?'':'aria-disabled="true" title="'+tUI('maintenance')+'"'}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-2.54 6a2 2 0 0 1-1.84 1.25H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>${tUI('openFile')}</button>      <input type="file" id="fileInput" accept=".md,.markdown,.txt,text/markdown" multiple hidden>
+      <button class="btn theme-btn" id="hostBtn" title="${tUI('hostBtn')}" aria-label="${tUI('hostBtn')}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><path d="M8.5 2v5"/><path d="M15.5 2v5"/><path d="M5.5 7h13v3.5a6.5 6.5 0 0 1-13 0V7z"/><path d="M12 17v5"/></g></svg>
       </button>
-      <button class="btn theme-btn" id="langBtn" title="切换语言" aria-label="语言切换">
+      <button class="btn theme-btn" id="langBtn" title="${tUI('lang')}" aria-label="${tUI('lang')}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 2.5V5"/><path d="M3 6.5h11.5"/><path d="M5.5 9.5c1 3.4 3.6 6.3 7 8"/><path d="M11.5 9.5c-1 3.4-3.6 6.3-7 8"/><path d="M13 21.5l4-10 4 10"/><path d="M14.7 17.5h4.6"/></svg>
       </button>
-      <button class="btn theme-btn" id="themeBtn" title="切换主题" aria-label="切换主题">
+      <button class="btn theme-btn" id="themeBtn" title="${tUI('theme')}" aria-label="${tUI('theme')}">
         <svg class="ic-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
         <svg class="ic-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       </button>
@@ -145,8 +146,8 @@ document.body.insertAdjacentHTML('afterbegin', `
           <div class="lw-head"><i class="lw-dot"></i><span id="langWarnTitle"></span></div>
           <p class="lw-text" id="langWarnText"></p>
         </aside>
-        <nav class="card toc" aria-label="本页大纲">
-          <div class="toc-title"><i class="pulse"></i>本页大纲</div>
+        <nav class="card toc" aria-label="${tUI('tocTitle')}">
+          <div class="toc-title"><i class="pulse"></i>${tUI('tocTitle')}</div>
           <div id="tocList"></div>
         </nav>
       </div>
@@ -155,8 +156,8 @@ document.body.insertAdjacentHTML('afterbegin', `
 </div>
 <div class="drop" id="drop"><div class="drop-in">
   <div class="drop-ico">✦</div>
-  <div class="drop-t">松开以载入 Markdown</div>
-  <div class="drop-s">.md / .markdown / .txt · 解析不会离开本机</div>
+  <div class="drop-t">${tUI('dropTitle')}</div>
+  <div class="drop-s">${tUI('dropSub')}</div>
 </div></div>
 <div class="toast" id="toast" role="status"></div>
 `);
@@ -181,7 +182,7 @@ $('#themeBtn').addEventListener('click',()=>{
   document.documentElement.setAttribute('data-theme',t);
   try{ localStorage.setItem('wikiTheme',t); }catch(e){}
   applyPalette(currentKey());
-  toast(t==='dark' ? '已切换至深色模式' : '已切换至浅色模式');
+  toast(t==='dark' ? tUI('themeDark') : tUI('themeLight'));
 });
 
 /* ── 语言切换弹窗 ── */
@@ -237,7 +238,7 @@ const registry = () => {
     if (p.file) flat.push(p); // 父级本身如果有 file，也作为一页
     if (p.children) p.children.forEach(c => flat.push({ ...c, parent: p.key, tagColor: p.tagColor }));
   });
-  return flat.concat(imports.map(p=>({ key:p.key, title:p.title, desc:'本地导入', tag:'本地', tagColor:'red', removable:true })));
+  return flat.concat(imports.map(p=>({ key:p.key, title:p.title, desc:tUI('kickLocal'), tag:tUI('tagLocal'), tagColor:'red', removable:true })));
 };
 
 /* ── 侧栏（图标即折叠按钮） ── */
@@ -284,7 +285,7 @@ function renderNav(filter){
       
       html += `<div class="nav-group ${isOpen?'is-open':''}">
         <div class="nav-parent-row">
-          <button class="nav-ico-btn" data-group="${p.key}" title="展开 / 折叠" aria-label="展开或折叠 ${esc(window.t(p.title))}">
+          <button class="nav-ico-btn" data-group="${p.key}" title="${tUI('navToggle')}" aria-label="${esc(tUI('navToggleAria',{title:window.t(p.title)}))}">
             <span class="ico-face">${iconOf(p,BASE)}</span>
             <span class="ico-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
           </button>
@@ -308,7 +309,7 @@ function renderNav(filter){
     }
   });
 
-  navList.innerHTML = html || '<div class="nav-empty">没有匹配的条目</div>';
+  navList.innerHTML = html || '<div class="nav-empty">'+tUI('navEmpty')+'</div>';
 
   /* 图标按钮 = 折叠开关 */
   navList.querySelectorAll('.nav-ico-btn').forEach(btn => {
@@ -337,7 +338,7 @@ function renderCurrent(){
   if(impKey){
     const p=imports.find(x=>x.key===impKey);
     if(!p){ location.replace(BASE+'/index.html'); return; }
-    info={title:p.title,tag:'本地',removable:true}; md=p.body;
+    info={title:p.title,tag:tUI('tagLocal'),removable:true}; md=p.body;
   }else{
     // 1. 先在顶层找
     info = PAGES.find(x=>x.key===KEY);
@@ -367,9 +368,9 @@ function renderCurrent(){
   const res=MDParser.render(md,{wiki:wikiResolver});
   codeStore=res.codes;
 
-  document.title=window.t(info.title)+' · 星图百科';
+  document.title=window.t(info.title)+' · '+tUI('brand');
   $('#crumbPage').textContent=window.t(info.title);
-  $('#kick').textContent=info.removable?'本地导入':'演示条目 · '+(window.t(info.tag)||'');
+  $('#kick').textContent=info.removable?tUI('kickLocal'):tUI('kickDemo',{tag:window.t(info.tag)||''});
   const pageTitle=$('#pageTitle');
   pageTitle.textContent=window.t(info.title);
   pageTitle.insertAdjacentHTML('beforeend','<span class="caret" aria-hidden="true"></span>');
@@ -377,9 +378,9 @@ function renderCurrent(){
   const text=res.html.replace(/<[^>]+>/g,'');
   const chars=[...text.replace(/\s/g,'')].length;
   $('#metaChips').innerHTML=
-    '<span class="chip"><i class="dot dot-red"></i>约 '+chars+' 字</span>'+
-    '<span class="chip"><i class="dot dot-teal"></i>预计 '+Math.max(1,Math.round(chars/450))+' 分钟</span>'+
-    '<span class="chip"><i class="dot dot-gray"></i>'+(info.removable?'本地文件':'更新 '+info.date)+'</span>';
+    '<span class="chip"><i class="dot dot-red"></i>'+tUI('words',{n:chars})+'</span>'+
+    '<span class="chip"><i class="dot dot-teal"></i>'+tUI('minutes',{n:Math.max(1,Math.round(chars/450))})+'</span>'+
+    '<span class="chip"><i class="dot dot-gray"></i>'+(info.removable?tUI('localFile'):tUI('updated',{d:info.date}))+'</span>';
 
   contentEl.innerHTML=res.html;
 
@@ -416,14 +417,14 @@ function renderCurrent(){
 
   tocList.innerHTML = res.toc.filter(h=>h.level<=3)
     .map(h=>'<a class="l'+h.level+'" href="#'+h.id+'">'+esc(h.text)+'</a>').join('')
-    || '<div class="toc-empty">本页没有小标题</div>';
+    || '<div class="toc-empty">'+tUI('tocEmpty')+'</div>';
 
   const order=registry(), idx=order.findIndex(x=>x.key===currentKey());
   if(order.length>1){
     const prev=order[(idx-1+order.length)%order.length], next=order[(idx+1)%order.length];
     pager.innerHTML=
-      '<a class="prev" href="'+hrefOf(prev)+'"><span class="lbl">← 上一篇</span><span class="ttl">'+esc(window.t(prev.title))+'</span></a>'+
-      '<a class="next" href="'+hrefOf(next)+'"><span class="lbl">下一篇 →</span><span class="ttl">'+esc(window.t(next.title))+'</span></a>';
+      '<a class="prev" href="'+hrefOf(prev)+'"><span class="lbl">'+tUI('pagerPrev')+'</span><span class="ttl">'+esc(window.t(prev.title))+'</span></a>'+
+      '<a class="next" href="'+hrefOf(next)+'"><span class="lbl">'+tUI('pagerNext')+'</span><span class="ttl">'+esc(window.t(next.title))+'</span></a>';
   } else pager.innerHTML='';
 
   renderNav(searchInput.value);
@@ -439,8 +440,8 @@ function renderCurrent(){
  */
 function copyCode(btn){
   const text=codeStore[btn.dataset.code]||'';
-  const done=()=>{btn.classList.add('ok');btn.textContent='已复制 ✓';
-    setTimeout(()=>{btn.classList.remove('ok');btn.textContent='复制';},1600);};
+  const done=()=>{btn.classList.add('ok');btn.textContent=tUI('copied');
+    setTimeout(()=>{btn.classList.remove('ok');btn.textContent=tUI('copy');},1600);};
   const fb=()=>{const ta=document.createElement('textarea');ta.value=text;
     ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();
     try{document.execCommand('copy');done();}catch(e){}ta.remove();};
@@ -459,7 +460,7 @@ contentEl.addEventListener('click',e=>{
     if(window.WikiModal && window.ModalDict && window.ModalDict[id]){
       WikiModal.open(window.ModalDict[id]);
     } else {
-      toast('弹窗内容未定义: ' + id);
+      toast(tUI('modalUndefined',{id}));
     }
     return;
   }
@@ -476,7 +477,7 @@ contentEl.addEventListener('click',e=>{
       if(window.WikiModal && window.ModalDict && window.ModalDict[id]){
         WikiModal.open(window.ModalDict[id]);
       } else {
-        toast('弹窗内容未定义');
+        toast(tUI('modalUndefinedNoId'));
       }
       return;
     }
@@ -503,7 +504,7 @@ navList.addEventListener('click',e=>{
     const key=rm.dataset.rm;
     imports=imports.filter(p=>p.key!==key); 
     saveImports();
-    toast('已移除该本地条目');
+    toast(tUI('removed'));
     if(key===impKey){ location.href=BASE+'/index.html'; } 
     else renderNav(searchInput.value);
     return;
@@ -547,7 +548,7 @@ document.addEventListener('keydown',e=>{
  * @param {FileList} files - 选择的文件列表
  */
 function handleFiles(files){
-  if(!IMPORT_ENABLED){ toast('不支持或未知的文件'); return; }
+  if(!IMPORT_ENABLED){ toast(tUI('unsupported')); return; }
   [...files].forEach(f=>{
     const r=new FileReader();
     r.onload=e=>{
@@ -561,14 +562,14 @@ function handleFiles(files){
       }
       const key='imp'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
       imports.push({key,title,body}); saveImports();
-      sessionStorage.setItem('wikiToast','已载入「'+title+'」· 解析全程在本地');
+      sessionStorage.setItem('wikiToast', tUI('loadedToast',{title}));
       location.href=(KEY==='home'?'':BASE+'/')+'index.html?imp='+key;
     };
     r.readAsText(f);
   });
 }
 $('#openBtn').addEventListener('click',()=>{
-  if(!IMPORT_ENABLED){ toast('不支持或未知的文件'); return; }
+  if(!IMPORT_ENABLED){ toast(tUI('unsupported')); return; }
   $('#fileInput').click();
 });
 $('#fileInput').addEventListener('change',e=>{handleFiles(e.target.files);e.target.value='';});
@@ -581,7 +582,7 @@ if(IMPORT_ENABLED){
   window.addEventListener('drop',e=>{e.preventDefault();dragDepth=0;dropEl.classList.remove('show');handleFiles(e.dataTransfer.files);});
 }else{
   window.addEventListener('dragover',e=>e.preventDefault());
-  window.addEventListener('drop',e=>{e.preventDefault();toast('不支持或未知的文件');});
+  window.addEventListener('drop',e=>{e.preventDefault();toast(tUI('unsupported'));});
 }
 
 /* ── 滚动 ── */
