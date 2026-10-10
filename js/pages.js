@@ -1,11 +1,13 @@
 /* pages.js —— 页面注册表、配色预设与多语言(i18n)支持 */
 
 /* ━━ 0. 站点根路径 ━━ */
-/* 由本脚本自身的加载地址反推：无论 file:// 双击、http://localhost 还是 GitHub Pages 子目录都能得到正确前缀 */
+/* 由当前文档地址反推：去掉文件名，条目页再退掉 pages 目录。
+   刻意不用脚本加载地址——托管方会改写资源链接（热铁盒把 ../js/x.js 换成它自己的 CDN 路径），
+   那样算出来的根就是错的。文档地址对 file:// 双击、localhost、子目录部署、根部署都成立。 */
 window.WIKI_BASE = (function () {
-  var el = document.querySelector('script[src*="pages.js"]');
-  if (!el) return '.';
-  return el.src.replace(/\/js\/pages\.js(\?.*)?$/, '');
+  var href = location.href.split('#')[0].split('?')[0];
+  href = href.replace(/\/[^/]*$/, '');
+  return href.replace(/\/pages$/, '');
 })();
 
 /* ━━ 1. 多语言全局状态与工具函数 ━━ */
@@ -212,7 +214,7 @@ window.I18N = {
     brand:'星图百科', crumbBrand:'✦ 星图百科', brandSub:'PERSONAL · NON-COMMERCIAL',
     searchPh:'搜索条目…  ( / )',
     sideKeys:'<kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭',
-    engine:'engine v5.2 · by lithumc',
+    engine:'engine v6.0 · by lithumc',
     collapse:'收起侧栏', reopen:'展开侧栏', totop:'回到顶部', menu:'目录', lang:'切换语言', theme:'切换主题',
     tocTitle:'本页大纲', tocEmpty:'本页没有小标题', navEmpty:'没有匹配的条目',
     kickLocal:'本地导入', kickDemo:'演示条目 · {tag}',
@@ -262,7 +264,7 @@ window.I18N = {
     brand:'StarChart Wiki', crumbBrand:'✦ StarChart Wiki', brandSub:'PERSONAL · NON-COMMERCIAL',
     searchPh:'Search entries…  ( / )',
     sideKeys:'<kbd>/</kbd> Search &nbsp;<kbd>[</kbd> Sidebar &nbsp;<kbd>Esc</kbd> Close',
-    engine:'engine v5.2 · by lithumc',
+    engine:'engine v6.0 · by lithumc',
     collapse:'Collapse sidebar', reopen:'Expand sidebar', totop:'Back to top', menu:'Contents', lang:'Language', theme:'Toggle theme',
     tocTitle:'On this page', tocEmpty:'No subheadings on this page', navEmpty:'No matching entries',
     kickLocal:'LOCAL IMPORT', kickDemo:'DEMO · {tag}',
