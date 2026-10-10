@@ -4,7 +4,7 @@
 /* 由当前文档地址反推：去掉文件名，条目页再退掉 pages 目录。
    刻意不用脚本加载地址——托管方会改写资源链接（热铁盒把 ../js/x.js 换成它自己的 CDN 路径），
    那样算出来的根就是错的。文档地址对 file:// 双击、localhost、子目录部署、根部署都成立。 */
-window.WIKI_BASE = (function () {
+window.WIKI_BASE = window.SITE_ROOT || (function () {
   var href = location.href.split('#')[0].split('?')[0];
   href = href.replace(/\/[^/]*$/, '');
   return href.replace(/\/pages$/, '');
