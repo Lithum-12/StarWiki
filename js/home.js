@@ -94,12 +94,14 @@ $('#themeBtn').addEventListener('click',()=>{
 const langBtn=$('#langBtn');
 if(langBtn) langBtn.addEventListener('click',window.openLangModal);
 
-/* ── 托管站点切换弹窗 ── */
+/* ── 托管站点切换：没配线路就不留这个按钮 ── */
 const hostBtn=$('#hostBtn');
 if(hostBtn){
-  hostBtn.title = window.tUI('hostBtn');
-  hostBtn.setAttribute('aria-label', window.tUI('hostBtn'));
-  hostBtn.addEventListener('click',window.openHostModal);
+  if((window.HOSTS||[]).length){
+    hostBtn.title = window.tUI('hostBtn');
+    hostBtn.setAttribute('aria-label', window.tUI('hostBtn'));
+    hostBtn.addEventListener('click',window.openHostModal);
+  } else hostBtn.remove();
 }
 
 const term=$('#termBody');

@@ -189,9 +189,12 @@ $('#themeBtn').addEventListener('click',()=>{
 const langBtn=$('#langBtn');
 if(langBtn) langBtn.addEventListener('click',window.openLangModal);
 
-/* ── 托管站点切换弹窗 ── */
+/* ── 托管站点切换：没配线路就不留这个按钮 ── */
 const hostBtn=$('#hostBtn');
-if(hostBtn) hostBtn.addEventListener('click',window.openHostModal);
+if(hostBtn){
+  if((window.HOSTS||[]).length) hostBtn.addEventListener('click',window.openHostModal);
+  else hostBtn.remove();
+}
 
 /* ── 侧栏收起 / 展开（状态记忆） ── */
 const setSide = collapsed => {
