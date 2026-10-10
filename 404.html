@@ -4,9 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 · 星图百科</title>
-<script src="/js/theme.js"></script>
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/home.css">
+<script>
+/* 404 会在任意深度被返回（GitHub Pages 子路径 / server.js 都是），静态根绝对路径必然失效。
+   这里按 URL 目录段反推站点根：遇到 pages / css / js 即截断，剩余前缀就是站点根。 */
+(function(){
+  var segs=decodeURIComponent(location.pathname).split('/').filter(Boolean);
+  var dirs=segs.slice(0,-1);
+  for(var i=0;i<dirs.length;i++){
+    if(dirs[i]==='pages'||dirs[i]==='css'||dirs[i]==='js'){ dirs=dirs.slice(0,i); break; }
+  }
+  var root='/'+dirs.join('/');
+  window.SITE_ROOT = root==='/' ? '' : root;
+  document.write(
+    '<script src="'+window.SITE_ROOT+'/js/theme.js"><\/script>'+
+    '<link rel="stylesheet" href="'+window.SITE_ROOT+'/css/style.css">'+
+    '<link rel="stylesheet" href="'+window.SITE_ROOT+'/css/home.css">'
+  );
+})();
+</script>
 <style>
 .nf-wrap{min-height:100vh;display:grid;place-items:center;padding:48px 20px;position:relative;z-index:1}
 .nf-box{width:100%;max-width:720px}
@@ -26,7 +41,7 @@
 
 <main class="nf-wrap">
   <div class="nf-box">
-    <a class="brand nf-brand" href="/index.html">
+    <a class="brand nf-brand" href="index.html" data-home-link>
       <span class="logo">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path class="star" d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2L12 2z"/>
@@ -55,12 +70,12 @@
       </div>
 
       <div class="nf-actions">
-        <a class="btn" href="/index.html">返回首页</a>
+        <a class="btn" href="index.html" data-home-link>返回首页</a>
         <!--<button class="btn" onclick="history.back()">返回上一页</button>-->
       </div>
     </article>
 
-    <div class="nf-foot">engine v4.11 · by lithumc · 非商业用途</div>
+    <div class="nf-foot">engine v5.2 · by lithumc · 非商业用途</div>
   </div>
 </main>
 
@@ -71,6 +86,9 @@
   var tail=parts.length?parts.slice(-2).join('/'):'index.html';
   document.getElementById('nfPath').textContent='/'+tail;
   document.getElementById('nfCmd').textContent='cat ./'+tail;
+  document.querySelectorAll('[data-home-link]').forEach(function(a){
+    a.href=(window.SITE_ROOT||'')+'/index.html';
+  });
 })();
 </script>
 </body>

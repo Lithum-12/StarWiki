@@ -91,6 +91,14 @@ $('#themeBtn').addEventListener('click',()=>{
 const langBtn=$('#langBtn');
 if(langBtn) langBtn.addEventListener('click',window.openLangModal);
 
+/* ── 托管站点切换弹窗 ── */
+const hostBtn=$('#hostBtn');
+if(hostBtn){
+  hostBtn.title = window.tUI('hostBtn');
+  hostBtn.setAttribute('aria-label', window.tUI('hostBtn'));
+  hostBtn.addEventListener('click',window.openHostModal);
+}
+
 const term=$('#termBody');
 const LINES=[
   {cmd:true,  t:'whoami'},

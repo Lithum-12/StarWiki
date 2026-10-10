@@ -1,5 +1,13 @@
 /* pages.js —— 页面注册表、配色预设与多语言(i18n)支持 */
 
+/* ━━ 0. 站点根路径 ━━ */
+/* 由本脚本自身的加载地址反推：无论 file:// 双击、http://localhost 还是 GitHub Pages 子目录都能得到正确前缀 */
+window.WIKI_BASE = (function () {
+  var el = document.querySelector('script[src*="pages.js"]');
+  if (!el) return '.';
+  return el.src.replace(/\/js\/pages\.js(\?.*)?$/, '');
+})();
+
 /* ━━ 1. 多语言全局状态与工具函数 ━━ */
 /* 浏览器语言自动检测（共享函数：CURRENT_LANG 初始化与语言弹窗副标题共用，避免两套实现漂移） */
 window.detectBrowserLang = function() {
@@ -58,7 +66,7 @@ window.getAvailableLangs = function(rawMd) {
 window.openLangModal = function() {
   if (!window.WikiModal) {           /* 懒加载 modal.js（首页/部分条目页） */
     var s = document.createElement('script');
-    s.src = '/js/modal.js';
+    s.src = window.WIKI_BASE + '/js/modal.js';
     s.onload = function(){ window.openLangModal(); };
     document.head.appendChild(s);
     return;
@@ -118,13 +126,93 @@ window.openLangModal = function() {
   }, 0);
 };
 
+/* ══ 托管线路（同一份站点部署在多处，供读者按网速自行选择） ══ */
+/* 新增线路只改这里：base = 该线路的站点根前缀（GitHub Pages 项目页为 /仓库名，根部署填 ''） */
+window.HOSTS = [
+  { code:'rth1', url:'https://lithumc-blog.rth1.xyz', base:'',
+    name:{ zh:'热铁盒 · 网页托管', en:'Reth1 Box Hosting' },
+    note:{ zh:'中国大陆网速快 · 同步可能稍后', en:'Fast in mainland China · sync may lag' },
+    icon:'<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="24" height="24" rx="3.6" fill="#0066CC"/><rect x="4.03" y="4.03" width="15.94" height="5.44" rx="0.9" fill="#fff"/><rect x="4.03" y="10.78" width="9.19" height="9.19" rx="0.9" fill="#fff"/><rect x="14.53" y="10.78" width="5.44" height="9.19" rx="0.9" fill="#80B3E6"/></svg>' },
+  { code:'github', url:'https://lithum-12.github.io/StarWiki', base:'/StarWiki',
+    name:{ zh:'GitHub Pages', en:'GitHub Pages' },
+    note:{ zh:'内容最新最全 · 中国大陆访问较慢', en:'Most complete · slower in mainland China' },
+    icon:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>' }
+];
+
+/* 当前线路：按 hostname 命中；本地 file:// 预览或自定义域视为未命中 */
+window.currentHost = function() {
+  var here = location.hostname.toLowerCase();
+  if (!here) return null;
+  for (var i = 0; i < window.HOSTS.length; i++) {
+    var h = window.HOSTS[i];
+    try { if (new URL(h.url).hostname.toLowerCase() === here) return h; } catch(e){}
+  }
+  return null;
+};
+
+/* 把当前 URL 换算成目标线路上的同页地址：先剥掉本线路前缀得到站内路径，再挂到目标线路 */
+window.hrefOnHost = function(h) {
+  var cur = window.currentHost();
+  var path = location.pathname;
+  if (cur) {
+    var from = cur.base || '';
+    if (from && path.toLowerCase().indexOf(from.toLowerCase() + '/') === 0) path = path.slice(from.length);
+    else if (from && path.toLowerCase() === from.toLowerCase()) path = '/';
+  } else {
+    /* 本地预览 / 自定义域：用站点根（由脚本加载地址反推）剥出站内路径 */
+    var root = String(window.WIKI_BASE || '').replace(/^[a-z]+:\/\/[^/]*/i, '');
+    if (root && path.indexOf(root) === 0) path = path.slice(root.length);
+  }
+  if (!path || path === '/') path = '/index.html';
+  return h.url.replace(/\/+$/, '') + path + location.hash;
+};
+
+/* ── 线路切换弹窗（复用语言弹窗同一套 .lang-* 设计组件） ── */
+window.openHostModal = function() {
+  if (!window.WikiModal) {
+    var s = document.createElement('script');
+    s.src = window.WIKI_BASE + '/js/modal.js';
+    s.onload = function(){ window.openHostModal(); };
+    document.head.appendChild(s);
+    return;
+  }
+
+  var cur = window.currentHost();
+  var html = '<div class="lang-list">';
+  window.HOSTS.forEach(function(h){
+    var active = !!cur && cur.code === h.code;
+    html += '<button type="button" class="lang-opt' + (active ? ' on' : '') + '" data-host="' + h.code + '">'
+      + '<span class="lang-ico">' + h.icon + '</span>'
+      + '<span class="lang-body"><span class="lang-name">' + window.t(h.name) + '</span>'
+      + '<span class="lang-sub">' + window.t(h.note) + '</span></span>'
+      + (active ? '<span class="lang-badge">' + window.tUI('langCurrent') + '</span>' : '')
+      + '</button>';
+  });
+  html += '</div>';
+  if (!cur) html += '<div class="lang-sep">' + window.tUI('hostLocal') + '</div>';
+
+  window.WikiModal.open({ kicker: window.tUI('hostKicker'), title: window.tUI('hostTitle'), body: html });
+
+  setTimeout(function(){
+    var scope = document.querySelector('#modalBody') || document;
+    scope.querySelectorAll('.lang-opt').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var h = window.HOSTS.filter(function(x){ return x.code === btn.getAttribute('data-host'); })[0];
+        if (!h) return;
+        if (cur && cur.code === h.code) { window.WikiModal.close(); return; }
+        location.href = window.hrefOnHost(h);
+      });
+    });
+  }, 0);
+};
+
 /* ══ UI 字符串字典（外壳/首页/弹窗全部固定文案 · zh 以本地原文为准） ══ */
 window.I18N = {
   zh: {
     brand:'星图百科', crumbBrand:'✦ 星图百科', brandSub:'PERSONAL · NON-COMMERCIAL',
     searchPh:'搜索条目…  ( / )',
     sideKeys:'<kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭',
-    engineSide:'engine v5.2 · by lithumc', engineFoot:'engine v4.11 · by lithumc',
+    engine:'engine v5.2 · by lithumc',
     collapse:'收起侧栏', reopen:'展开侧栏', totop:'回到顶部', menu:'目录', lang:'切换语言', theme:'切换主题',
     tocTitle:'本页大纲', tocEmpty:'本页没有小标题', navEmpty:'没有匹配的条目',
     kickLocal:'本地导入', kickDemo:'演示条目 · {tag}',
@@ -141,6 +229,8 @@ window.I18N = {
     langKicker:'I18N · LANGUAGE', langTitle:'选择显示语言',
     langAuto:'浏览器默认', langAutoWill:'将识别为 {name} · {raw}', langAutoFail:'无法读取浏览器语言 · 回退简体中文',
     langForce:'或强制指定', langMatch:'浏览器匹配', langCurrent:'✓ 当前',
+    hostBtn:'切换托管站点', hostKicker:'HOST · MIRROR', hostTitle:'选择托管站点',
+    hostLocal:'当前不是线上线路 · 将按目录结构映射到对应页面',
     navProjects:'项目', navAbout:'关于',
     helloKicker:'✦ HELLO WORLD',
     helloTitle:'在喧嚣的互联网中<br>放一叠<em> 不常翻阅的档案</em>',
@@ -156,13 +246,15 @@ window.I18N = {
     factK5:'起步', factV5:'2026.06.15 · 缓慢施工中',
     footSig:'✦ 星图百科 · 手写于某个凌晨', footNoncom:'个人项目，仅供学习交流，不用于任何商业用途',
     termWho:'一个把笔记慢慢攒成 wiki 的普通人', termMotto:'"由兴趣驱动 · 非商业用途 · 欢迎随便看看"',
-    overview:'OVERVIEW · 概述', overviewDesc:'查看该主题的整体介绍与入口。'
+    overview:'OVERVIEW · 概述', overviewDesc:'查看该主题的整体介绍与入口。',
+    warnLangTitle:'语言支持提示',
+    warnLangBody:'本页正文暂仅提供：{avail}。您当前使用的语言为：{cur}——站点界面已随您的语言翻译，但正文内容尚未撰写。'
   },
   en: {
     brand:'StarChart Wiki', crumbBrand:'✦ StarChart Wiki', brandSub:'PERSONAL · NON-COMMERCIAL',
     searchPh:'Search entries…  ( / )',
     sideKeys:'<kbd>/</kbd> Search &nbsp;<kbd>[</kbd> Sidebar &nbsp;<kbd>Esc</kbd> Close',
-    engineSide:'engine v5.2 · by lithumc', engineFoot:'engine v4.11 · by lithumc',
+    engine:'engine v5.2 · by lithumc',
     collapse:'Collapse sidebar', reopen:'Expand sidebar', totop:'Back to top', menu:'Contents', lang:'Language', theme:'Toggle theme',
     tocTitle:'On this page', tocEmpty:'No subheadings on this page', navEmpty:'No matching entries',
     kickLocal:'LOCAL IMPORT', kickDemo:'DEMO · {tag}',
@@ -179,6 +271,8 @@ window.I18N = {
     langKicker:'I18N · LANGUAGE', langTitle:'Choose display language',
     langAuto:'Browser default', langAutoWill:'Will detect {name} · {raw}', langAutoFail:'Cannot read browser language · falling back to Chinese',
     langForce:'Or force a language', langMatch:'browser match', langCurrent:'✓ current',
+    hostBtn:'Switch hosting site', hostKicker:'HOST · MIRROR', hostTitle:'Choose a hosting site',
+    hostLocal:'Not a live mirror · the same path will be opened on the target site',
     navProjects:'Projects', navAbout:'About',
     helloKicker:'✦ HELLO WORLD',
     helloTitle:'In the noisy internet,<br>keep a <em>seldom-opened drawer</em>',
@@ -194,7 +288,9 @@ window.I18N = {
     factK5:'Started', factV5:'2026.06.15 · slow construction',
     footSig:'✦ StarChart Wiki · handwritten at some midnight', footNoncom:'Personal project, for learning only, never commercial',
     termWho:'an ordinary person piling notes into a wiki', termMotto:'"interest-driven · non-commercial · feel free to look around"',
-    overview:'OVERVIEW', overviewDesc:'Overall introduction and entry of this topic.'
+    overview:'OVERVIEW', overviewDesc:'Overall introduction and entry of this topic.',
+    warnLangTitle:'Language notice',
+    warnLangBody:'The body of this page is currently only available in: {avail}. Your language is set to {cur} — the site interface is translated, but the article body has not been written yet.'
   }
 };
 

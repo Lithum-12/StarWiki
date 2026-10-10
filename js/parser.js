@@ -5,7 +5,7 @@ window.MDParser = (function () {
 let S = null, opts = null;
 
 /** HTML 转义 */
-const escapeHtml = s => s.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+const escapeHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 /**
  * 提取纯文本（去除 Markdown 标记）

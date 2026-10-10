@@ -341,7 +341,11 @@ kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r
 .pager .next{text-align:right}
 
 /* ── 大纲 ── */
-.toc{position:sticky;top:86px;padding:18px 14px;max-height:calc(100vh - 118px);overflow-y:auto}
+/* 右栏容器：警告卡 + 大纲同列 sticky，互不重叠 */
+.side-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:86px;
+  max-height:calc(100vh - 118px);min-height:0}
+.side-col .toc{position:static;top:auto;max-height:none;flex:1;min-height:0;
+  padding:18px 14px;overflow-y:auto}
 .toc-title{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
   letter-spacing:.2em;color:var(--brand-t);padding:0 8px 12px;border-bottom:1px dashed var(--line-soft);margin-bottom:10px}
 .pulse{width:7px;height:7px;border-radius:50%;background:var(--alt);
@@ -399,7 +403,7 @@ kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r
 .toast.show{transform:translate(-50%,0);opacity:1}
 .scrim{position:fixed;inset:0;z-index:70;background:var(--scrim);opacity:0;pointer-events:none;transition:.3s}
 
-@media(max-width:1080px){.wrap{grid-template-columns:1fr}.toc{display:none}}
+@media(max-width:1080px){.wrap{grid-template-columns:1fr}.side-col{display:none}}
 @media(max-width:900px){
   .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:80;height:100vh;
     transform:translateX(-105%);transition:.3s}
@@ -420,7 +424,7 @@ kbd{font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:var(--r
 .app{min-height:calc(100vh / var(--ui-scale,1.1) - 2px)}
 .sidebar{height:calc(100vh / var(--ui-scale,1.1) - 2px)}
 .main{height:calc(100vh / var(--ui-scale,1.1) - 2px)}
-.toc{max-height:calc(100vh / var(--ui-scale,1.1) - 118px)}
+.side-col{max-height:calc(100vh / var(--ui-scale,1.1) - 118px)}
 @media(max-width:900px){
   .sidebar{height:calc(100vh / var(--ui-scale,1.1))}
 }
@@ -708,3 +712,13 @@ body.modal-open{overflow:hidden}
 .lang-badge{flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--mut);
   border:1px dashed var(--line);border-radius:var(--r-xs);padding:2px 7px}
 .lang-opt.on .lang-badge{color:var(--brand-t);border-style:solid;border-color:var(--brand-line)}
+
+/* ══ 右栏：语言支持提示卡（与大纲卡片同族：panel 底 + mono 眉题 + 虚线分隔；橙色仅作语义点缀） ══ */
+.lang-warn{flex:none;padding:18px 14px}
+.lang-warn[hidden]{display:none}
+.lw-head{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.2em;color:var(--pop-t);padding:0 8px 12px;
+  border-bottom:1px dashed var(--line-soft);margin-bottom:10px}
+.lw-dot{width:7px;height:7px;border-radius:50%;background:var(--pop);flex:none;
+  box-shadow:0 0 0 0 var(--pulse-glow);animation:pulse 2.4s infinite}
+.lw-text{margin:0;padding:0 8px;font-size:12.5px;line-height:1.8;color:var(--ink-2)}

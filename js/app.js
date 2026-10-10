@@ -10,7 +10,7 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 /* ── 功能开关 ── */
 const IMPORT_ENABLED = false;
 
-const BASE = document.body.hasAttribute('data-root') ? document.body.dataset.root : '.';
+const BASE = window.WIKI_BASE || '.';
 const KEY  = document.body.dataset.page || 'home';
 const params = new URLSearchParams(location.search);
 const impKey = params.get('imp');
@@ -97,7 +97,7 @@ document.body.insertAdjacentHTML('afterbegin', `
     <div class="side-foot">
       <div class="side-foot-info">
         <div><kbd>/</kbd> 搜索 &nbsp;<kbd>[</kbd> 侧栏 &nbsp;<kbd>Esc</kbd> 关闭</div>
-        <div class="mono" style="opacity:.7">engine v5.2 · by lithumc</div>
+        <div class="mono" style="opacity:.7">${window.tUI('engine')}</div>
       </div>
       <button class="btn side-collapse-btn" id="collapseBtn" title="收起侧栏" aria-label="收起侧栏">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="m14 10-2 2 2 2"/></svg>
@@ -120,6 +120,9 @@ document.body.insertAdjacentHTML('afterbegin', `
       <div class="spacer"></div>
       <button class="btn ${IMPORT_ENABLED?'':'is-disabled'}" id="openBtn"
         ${IMPORT_ENABLED?'':'aria-disabled="true" title="正在维护"'}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-2.54 6a2 2 0 0 1-1.84 1.25H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>打开文件</button>      <input type="file" id="fileInput" accept=".md,.markdown,.txt,text/markdown" multiple hidden>
+      <button class="btn theme-btn" id="hostBtn" title="${window.tUI('hostBtn')}" aria-label="${window.tUI('hostBtn')}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><path d="M8.5 2v5"/><path d="M15.5 2v5"/><path d="M5.5 7h13v3.5a6.5 6.5 0 0 1-13 0V7z"/><path d="M12 17v5"/></g></svg>
+      </button>
       <button class="btn theme-btn" id="langBtn" title="切换语言" aria-label="语言切换">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 2.5V5"/><path d="M3 6.5h11.5"/><path d="M5.5 9.5c1 3.4 3.6 6.3 7 8"/><path d="M11.5 9.5c-1 3.4-3.6 6.3-7 8"/><path d="M13 21.5l4-10 4 10"/><path d="M14.7 17.5h4.6"/></svg>
       </button>
@@ -137,10 +140,16 @@ document.body.insertAdjacentHTML('afterbegin', `
         <div class="md" id="mdContent"></div>
         <div class="pager" id="pager"></div>
       </article>
-      <nav class="card toc" aria-label="本页大纲">
-        <div class="toc-title"><i class="pulse"></i>本页大纲</div>
-        <div id="tocList"></div>
-      </nav>
+      <div class="side-col">
+        <aside class="card lang-warn" id="langWarn" hidden>
+          <div class="lw-head"><i class="lw-dot"></i><span id="langWarnTitle"></span></div>
+          <p class="lw-text" id="langWarnText"></p>
+        </aside>
+        <nav class="card toc" aria-label="本页大纲">
+          <div class="toc-title"><i class="pulse"></i>本页大纲</div>
+          <div id="tocList"></div>
+        </nav>
+      </div>
     </div>
   </main>
 </div>
@@ -154,7 +163,7 @@ document.body.insertAdjacentHTML('afterbegin', `
 
 const mainEl=$('#main'),contentEl=$('#mdContent'),tocList=$('#tocList'),navList=$('#navList'),
       pager=$('#pager'),pageCard=$('#pageCard'),progress=$('#progress'),searchInput=$('#searchInput'),
-      toastEl=$('#toast'),dropEl=$('#drop'),statLine=$('#statLine');
+      toastEl=$('#toast'),dropEl=$('#drop');
 let codeStore={}, spyEls=[];
 const currentKey = () => impKey || KEY;
 
@@ -178,6 +187,10 @@ $('#themeBtn').addEventListener('click',()=>{
 /* ── 语言切换弹窗 ── */
 const langBtn=$('#langBtn');
 if(langBtn) langBtn.addEventListener('click',window.openLangModal);
+
+/* ── 托管站点切换弹窗 ── */
+const hostBtn=$('#hostBtn');
+if(hostBtn) hostBtn.addEventListener('click',window.openHostModal);
 
 /* ── 侧栏收起 / 展开（状态记忆） ── */
 const setSide = collapsed => {
@@ -335,7 +348,7 @@ function renderCurrent(){
         if (parent.children) {
           const child = parent.children.find(c => c.key === KEY);
           if (child) {
-            info = { ...child, tagColor: child.tagColor || parent.tagColor, palette: child.palette || parent.palette, tag: child.tag || parent.tag };
+            info = { ...child, tagColor: child.tagColor || parent.tagColor, palette: child.palette || parent.palette, tag: child.tag || parent.tag, date: child.date || parent.date };
             break;
           }
         }
@@ -369,6 +382,30 @@ function renderCurrent(){
     '<span class="chip"><i class="dot dot-gray"></i>'+(info.removable?'本地文件':'更新 '+info.date)+'</span>';
 
   contentEl.innerHTML=res.html;
+
+  /* ── 语言支持警告卡：正文支持当前语言→隐藏；未写→警告 ── */
+  const langName = c => (window.LANG_NAMES||{})[c] || c;
+  function contentLangs(raw){
+    const re=/<!--\s*lang:([a-zA-Z0-9_-]+)(?:\s+(?:soon|empty))?\s*-->([\s\S]*?)(?=<!--\s*lang:[a-zA-Z0-9_-]+(?:\s+(?:soon|empty))?\s*-->|$)/g;
+    const out=[]; let m;
+    while((m=re.exec(raw||''))!==null){ if((m[2]||'').trim()) out.push(m[1]); }
+    if(out.length) return out;                       /* 有语言标记 → 以“有内容”的标记为准 */
+    const el=document.getElementById('page-md');
+    return [ (el && el.getAttribute('data-lang')) || 'zh' ];  /* 无标记 → 单语页，默认 zh */
+  }
+  const warnEl=$('#langWarn');
+  const avail=contentLangs(impKey ? md : ((document.getElementById('page-md')||{}).textContent||''));
+  const curLang=window.CURRENT_LANG||'zh';
+  if(avail.includes(curLang)){
+    warnEl.hidden=true;
+  }else{
+    warnEl.hidden=false;
+    $('#langWarnTitle').textContent=window.tUI('warnLangTitle');
+    $('#langWarnText').textContent=window.tUI('warnLangBody',{
+      avail:avail.map(langName).join(' / '),
+      cur:langName(curLang)
+    });
+  }
   contentEl.querySelectorAll('img').forEach(im=>{
     const s=im.getAttribute('src')||'';
     const m=s.match(/img\/([a-z0-9_-]+)\.svg$/i);
