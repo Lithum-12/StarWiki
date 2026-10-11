@@ -28,7 +28,6 @@ function applyPalette(key){
   let p = PAGES.find(x=>x.key===key);
   let pal = p && p.palette ? (typeof p.palette==='string' ? PALETTES[p.palette] : p.palette) : null;
   
-  // 如果顶层没找到，去 children 里找，并继承父级配色
   if (!pal) {
     for (const parent of PAGES) {
       if (parent.children) {
@@ -54,13 +53,10 @@ function applyPalette(key){
 
 /* ── 维基链接（支持子页面） ── */
 function wikiResolver(target, anchor){
-  /* ② 局部变量改名 q，避免遮蔽 window.t；PAGES 的 title 已升级为多语言对象 */
   const q = target.trim();
-  // 1. 先在顶层找
   let p = PAGES.find(x=>window.t(x.title)===q) || PAGES.find(x=>window.t(x.title).includes(q));
   if(p) return BASE+'/'+p.file + (anchor ? '#a-'+encodeURIComponent(anchor) : '');
   
-  // 2. 去 children 里找
   for (const parent of PAGES) {
     if (parent.children) {
       const child = parent.children.find(c => window.t(c.title) === q) || parent.children.find(c => window.t(c.title).includes(q));
@@ -68,7 +64,6 @@ function wikiResolver(target, anchor){
     }
   }
   
-  // 3. 在本地导入里找（imports 的 title 是纯字符串，无需 t()，④ 变量同步改 q）
   const im = imports.find(x=>x.title===q || x.title.includes(q));
   if(im) return BASE+'/index.html?imp='+im.key;
   return null;
@@ -168,10 +163,6 @@ const mainEl=$('#main'),contentEl=$('#mdContent'),tocList=$('#tocList'),navList=
 let codeStore={}, spyEls=[];
 const currentKey = () => impKey || KEY;
 
-/**
- * 显示提示消息
- * @param {string} msg - 提示内容
- */
 function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show');
   clearTimeout(toastEl._t); toastEl._t=setTimeout(()=>toastEl.classList.remove('show'),2400); }
 
@@ -198,7 +189,7 @@ if(hostBtn){
 
 /* ── 侧栏收起 / 展开（状态记忆） ── */
 const setSide = collapsed => {
-  // ★ 折叠动画前冻结正文宽度，避免文字被逐行挤压重排
+  // 折叠动画前冻结正文宽度，避免文字被逐行挤压重排
   if (matchMedia('(min-width:901px)').matches) {
     const wrap = document.querySelector('.wrap');
     if (wrap) {
@@ -214,9 +205,9 @@ const setSide = collapsed => {
 try{ if(localStorage.getItem('wikiSide')==='collapsed') document.body.classList.add('side-collapsed'); }catch(e){}
 $('#collapseBtn').addEventListener('click', () => {
   if (matchMedia('(min-width:901px)').matches) {
-    setSide(true); // 桌面端：执行折叠动画
+    setSide(true);
   } else {
-    document.body.classList.remove('nav-open'); // 手机端：直接关闭抽屉
+    document.body.classList.remove('nav-open');
   }
 });
 $('#reopenBtn').addEventListener('click',()=>setSide(false));
@@ -224,31 +215,23 @@ $('#reopenBtn').addEventListener('click',()=>setSide(false));
 /* ── 收起态：回到顶部（下滚才显示，点击立刻隐藏） ── */
 let topLocked=false;
 $('#topBtn').addEventListener('click',()=>{
-  topLocked=true;                              // 上锁：回顶途中不让按钮重新冒出
-  document.body.classList.remove('show-top');  // 立刻隐藏
+  topLocked=true;
+  document.body.classList.remove('show-top');
   mainEl.scrollTo({top:0,behavior:'smooth'});
 });
 /* 用户中途手动滚轮干预 → 解锁，恢复正常的显隐逻辑 */
 mainEl.addEventListener('wheel',()=>{ topLocked=false; },{passive:true});
 
-/**
- * 扁平化页面注册表（用于上一篇/下一篇翻页）
- * @returns {Array} 扁平化后的页面列表
- */
 const registry = () => {
   const flat = [];
   PAGES.forEach(p => {
-    if (p.file) flat.push(p); // 父级本身如果有 file，也作为一页
+    if (p.file) flat.push(p);
     if (p.children) p.children.forEach(c => flat.push({ ...c, parent: p.key, tagColor: p.tagColor }));
   });
   return flat.concat(imports.map(p=>({ key:p.key, title:p.title, desc:tUI('kickLocal'), tag:tUI('tagLocal'), tagColor:'red', removable:true })));
 };
 
 /* ── 侧栏（图标即折叠按钮） ── */
-/**
- * 渲染侧边栏导航
- * @param {string} filter - 搜索过滤词（可选）
- */
 function renderNav(filter){
   if(!navList) return;
   const q=(filter||'').trim().toLowerCase();
@@ -261,7 +244,6 @@ function renderNav(filter){
     let childMatch = false;
     let childHtml = '';
     
-    // 1. 先生成子项 HTML 和匹配状态
     if (hasChildren) {
       p.children.forEach(c => {
         const cMatch = !q || window.t(c.title).toLowerCase().includes(q) || (window.t(c.desc)||'').toLowerCase().includes(q);
@@ -279,9 +261,7 @@ function renderNav(filter){
     const containsCurrent = p.key === currentKey() || (hasChildren && p.children.some(c => c.key === currentKey()));
     const isOpen = hasChildren && (containsCurrent || (!!q && childMatch));
 
-    // 2. 根据是否有子项，生成父级 HTML
     if (hasChildren) {
-      // 判断是否为纯目录（没有 file 属性）
       const isDir = !p.file;
       const tag = isDir ? 'span' : 'a';
       const href = isDir ? '' : ` href="${BASE+'/'+p.file}"`;
@@ -314,7 +294,6 @@ function renderNav(filter){
 
   navList.innerHTML = html || '<div class="nav-empty">'+tUI('navEmpty')+'</div>';
 
-  /* 图标按钮 = 折叠开关 */
   navList.querySelectorAll('.nav-ico-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -323,7 +302,6 @@ function renderNav(filter){
     });
   });
 
-  // 新增：点击纯目录（无 file）的文字也触发折叠
   navList.querySelectorAll('.nav-parent-link.is-dir').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -333,9 +311,6 @@ function renderNav(filter){
 }
 
 /* ── 渲染当前页（支持子页面） ── */
-/**
- * 渲染当前页面内容
- */
 function renderCurrent(){
   let md, info;
   if(impKey){
@@ -343,10 +318,8 @@ function renderCurrent(){
     if(!p){ location.replace(BASE+'/index.html'); return; }
     info={title:p.title,tag:tUI('tagLocal'),removable:true}; md=p.body;
   }else{
-    // 1. 先在顶层找
     info = PAGES.find(x=>x.key===KEY);
     
-    // 2. 如果没找到，去 children 里找，并继承父级属性
     if (!info) {
       for (const parent of PAGES) {
         if (parent.children) {
@@ -359,7 +332,6 @@ function renderCurrent(){
       }
     }
     
-    // 3. 最终兜底
     if (!info) info = PAGES[0]; 
     
     const rawMd=(document.getElementById('page-md')||{}).textContent||'';
@@ -413,7 +385,7 @@ function renderCurrent(){
   contentEl.querySelectorAll('img').forEach(im=>{
     const s=im.getAttribute('src')||'';
     const m=s.match(/img\/([a-z0-9_-]+)\.svg$/i);
-    // ★ 命中资产包 → 原地替换为内联 SVG（不发起任何图片请求）
+    // 命中资产包 → 原地替换为内联 SVG（不发起任何图片请求）
     if(m && window.SVGPack && SVGPack[m[1]]){ im.outerHTML=SVGPack[m[1]]; return; }
     if(s && !/^(https?:|data:|#)/.test(s)) im.setAttribute('src', BASE+'/'+s);
   });
@@ -437,10 +409,6 @@ function renderCurrent(){
 }
 
 /* ── 复制代码 ── */
-/**
- * 复制代码到剪贴板
- * @param {HTMLElement} btn - 复制按钮元素
- */
 function copyCode(btn){
   const text=codeStore[btn.dataset.code]||'';
   const done=()=>{btn.classList.add('ok');btn.textContent=tUI('copied');
@@ -456,7 +424,6 @@ function copyCode(btn){
 contentEl.addEventListener('click',e=>{
   const cp=e.target.closest('.copy-btn'); if(cp){copyCode(cp);return;}
 
-  // ★ 新增：拦截文章内的魔法弹窗按钮
   const mb=e.target.closest('.md-modal');
   if(mb){
     const id = mb.dataset.modal;
@@ -469,14 +436,12 @@ contentEl.addEventListener('click',e=>{
   }
 
   const a=e.target.closest('a');
-  // ... 下面保持原有的 a 标签逻辑不动 ...
   if(a){ 
     const href=a.getAttribute('href')||'';
     
-    // ★ 新增：拦截 #modal: 开头的魔法链接
     if(href.startsWith('#modal:')){
       e.preventDefault();
-      const id = href.slice(7); // 提取 modal:id 中的 id
+      const id = href.slice(7);
       if(window.WikiModal && window.ModalDict && window.ModalDict[id]){
         WikiModal.open(window.ModalDict[id]);
       } else {
@@ -485,7 +450,6 @@ contentEl.addEventListener('click',e=>{
       return;
     }
 
-    // 原有的锚点平滑跳转逻辑
     if(href.startsWith('#')&&!href.startsWith('#a-')){ 
       e.preventDefault();
       const t=document.getElementById(href.slice(1));
@@ -499,7 +463,6 @@ tocList.addEventListener('click',e=>{
   if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
 });
 navList.addEventListener('click',e=>{
-  // 1. 处理移除本地导入条目的 "×" 按钮
   const rm=e.target.closest('.rm');
   if(rm){ 
     e.preventDefault(); 
@@ -513,12 +476,11 @@ navList.addEventListener('click',e=>{
     return;
   }
 
-  // 2. ★ 新增：点击当前已选中的条目，阻止刷新并平滑回到顶部
   const activeLink = e.target.closest('a.on');
   if(activeLink){
-    e.preventDefault(); // 阻止 a 标签默认的跳转刷新行为
-    mainEl.scrollTo({ top: 0, behavior: 'smooth' }); // 主阅读区平滑滚回顶部
-    document.body.classList.remove('nav-open'); // 移动端下顺便自动收起侧边栏
+    e.preventDefault();
+    mainEl.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.classList.remove('nav-open');
   }
 });
 $('#menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
@@ -528,11 +490,11 @@ document.addEventListener('keydown',e=>{
   const typing=/INPUT|TEXTAREA/.test(document.activeElement.tagName);
   if(e.key==='/'&&!typing){
     e.preventDefault();
-    // ★ 侧栏收着时先展开再聚焦，杜绝“凭空打字”
+    // 侧栏收着时先展开再聚焦，杜绝“凭空打字”
     if(matchMedia('(min-width:901px)').matches){
       if(document.body.classList.contains('side-collapsed')) setSide(false);
     }else{
-      document.body.classList.add('nav-open');   // 移动端直接拉开抽屉
+      document.body.classList.add('nav-open');
     }
     searchInput.focus();
   }
@@ -546,10 +508,6 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ── 本地文件导入 ── */
-/**
- * 处理本地文件导入
- * @param {FileList} files - 选择的文件列表
- */
 function handleFiles(files){
   if(!IMPORT_ENABLED){ toast(tUI('unsupported')); return; }
   [...files].forEach(f=>{
@@ -590,9 +548,6 @@ if(IMPORT_ENABLED){
 
 /* ── 滚动 ── */
 let ticking=false;
-/**
- * 更新滚动进度条与大纲高亮
- */
 function updateScroll(){
   const max=mainEl.scrollHeight-mainEl.clientHeight;
   progress.style.width=(max>0?mainEl.scrollTop/max*100:0)+'%';
@@ -649,23 +604,17 @@ renderCurrent();
       i++;
       setTimeout(type, 35 + Math.random() * 50);
     } else {
-      // 打字完成
-      if (isMeme) {
-        // ★ 触发 Syntax Error 彩蛋流程 (瞬间闪现版)
-        setTimeout(() => {
-          // 1. 红色报错层瞬间闪现 (不再有向上推的动画)
+          if (isMeme) {
+          setTimeout(() => {
           errOverlay.classList.add('show');
           
-          // 2. 等待 1.2 秒 (稍微缩短一点，更符合故障的急促感)
           setTimeout(() => {
-            // 3. 瞬间消失
             errOverlay.classList.remove('show');
             
-            // 4. 清空当前梗，重新输出一句正常的话
             setTimeout(() => {
               el.innerHTML = '';
               el.appendChild(cursor);
-              cursor.style.color = ''; // 恢复默认色
+              cursor.style.color = '';
               
               const normalText = PHRASES_NORMAL[Math.floor(Math.random() * PHRASES_NORMAL.length)];
               let j = 0;
@@ -678,12 +627,11 @@ renderCurrent();
                   setTimeout(() => { cursor.style.display = 'none'; }, 3000);
                 }
               })();
-            }, 150); // 红屏消失后，稍微停顿一下再重打
-          }, 1200); // 红屏停留 1.2 秒
-        }, 1500); // 打完后等 1.5 秒再报错
+            }, 150);
+          }, 1200);
+        }, 1500);
       } else {
-        // 正常语句，打完 3 秒后隐藏光标
-        setTimeout(() => { cursor.style.display = 'none'; }, 3000);
+          setTimeout(() => { cursor.style.display = 'none'; }, 3000);
       }
     }
   }
