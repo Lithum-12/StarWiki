@@ -1,6 +1,6 @@
 /* pages.js —— 页面注册表、配色预设与多语言(i18n)支持 */
 
-/* ━━ 0. 站点根路径 ━━ */
+/* ── 站点根路径 ── */
 /* 由当前文档地址反推：去掉文件名，条目页再退掉 pages 目录。
    刻意不用脚本加载地址——托管方会改写资源链接（热铁盒把 ../js/x.js 换成它自己的 CDN 路径），
    那样算出来的根就是错的。文档地址对 file:// 双击、localhost、子目录部署、根部署都成立。 */
@@ -10,7 +10,7 @@ window.WIKI_BASE = window.SITE_ROOT || (function () {
   return href.replace(/\/pages$/, '');
 })();
 
-/* ━━ 1. 多语言全局状态与工具函数 ━━ */
+/* ── 多语言全局状态与工具函数 ── */
 /* 浏览器语言自动检测（共享函数：CURRENT_LANG 初始化与语言弹窗副标题共用，避免两套实现漂移） */
 window.detectBrowserLang = function() {
   const nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
@@ -128,7 +128,7 @@ window.openLangModal = function() {
   }, 0);
 };
 
-/* ══ 托管线路（同一份站点部署在多处，供读者按网速自行选择） ══ */
+/* ── 托管线路（同一份站点部署在多处，供读者按网速自行选择） ── */
 /* 新增线路只改这里：base = 该线路的站点根前缀（GitHub Pages 项目页为 /仓库名，根部署填 ''） */
 /* 本分支的天文站只部署在一处，没有可切换的线路：留空即不渲染插头按钮。
    需要时按 mc-res 分支的写法填两条 { code, url, base, name, note, icon } 即可 */
@@ -201,7 +201,7 @@ window.openHostModal = function() {
   }, 0);
 };
 
-/* ══ UI 字符串字典（外壳/首页/弹窗全部固定文案 · zh 以本地原文为准） ══ */
+/* ── UI 字符串字典（外壳/首页/弹窗全部固定文案 · zh 以本地原文为准） ── */
 window.I18N = {
   zh: {
     brand:'星图百科', crumbBrand:'✦ 星图百科', brandSub:'PERSONAL · NON-COMMERCIAL',
@@ -329,15 +329,15 @@ window.applyI18N = function(root) {
 /* <html lang> 与当前界面语言同步 */
 document.documentElement.lang = (window.CURRENT_LANG === 'zh') ? 'zh-CN' : window.CURRENT_LANG;
 
-/* ══ 配色预设 ══ */
+/* ── 配色预设 ── */
 window.PALETTES = {
   red:   {brand:'#c06a69', rgb:'192,106,105', t:'#c26b6b', tLight:'#a84e46'},
   teal:  {brand:'#589a99', rgb:'88,154,153',  t:'#5b9a9a', tLight:'#3c7a77'},
   orange:{brand:'#ff8035', rgb:'255,128,53',  t:'#ff9552', tLight:'#d15a10'},
   purple:{brand:'#663399', rgb:'102,51,153',  t:'#9b66cc', tLight:'#552b80'},
-  gold:  {brand:'#F2C14E', rgb:'242,193,78',  t:'#ffd66b', tLight:'#b8860b'}, /* ★ 新增金色 */
+  gold:  {brand:'#F2C14E', rgb:'242,193,78',  t:'#ffd66b', tLight:'#b8860b'},
 };
-/* ══ 子项专属图标（内联 SVG · 自动跟随主题色） ══ */
+/* ── 子项专属图标（内联 SVG · 自动跟随主题色） ── */
 const SUB_ICONS = window.SUB_ICONS = {
   /* CPU 芯片 · 技术文档 */
   tech:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4" rx="1"/><path d="M9.5 3v3M14.5 3v3M9.5 18v3M14.5 18v3M3 9.5h3M3 14.5h3M18 9.5h3M18 14.5h3"/></svg>',
@@ -353,27 +353,21 @@ const SUB_ICONS = window.SUB_ICONS = {
   commit:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="16" height="15" rx="2"/><circle cx="12" cy="12" r="2.2"/><path d="M7.5 12h2.3M14.2 12h2.3"/></svg>'
 };
 
-/* ══ 默认项目图标（干净版，无多余空格） ══ */
+/* ── 默认项目图标 ── */
 window.DEFAULT_ICON = '<svg viewBox="0 0 104 104" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M51.7 92.5V51.7L16.4 31.3l35.3 20.4L87 31.3 51.7 11 16.4 31.3v40.8l35.3 20.4L87 72V31.3L51.7 11"/></svg>';
 
-/**
- * 取图标：有图且能加载 → png/jpg；没图或加载失败 → 默认 SVG
- * @param {Object} p - 页面对象
- * @param {string} base - 基础路径
- * @returns {string} 图标 HTML
- */
 window.iconOf = function(p, base) {
   if (p && p.icon) {
     var s = String(p.icon).trim();
     if (s.charAt(0) === '<') return s;
     var src = /^(https?:|data:)/.test(s) ? s : (base ? base + '/' : '') + s;
-    /* 关键：图片 404 时自动回退为默认 SVG */
+    /* 图片缺失时回退默认 SVG */
     return '<img src="' + src + '" alt="" loading="lazy" onerror="this.outerHTML=window.DEFAULT_ICON">';
   }
   return window.DEFAULT_ICON;
 };
 
-/* ══ 条目注册表（title/tag/desc 支持多语言对象，兼容纯字符串） ══ */
+/* ── 条目注册表（title/tag/desc 支持多语言对象，兼容纯字符串） ── */
 window.PAGES = [
   { 
     key:'syntax', file:'pages/syntax.html', title:'语法手册', tag:'手册', tagColor:'red', palette:'red', date:'2025-06-14', desc:'本站支持的全部 Markdown 语法演示',

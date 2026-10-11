@@ -10,7 +10,6 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 /* 首页静态文案：先翻译 HTML 里 data-i18n 标记的节点，再渲染卡片 */
 window.applyI18N();
 
-/** 根据标签颜色返回对应的强调类名 */
 const accCls=c=>({teal:'acc-teal',gray:'acc-gray',orange:'acc-orange',purple:'acc-purple',gold:'acc-gold'}[c]||'');
 
 let html = '';
@@ -114,11 +113,6 @@ const LINES=[
   {cmd:false, t:window.tUI('termMotto')}
 ];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-/**
- * 向终端添加一行输出
- * @param {Object} l - 行数据 { cmd, t }
- * @returns {HTMLElement} 输出元素
- */
 function addLine(l){
   const d=document.createElement('div');
   d.className='term-line'+(l.cmd?' cmd':'');
