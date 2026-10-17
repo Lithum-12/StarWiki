@@ -429,8 +429,8 @@ window.PAGES = [
     file:'pages/contact.html',
     title:{ zh:'联系与社交', en:'Contact & Social' },
     tag:{ zh:'关于', en:'About' },
-    tagColor:'purple',
-    palette:'purple',
+    tagColor:'teal',
+    palette:'teal',
     date:'2026-08-17',
     desc:{ zh:'玩家交流群、开发者主页与社交平台', en:'Community and social links' }
   },
