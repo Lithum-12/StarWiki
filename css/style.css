@@ -572,13 +572,13 @@ body.modal-open{overflow:hidden}
 /* 与首页卡片同手感 */
 .m-link:hover{transform:translateY(-3px);border-color:var(--card-acc);
   box-shadow:0 10px 26px var(--card-shadow);color:var(--ink)}
-/* 四个一组循环站点主色，和首页卡片色序一致 */
+/* 循环取站点主色，与首页卡片色序一致 */
 .modal-actions .m-link:nth-child(6n+1){--card-acc:var(--acc-red)}
 .modal-actions .m-link:nth-child(6n+2){--card-acc:var(--acc-teal)}
 .modal-actions .m-link:nth-child(6n+3){--card-acc:var(--acc-orange)}
-.modal-actions .m-link:nth-child(6n+4){--card-acc:var(--acc-purple)}
-.modal-actions .m-link:nth-child(6n+5){--card-acc:var(--acc-gold)}
-.modal-actions .m-link:nth-child(6n+6){--card-acc:var(--gray)}
+.modal-actions .m-link:nth-child(6n+4){--card-acc:var(--acc-gold)}
+.modal-actions .m-link:nth-child(6n+5){--card-acc:var(--gray)}
+.modal-actions .m-link:nth-child(6n+6){--card-acc:var(--acc-teal)}
 .m-link .m-ico{transition:.2s}
 .m-link:hover .m-ico{border-color:var(--card-acc)}
 .m-link .m-t{color:var(--ink)}
